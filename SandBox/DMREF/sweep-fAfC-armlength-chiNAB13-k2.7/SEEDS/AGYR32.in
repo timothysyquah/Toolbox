@@ -1,0 +1,95 @@
+InputFileVersion = 3
+
+models {
+  # The number of independent models/cells in the simulation
+  NumModels = 1
+
+  # Settings independent of model replica
+  # All models coexisting in a simulation have the same Hamiltonian and the same chemical constituents.
+  # Composition parameters, interactions, cell shape/volume, field seeds etc. can be different
+  ModelType = BlockPolymerMelt
+
+  monomers {
+    nspecies = 3
+    kuhnlen  = 1. 1. 1.
+  }
+
+  chains {
+    # to be populated by script
+  }
+
+
+  model1 {
+    cell {
+      dim = 3
+      cellscaling = __L0__
+      celllengths = 1.0 1.0 1.0
+      npw = 32 32 32
+
+      spacegroupname = I4_1.32
+      ApplyNonPrimitiveCentering = true
+      symmetrize = on
+    }
+
+    interactions {
+      chiN12 = __chiN12__
+      chiN13 = __chiN13__
+      chiN23 = __chiN23__
+    }
+
+    composition {
+      ensemble     = canonical
+      chainvolfrac = 1.0
+    }
+
+    operators {
+      CalcHamiltonian       = true
+      CalcStressTensor      = true
+      CalcChemicalPotential = false
+      IncludeIdealGasTerms  = false
+    }
+
+    initfields {
+      ReadInputFields = HFields
+      InputFieldsFile = fields.in
+
+    }
+  }
+}
+
+
+simulation {
+  jobtype = SCFT
+
+  FieldUpdater = SIS
+
+  NumTimeStepsPerBlock = 1000
+  NumBlocks = 1000
+
+  TimeStepDT = 0.1
+  lambdaForceScale = 1.0 1.0
+  lambdaStressScale = 0.1
+
+  
+
+  SCFTForceStoppingTol = 1e-5
+  SCFTStressStoppingTol = 1e-4
+
+  VariableCell = true
+
+  IO {
+    KeepDensityHistory   = false
+    KeepFieldHistory     = false
+    DensityOutputByChain = false
+
+    OutputFields         = yes
+    FieldOutputSpace     = rspace  # rspace, kspace or both
+  }
+}
+
+parallel {
+  CUDA_selectdevice = 1
+  CUDA_threadblocksize = 64
+
+  OpenMP_nthreads = 1
+}

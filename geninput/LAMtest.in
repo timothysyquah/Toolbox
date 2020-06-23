@@ -1,0 +1,121 @@
+InputFileVersion=3
+            
+models {
+    NumModels = 1
+    ModelType = BlockPolymerMelt
+    
+    monomers {
+        nspecies = 3
+        kuhnlen  = 1.0 1.0 1.0 
+        }
+    
+    chains {
+        nchains   = 1 
+        polymerReferenceN = 1.
+        
+  chain1 {
+    label  = AB-Bottlebrush            
+    architecture = comb
+    NumSideArmTypes = 2
+
+backbone { 
+    statistics   = DGC
+    nbeads       =  20.0
+    nblocks      = 1
+    blockspecies = 1 
+    nperblock  = 20.0   
+              }
+sidearmtype1 { 
+    statistics   = DGC
+    nbeads       =  5.0
+    nblocks      = 1
+    blockspecies = 2 
+    nperblock  = 5.0   
+
+        numarms      = 10
+        backbonegraftingstart = 0
+        backbonegraftingend   = 9
+        }
+
+sidearmtype2 { 
+    statistics   = DGC
+    nbeads       =  5.0
+    nblocks      = 1
+    blockspecies = 3 
+    nperblock  = 5.0   
+
+        numarms      = 10
+        backbonegraftingstart = 10
+        backbonegraftingend   = 19
+        }
+
+       }
+}
+    model1 {
+        cell {
+        dim = 1
+        celllengths =  20
+        npw = 128
+
+        }
+
+        interactions {
+                         
+                chiN12 = 0
+        chiN13 = 0
+        chiN23 = 0.1
+        compressibility_invzetaN = 0.1
+         }
+
+    composition {
+        ensemble     =  canonical
+        chainvolfrac = 1.0
+    }
+
+    operators {
+      CalcHamiltonian       = true
+      CalcStressTensor      = true
+      CalcChemicalPotential = false
+      IncludeIdealGasTerms  = false
+    }
+
+    initfields {
+      ReadInputFields = Hfields
+      InputFieldsFile = ./fields.in
+    }
+  }
+}
+    
+simulation {
+  jobtype = SCFT
+
+  FieldUpdater = SIS
+  CellUpdater = Broyden
+  NumTimeStepsPerBlock = 1000
+  NumBlocks = 10000
+
+  TimeStepDT =  1.00000e-01
+  lambdaForceScale = 0.1 0.1 0.1 
+  lambdaStressScale =  250.00000
+  SCFTForceStoppingTol =  1.00000e-05
+  SCFTStressStoppingTol =  1.00000e-04
+
+  VariableCell = true
+
+  IO {
+    KeepDensityHistory   = false
+    KeepFieldHistory     = false
+    DensityOutputByChain = false
+    OutputFormattedFields = true
+
+    OutputFields         = Hfields
+    FieldOutputSpace     = both  # rspace, kspace or both
+  }
+}
+
+parallel {
+  CUDA_selectdevice = 0
+  CUDA_threadblocksize = 128
+
+  OpenMP_nthreads = 1
+}

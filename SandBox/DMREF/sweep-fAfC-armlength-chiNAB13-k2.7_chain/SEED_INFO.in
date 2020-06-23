@@ -1,0 +1,18 @@
+Phase Nsc fAfC Path
+ACYL 0.000 0.3 /home/tquah/toolbox/SandBox/DMREF/sweep-fAfC-armlength-chiNAB13-k2.7_chain/Nsc0.000/fAfC0.30/ACYLPhase/fields_k.bin 
+ACYL 1.000 0.3 /home/tquah/toolbox/SandBox/DMREF/sweep-fAfC-armlength-chiNAB13-k2.7_chain/Nsc1.000/fAfC0.30/ACYLPhase/fields_k.bin 
+ACYL 2.000 0.3 /home/tquah/toolbox/SandBox/DMREF/sweep-fAfC-armlength-chiNAB13-k2.7_chain/Nsc2.000/fAfC0.30/ACYLPhase/fields_k.bin 
+ACYL 3.000 0.3 /home/tquah/toolbox/SandBox/DMREF/sweep-fAfC-armlength-chiNAB13-k2.7_chain/Nsc3.000/fAfC0.30/ACYLPhase/fields_k.bin 
+ACYL 4.000 0.3 /home/tquah/toolbox/SandBox/DMREF/sweep-fAfC-armlength-chiNAB13-k2.7_chain/Nsc4.000/fAfC0.30/ACYLPhase/fields_k.bin 
+ADIA32 0.000 0.3 /home/tquah/toolbox/SandBox/DMREF/sweep-fAfC-armlength-chiNAB13-k2.7_chain/Nsc0.000/fAfC0.30/ADIA32Phase/fields_k.bin 
+ADIA32 1.000 0.3 /home/tquah/toolbox/SandBox/DMREF/sweep-fAfC-armlength-chiNAB13-k2.7_chain/Nsc1.000/fAfC0.30/ADIA32Phase/fields_k.bin 
+ADIA32 2.000 0.3 /home/tquah/toolbox/SandBox/DMREF/sweep-fAfC-armlength-chiNAB13-k2.7_chain/Nsc2.000/fAfC0.30/ADIA32Phase/fields_k.bin 
+ADIA32 3.000 0.3 /home/tquah/toolbox/SandBox/DMREF/sweep-fAfC-armlength-chiNAB13-k2.7_chain/Nsc3.000/fAfC0.30/ADIA32Phase/fields_k.bin 
+ADIA32 4.000 0.3 /home/tquah/toolbox/SandBox/DMREF/sweep-fAfC-armlength-chiNAB13-k2.7_chain/Nsc4.000/fAfC0.30/ADIA32Phase/fields_k.bin 
+AGYR32 0.000 /home/tquah/toolbox/SandBox/DMREF/sweep-fAfC-armlength-chiNAB13-k2.7_chain/Nsc0.000/fAfC0.30/AGYR32Phase/fields_k.bin 
+AGYR32 1.000 /home/tquah/toolbox/SandBox/DMREF/sweep-fAfC-armlength-chiNAB13-k2.7_chain/Nsc1.000/fAfC0.30/AGYR32Phase/fields_k.bin 
+AGYR32 1.000 0.3 /home/tquah/toolbox/SandBox/DMREF/sweep-fAfC-armlength-chiNAB13-k2.7_chain/Nsc1.000/fAfC0.30/AGYR32Phase/fields_k.bin 
+AGYR32 2.000 0.3 /home/tquah/toolbox/SandBox/DMREF/sweep-fAfC-armlength-chiNAB13-k2.7_chain/Nsc2.000/fAfC0.30/AGYR32Phase/fields_k.bin 
+AGYR32 3.000 0.3 /home/tquah/toolbox/SandBox/DMREF/sweep-fAfC-armlength-chiNAB13-k2.7_chain/Nsc3.000/fAfC0.30/AGYR32Phase/fields_k.bin 
+AGYR32 4.000 0.3 /home/tquah/toolbox/SandBox/DMREF/sweep-fAfC-armlength-chiNAB13-k2.7_chain/Nsc4.000/fAfC0.30/AGYR32Phase/fields_k.bin 
+AGYR32 0.000 /home/tquah/toolbox/SandBox/DMREF/sweep-fAfC-armlength-chiNAB13-k2.7_chain/Nsc0.000/fAfC0.30/AGYR32Phase/fields_k.bin 
