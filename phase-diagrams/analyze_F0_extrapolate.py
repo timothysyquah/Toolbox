@@ -142,32 +142,32 @@ def extend_data_cubicspline(df,dfA = 0.001):
     return new_df
 
 
-path = './'
-filetype = '.dat'
-N_eff = 2000
-all_files = os.listdir(path)
-data_file_list = file_sorter(all_files, filetype)
-data_dict = dict()
-colorlist = ['b', 'm', 'g', 'k', 'r', 'y']
-shape = ['P', 'H', 'o', '^', '3', '8']
-plt.close('all')
+# path = './'
+# filetype = '.dat'
+# N_eff = 2000
+# all_files = os.listdir(path)
+# data_file_list = file_sorter(all_files, filetype)
+# data_dict = dict()
+# colorlist = ['b', 'm', 'g', 'k', 'r', 'y']
+# shape = ['P', 'H', 'o', '^', '3', '8']
+# plt.close('all')
 
-fA_main_list = []
-chiN_main_list = []
+# fA_main_list = []
+# chiN_main_list = []
 
-for file in data_file_list:
-    file_path_full = os.path.join(path, file)
-    fo = open(file_path_full, 'r')
-    data_from_file = fo.read().splitlines()
-    fo.close()
-    data_from_file = whitespace_remover(data_from_file)
-    phase_list, phase_loc = phase_list_parser(data_from_file)
-    chiN = float(file[6:-4]) * N_eff
-    data_dict[float(file[6:-4])] = extract_data(phase_list, data_from_file, phase_loc)
+# for file in data_file_list:
+#     file_path_full = os.path.join(path, file)
+#     fo = open(file_path_full, 'r')
+#     data_from_file = fo.read().splitlines()
+#     fo.close()
+#     data_from_file = whitespace_remover(data_from_file)
+#     phase_list, phase_loc = phase_list_parser(data_from_file)
+#     chiN = float(file[6:-4]) * N_eff
+#     data_dict[float(file[6:-4])] = extract_data(phase_list, data_from_file, phase_loc)
     
-full_chi_list,full_phase_list,full_fA_list = return_full_list(data_dict)
-df = convert_dataframe(data_dict,full_chi_list,full_phase_list,full_fA_list)
-df_extend = extend_data_cubicspline(df)
+# full_chi_list,full_phase_list,full_fA_list = return_full_list(data_dict)
+# df = convert_dataframe(data_dict,full_chi_list,full_phase_list,full_fA_list)
+# df_extend = extend_data_cubicspline(df)
 
 
 
