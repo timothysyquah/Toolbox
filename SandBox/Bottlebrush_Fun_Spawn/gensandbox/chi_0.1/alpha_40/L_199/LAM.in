@@ -11,8 +11,8 @@ models {
     
     chains {
         nchains   = 1 
-        contourds =  1.00000
         diffusermethod = SOS
+        contourds =  1.00000
         
   chain1 {
     label  = AB-Bottlebrush            
@@ -24,7 +24,7 @@ backbone {
     length       =  199
     nblocks      = 2
     blockspecies = 1 2 
-    blockfractions  = 0.5 0.5   
+    blockfractions  = 0.0 0.0   
               }
 sidearmtype1 { 
     statistics   = CGC
@@ -57,10 +57,12 @@ sidearmtype2 {
         dim = 1
         celllengths =  20
         npw = 128
+
         }
 
         interactions {
-        chiN12 = 0.1
+                         
+                chiN12 = 0.1
          }
 
     composition {
@@ -69,14 +71,14 @@ sidearmtype2 {
     }
 
     operators {
-      CalcHamiltonian       = true
-      CalcStressTensor      = true
-      CalcChemicalPotential = false
-      IncludeIdealGasTerms  = false
+      CalcHamiltonian       = True
+      CalcStressTensor      = True
+      CalcChemicalPotential = False
+      IncludeIdealGasTerms  = False
     }
 
     initfields {
-      ReadInputFields = Hfields
+      ReadInputFields = HFields
       InputFieldsFile = field.in
     }
   }
@@ -88,7 +90,7 @@ simulation {
   FieldUpdater = SIS
   CellUpdater = Broyden
   NumTimeStepsPerBlock = 1000
-  NumBlocks = 10000
+  NumBlocks = 1000
 
   TimeStepDT =  1.00000e-02
   lambdaForceScale = 0.1 0.1 
@@ -96,15 +98,15 @@ simulation {
   SCFTForceStoppingTol =  1.00000e-05
   SCFTStressStoppingTol =  1.00000e-04
 
-  VariableCell = true
+  VariableCell = True
 
   IO {
-    KeepDensityHistory   = false
-    KeepFieldHistory     = false
-    DensityOutputByChain = false
-    OutputFormattedFields = true
+    KeepDensityHistory   = False
+    KeepFieldHistory     = False
+    DensityOutputByChain = False
+    OutputFormattedFields = True
 
-    OutputFields         = Hfields
+    OutputFields         = HFields
     FieldOutputSpace     = both  # rspace, kspace or both
   }
 }
@@ -113,5 +115,5 @@ parallel {
   CUDA_selectdevice = 0
   CUDA_threadblocksize = 128
 
-  OpenMP_nthreads = __NTHREADS__
+  OpenMP_nthreads = 1
 }

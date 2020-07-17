@@ -11,44 +11,21 @@ models {
     
     chains {
         nchains   = 1 
-        polymerReferenceN = 1.
+        diffusermethod = SOS
+        contourds =  1.00000
         
   chain1 {
     label  = AB-Bottlebrush            
     architecture = comb
-    NumSideArmTypes = 2
+    NumSideArmTypes = 0
 
 backbone { 
-    statistics   = DGC
-    nbeads       =  50
+    statistics   = CGC
+    length       =  49
     nblocks      = 2
     blockspecies = 1 2 
-    nperblock  = 25.0 25.0   
+    blockfractions  = 0.5 0.5   
               }
-sidearmtype1 { 
-    statistics   = DGC
-    nbeads       =  5.0
-    nblocks      = 1
-    blockspecies = 1 
-    nperblock  = 5.0   
-
-        numarms      = 24
-        backbonegraftingstart = 1
-        backbonegraftingend   = 24
-        }
-
-sidearmtype2 { 
-    statistics   = DGC
-    nbeads       =  5.0
-    nblocks      = 1
-    blockspecies = 2 
-    nperblock  = 5.0   
-
-        numarms      = 24
-        backbonegraftingstart = 25
-        backbonegraftingend   = 48
-        }
-
        }
 }
     model1 {
@@ -56,11 +33,12 @@ sidearmtype2 {
         dim = 1
         celllengths =  20
         npw = 128
+
         }
 
         interactions {
-        chiN12 = 0
-        compressibility_invzetaN = 0.1
+                         
+                chiN12 = 0
          }
 
     composition {
@@ -69,14 +47,14 @@ sidearmtype2 {
     }
 
     operators {
-      CalcHamiltonian       = true
-      CalcStressTensor      = true
-      CalcChemicalPotential = false
-      IncludeIdealGasTerms  = false
+      CalcHamiltonian       = True
+      CalcStressTensor      = True
+      CalcChemicalPotential = False
+      IncludeIdealGasTerms  = False
     }
 
     initfields {
-      ReadInputFields = Hfields
+      ReadInputFields = HFields
       InputFieldsFile = field.in
     }
   }
@@ -88,23 +66,23 @@ simulation {
   FieldUpdater = SIS
   CellUpdater = Broyden
   NumTimeStepsPerBlock = 1000
-  NumBlocks = 10000
+  NumBlocks = 1000
 
   TimeStepDT =  1.00000e-02
-  lambdaForceScale = 0.1 0.1 
+  lambdaForceScale = 0.05 0.01 0.5 
   lambdaStressScale =  0.00100
   SCFTForceStoppingTol =  1.00000e-05
   SCFTStressStoppingTol =  1.00000e-04
 
-  VariableCell = true
+  VariableCell = True
 
   IO {
-    KeepDensityHistory   = false
-    KeepFieldHistory     = false
-    DensityOutputByChain = false
-    OutputFormattedFields = true
+    KeepDensityHistory   = False
+    KeepFieldHistory     = False
+    DensityOutputByChain = False
+    OutputFormattedFields = True
 
-    OutputFields         = Hfields
+    OutputFields         = HFields
     FieldOutputSpace     = both  # rspace, kspace or both
   }
 }
@@ -113,5 +91,5 @@ parallel {
   CUDA_selectdevice = 0
   CUDA_threadblocksize = 128
 
-  OpenMP_nthreads = __NTHREADS__
+  OpenMP_nthreads = 1
 }

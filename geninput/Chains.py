@@ -339,6 +339,7 @@ def Add_Model_Statistics(statistics_list,chain_list,\
     return models_add,interation_add,n_sidearm_types
 
 def Grafting_Determinator(chain_list,supported_statistics,ends):
+    print(chain_list[0][0])
     j = 0
     if ends:
         chaingraftinfo= np.zeros((3,len(chain_list)-1))
@@ -442,7 +443,6 @@ def Lazy_Input_Generator(input_file_path,field,chain_list,chiN,dS,npw,dt,\
     chiN_list =chiN_generator(chiN,components)
     kuhn_length_text = parameter_species(kuhn_length,n_species)
     force_scale_text = parameter_species(force_scale,n_species)
-    
     Input_Standard(input_file_path,n_species,kuhn_length_text,chain_label,n_sidearm_types,\
                    models_add,chain_text_list,chiN_list,interation_add,d,\
                    initial_box,npw,field,dt,force_scale_text,stress_scale,\

@@ -19,7 +19,7 @@ def file_sorter(file_list, filetype):
             list_files.append(file)
     return sorted(list(set(list_files)))
 
-
+    
 def phase_list_parser(data):
     phase_list = []
     phase_loc = []

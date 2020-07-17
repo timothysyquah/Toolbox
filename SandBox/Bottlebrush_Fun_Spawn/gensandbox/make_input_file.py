@@ -35,9 +35,25 @@ def make_input(PHASE,REPLACE_lIST,WDIR):
     INFILE=f'{PHASE}.in'
     input_file_path = os.path.join(WDIR,INFILE)
     ends = False
-    
+    diffuser_method='SOS'
+    Nref = 1
+    invzeta = 0.1
+    kuhn_length = [1.0]
+    stress_tol = 1e-4
+    force_tol = 1e-5
+    CellUpdater = 'Broyden'
+    cellscale = 1.0
+    add_phase = False
+    space_group = None
+    non_primitive_centering = False
+    symmetrize = False
+    parallel_cuda = 0    
+    cuda_thread_block_size = 128
+    nThreads = 1
     Lazy_Input_Generator(input_file_path,field,chain_list,chiN,dS,npw,dt,\
-                             initial_box,stress_scale,force_scale,d,chain_label,\
-                             ends,diffuser_method='SOS',Nref=1,invzeta=0.1,\
-                             kuhn_length=[1.0],stress_tol=1e-4,\
-                             force_tol=1e-5)
+                         initial_box,stress_scale,force_scale,d,chain_label,\
+                         ends,diffuser_method,Nref,invzeta,\
+                         kuhn_length,stress_tol,force_tol,CellUpdater,cellscale,
+                         add_phase,space_group,non_primitive_centering,\
+                         symmetrize,parallel_cuda,cuda_thread_block_size,nThreads)
+  
