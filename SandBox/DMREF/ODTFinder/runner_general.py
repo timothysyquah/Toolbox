@@ -415,7 +415,6 @@ if __name__ == '__main__':
                                 cmd = polyfts_path_serial+f' {Phase}.in'
                                 f = open(f"{Phase}.out","w")
                                 subprocess.call(cmd.split(),stdout=f)
-                                os.chdir(IDIR)
 
                             else:
                                 print('Parallel and GPU not currently supported')
@@ -449,3 +448,4 @@ if __name__ == '__main__':
                                 else:
                                     print('Simulation was divergent')
                                     break
+                            os.chdir(IDIR)
