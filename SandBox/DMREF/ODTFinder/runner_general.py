@@ -413,7 +413,7 @@ if __name__ == '__main__':
 
                                 polyfts_path_serial = os.path.join(args.polyFTS_path,'PolyFTS.x')
                                 cmd = polyfts_path_serial+f' {Phase}.in'
-                                f = open("{Phase}.out","w")
+                                f = open(f"{Phase}.out","w")
                                 subprocess.call(cmd.split(),stdout=f)
                                 os.chdir(IDIR)
 
