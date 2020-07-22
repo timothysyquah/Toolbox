@@ -338,7 +338,6 @@ if __name__ == '__main__':
     #check if seed path exists
     if os.path.exists(args.seed_path)!=True:
         raise RuntimeError('Seed Path Does not Exist')
-    print(args.directory_structure)
     check_set_equality(args.directory_structure,['chi','nbb','nsc','f'],'Directory Structure needs chi,nbb,nsc,f')
     
     
@@ -414,9 +413,8 @@ if __name__ == '__main__':
 
                                 polyfts_path_serial = os.path.join(args.polyFTS_path,'PolyFTS.x')
                                 cmd = polyfts_path_serial+f' {Phase}.in'
-                                f = open("{Phase}.out","w")
+                                f = open(f"{Phase}.out","w")
                                 subprocess.call(cmd.split(),stdout=f)
-                                os.chdir(IDIR)
 
                             else:
                                 print('Parallel and GPU not currently supported')
@@ -450,3 +448,4 @@ if __name__ == '__main__':
                                 else:
                                     print('Simulation was divergent')
                                     break
+                            os.chdir(IDIR)
