@@ -40,8 +40,8 @@ if __name__=="__main__":
 
 
 
-    Nscstart = 0
-    Nscend = 0
+    Nscstart = 1
+    Nscend = 1
     Nscdelta = 1
     fAfCstart = 0.19 # 0.2
     fAfCend = 0.30 # 0.2

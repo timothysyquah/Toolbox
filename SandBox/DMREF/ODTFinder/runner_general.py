@@ -338,7 +338,6 @@ if __name__ == '__main__':
     #check if seed path exists
     if os.path.exists(args.seed_path)!=True:
         raise RuntimeError('Seed Path Does not Exist')
-    print(args.directory_structure)
     check_set_equality(args.directory_structure,['chi','nbb','nsc','f'],'Directory Structure needs chi,nbb,nsc,f')
     
     
