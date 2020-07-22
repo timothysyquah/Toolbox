@@ -398,7 +398,7 @@ if __name__ == '__main__':
                                         fieldsin_path = field_path_1
                                     elif os.path.isfile(field_path_2):
                                         fieldsin_path = field_path_2
-                                    os.chdir(IDIR)
+                                os.chdir(IDIR)
                             continue
                         #fA need to think of a general way to recompute maybe use polyfts to rename the directory
                         #set index 
