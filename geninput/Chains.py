@@ -339,7 +339,7 @@ def Add_Model_Statistics(statistics_list,chain_list,\
     return models_add,interation_add,n_sidearm_types
 
 def Grafting_Determinator(chain_list,supported_statistics,ends):
-    print(chain_list[0][0])
+    # print(chain_list[0][0])
     j = 0
     if ends:
         chaingraftinfo= np.zeros((3,len(chain_list)-1))
@@ -363,7 +363,7 @@ def Grafting_Determinator(chain_list,supported_statistics,ends):
                 i.append(chaingraftinfo[1,j])
                 i.append(chaingraftinfo[2,j])
                 j+=1
-        # print(chaingraftinfo)
+        # (chaingraftinfo)
 
                 
     if ends==False:
