@@ -25,16 +25,14 @@ def spacegroup_finder(Phase):
     so = open(spacepath,'r')
     spacegroup_dat = so.read().splitlines()
     so.close
-    spacegroup = []
     for phase in Phase:
         for line in spacegroup_dat:
             splits = line.split(' ')
             if phase==splits[0]:
                 if splits[1]=='None':    
-                    spacegroup.append(None)
+                    return None
                 else:
-                    spacegroup.append(splits[1])
-    return spacegroup
+                    return splits[1]
 
     
 
