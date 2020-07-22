@@ -364,7 +364,10 @@ if __name__ == '__main__':
                 for p in range(0,countlist[3]):
                     
                     for q in range(0,len(args.phase)):
+
                         Phase = args.phase[q]
+                        d = dimension_determine(Phase)
+
                         itterlist = [m,n,o,p,q]
 
                         #Section used to make working directory
@@ -400,7 +403,6 @@ if __name__ == '__main__':
                         #fA need to think of a general way to recompute maybe use polyfts to rename the directory
                         #set index 
                         #chain archetecture
-                        d = dimension_determine(Phase)
                         chain_list,nbb_loc,chi_loc,nsc_loc,f_loc = chain_maker(args,parameter_dict,itterlist)
                         fieldpath = 'fields.in'
                         chiN = []
