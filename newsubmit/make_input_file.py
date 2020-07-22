@@ -20,6 +20,22 @@ sys.path.append(chainpath)
 from Chains import Input_Builder,Component_Statistics_Counter,\
     Add_Model_Statistics,Grafting_Determinator,chiN_generator,parameter_species
 
+def spacegroup_finder(Phase):
+    spacepath = os.path.join(chainpath,'spacegroup.dat')
+    so = open(spacepath,'r')
+    spacegroup_dat = so.read().splitlines()
+    so.close
+    spacegroup = []
+    for phase in Phase:
+        for line in spacegroup_dat:
+            splits = line.split(' ')
+            if phase==splits[0]:
+                if splits[1]=='None':    
+                    spacegroup.append(None)
+                else:
+                    spacegroup.append(splits[1])
+    return spacegroup
+
     
 
 def make_input(PHASE,REPLACE_lIST,WDIR):
@@ -34,14 +50,14 @@ def make_input(PHASE,REPLACE_lIST,WDIR):
     stress_scale = REPLACE_lIST[7]
     force_scale = REPLACE_lIST[8]
     cellscale = REPLACE_lIST[9]
-    space_group =  REPLACE_lIST[10]
+#    space_group =  REPLACE_lIST[10]
     npw = REPLACE_lIST[11]
     Nref = REPLACE_lIST[12]
     cell_updater = REPLACE_lIST[13]
     force_tol=REPLACE_lIST[14]
     stress_tol=REPLACE_lIST[15]
     field_updater = REPLACE_lIST[16]
-
+    space_group = spacegroup_finder(PHASE)
     
     
     kuhn_length=[1.]    

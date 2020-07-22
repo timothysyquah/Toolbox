@@ -370,6 +370,32 @@ if __name__ == '__main__':
                         #Section used to make working directory
                         WDIR,Contlogic = make_WDIR(Phase,countlist,args,itterlist)    
                         if Contlogic:
+                            if args.chainbool:
+                                os.chdir(WDIR)
+
+                                so = open('STATUS','r')
+                                status = int(so.read())
+                                so.close()
+                                if status==2:
+                                    print('Simulation Converged!')
+                                    
+                                    phaseout = open(f'{Phase}.out')
+                                    content = phaseout.read().splitlines()
+                                    phaseout.close()
+                                    
+                                    finalcell = domain_size_extractor(content,d)
+                                    
+                                    args.initial_box_size[q] = finalcell/(10/np.sqrt(args.reference_length))
+                                    
+                                    
+                                    field_path_1 = os.path.join(WDIR,'fields_k.bin')
+                                    field_path_2 = os.path.join(WDIR,'fields_k.dat')
+
+                                    if os.path.isfile(field_path_1):
+                                        fieldsin_path = field_path_1
+                                    elif os.path.isfile(field_path_2):
+                                        fieldsin_path = field_path_2
+                                    os.chdir(IDIR)
                             continue
                         #fA need to think of a general way to recompute maybe use polyfts to rename the directory
                         #set index 
