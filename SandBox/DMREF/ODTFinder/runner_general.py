@@ -156,9 +156,9 @@ def make_submit(args,Phase):
     fout.close
     f.close()
 
-def domain_size_extractor(content):
+def domain_size_extractor(content,d):
     list_of_cell = list(filter(lambda x: 'a_1' in x, content))
-    if len(list_of_cell)>2:
+    if d!=1:
         print('High Dim')
         r = list_of_cell[0]
         Box_initial = abs(float(r[r.find("(")+1:r.find(",")]))
@@ -430,7 +430,7 @@ if __name__ == '__main__':
                                     content = phaseout.read().splitlines()
                                     phaseout.close()
                                     
-                                    finalcell = domain_size_extractor(content)
+                                    finalcell = domain_size_extractor(content,d)
                                     
                                     args.initial_box_size[q] = finalcell/(10/np.sqrt(args.reference_length))
                                     
