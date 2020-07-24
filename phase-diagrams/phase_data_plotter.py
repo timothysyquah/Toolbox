@@ -695,7 +695,7 @@ def plot_node_connectivity(nodes):
 
 
 #this assumes that F0_phases.dat has been generated in each chiN*/phiA* directory
-def initialize_nodes(dirs,fnmeIn):
+def initialize_nodes(dirs,fnmeIn,keywrd):
     ''' 
         Go through directories (dirs) and look for filename (fnmeIn) and load the phase information 
         the file is expected to contain:
@@ -710,8 +710,14 @@ def initialize_nodes(dirs,fnmeIn):
     nodes = []
     for mydir in dirs:
         
-        dir1=mydir.split('/')[-2]
-        dir2=mydir.split('/')[-1]
+        dirsplit = mydir.split('/')
+        dir1loc = dirsplit.index([s for s in dirsplit if keywrd[0] in s][0])
+        dir2loc = dirsplit.index([s for s in dirsplit if keywrd[1] in s][0])
+
+        dir1=mydir.split('/')[dir1loc]
+        dir2=mydir.split('/')[dir2loc]
+        
+        # print(re.sub("[a-z,A-Z]","",dir1.split('_')[-1]))
 
         chiN = float(re.sub("[a-z,A-Z]","",dir1.split('_')[-1]))
         phiA = float(re.sub("[a-z,A-Z]","",dir2))
@@ -880,7 +886,7 @@ def slice2d(dirs):
     for i in range(len(sets2d)):
         os.chdir(pwd+'/'+unique3d[i])
         z.append(float(re.sub('[^0-9.]','',re.split('_',unique3d[i])[-1])))#append the last set of numbers from the highest directory to the z list
-        nodes.append(initialize_nodes(sets2d[i],args.filename))
+        nodes.append(initialize_nodes(sets2d[i],args.filename,args.keywrd))
         os.chdir(pwd)
     boundaryholders = []
     z = itertools.cycle(z)
@@ -916,9 +922,11 @@ if __name__ == '__main__':
     parser.add_argument('--stylesheet',action= 'store',default=os.path.dirname(os.path.realpath(sys.argv[0]))+'/better_style.mplstyle',help='This argument is the Matplotlib stylesheet that will be used for graphing') #the default is located in the directory this script is located at
     parser.add_argument('--aspect',action='store',default=None,help='The aspect ratio for the outputted figure use 1 for a square fig, works for a 2d graph right now')
     parser.add_argument('-r', '--refphase', action='store', default=None,help='name of phase to reference to, only matters if 1d')
+    parser.add_argument('-k', '--keywrd', action='store', default=['chi','fA'],help='axis to plot')
+
     print("IMPLEMENT CUSTOM AXIS RANGES AND LABELS FROM COMMAND LINE")
     args = parser.parse_args()
-    
+    args.dirs = glob.glob("/home/tquah/IMPORT_BRAID/diblock_phasediagram/sweep-asym-armlength_BCC_fix/chiAB_0.0359/Nsc*/fA*")
     #fnmeIn="F0_phases.dat"
     #dirs=glob.glob("tau*/phiA*");
     if os.path.isfile(args.stylesheet):
@@ -987,14 +995,14 @@ if __name__ == '__main__':
 
 
     if args.dim == 1:
-        nodes = initialize_nodes(args.dirs, args.filename)
+        nodes = initialize_nodes(args.dirs, args.filename,args.keywrd)
         boundaryholder = calc_phase_boundaries(nodes)
         boundaryholder.plot(args.outfig,args.plottype, nodes=nodes,xlabel=args.xlabel, ylabel=args.ylabel,axisrange=args.axisrange,n=args.dim,aspect=args.aspect,refPhase=args.refphase)
         if args.raw != '':
             print("Saving free energy curve data to \'%s\'" % args.raw)
             boundaryholder.write(args.raw,dim=1)
     elif args.dim == 2:
-        nodes = initialize_nodes(args.dirs, args.filename)
+        nodes = initialize_nodes(args.dirs, args.filename,args.keywrd)
         boundaryholder = calc_phase_boundaries(nodes)
         dist_threshold = args.linecutoff
         boundaryholder.set_dist_thresholds(dist_threshold)
