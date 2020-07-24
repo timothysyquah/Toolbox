@@ -28,15 +28,14 @@ if __name__ == '__main__':
     parser.add_argument('-PolyFTS', '--polyFTS_path', action='store', default='/home/tquah/PolyFTS_ALL/PolyFTS/bin/Release',help='PolyFts Path',type = str)
     # parser.add_argument('-s', '--sweeptype', action='store', default='chi',help='Sweep Flory-Huggins (chi), armlength (Nsc), or backbone (Nbb) or Volume Fraction (f)',type = str)
     parser.add_argument('-stat', '--chain_stat', action='store', default='DGC',help='Chain Statistics', type = str)
-    parser.add_argument('-p', '--phase', action='store',nargs='+', default=['DIS','LAM'],help='Phases that should be investigated',type = str)
+    parser.add_argument('-p', '--phase', action='store',nargs='+', default=[],help='Phases that should be investigated',type = str)
     # parser.add_argument('-sg', '--spacegroup', action='store',nargs='+', default=[None,None],help='Spacegroups for Phases',type = spacegroup_lgic)
-    parser.add_argument('-nt', '--NThreads', action='store',nargs='+', default=[1,1],help='Number of Threads',type = int)
+    parser.add_argument('-nt', '--NThreads', action='store',nargs='+', default=[],help='Number of Threads',type = int)
     parser.add_argument('-sp', '--seed_path', action='store', default=os.path.join(IDIR,'SEEDS'),help='Path to Seeds',type = str)
     #Simulation Details
     parser.add_argument('-ds', '--contour_step', action='store', default=0.1,help='Contour step for CGC',type = float)
     parser.add_argument('-cl', '--chain_label', action='store', default='AB-Bottlebrush',help='Chain Label',type = str)
     parser.add_argument('-dt', '--timestep', action='store', default=0.01,help='Timestep size',type = float)
-    parser.add_argument('-nref', '--reference_length', action='store', default=1,help='Reference Length',type = int)
     parser.add_argument('-ss', '--stressscale', action='store', default=0.1,help='Stress Mobility',type = float)
     parser.add_argument('-fs', '--forcescale', action='store',nargs='+', default=[1.0,1.0],help='Force Mobility',type = float)
     parser.add_argument('-L0', '--initial_box_size', action='store',nargs='+', default=[5.0,5.0],help='Initial Box Size',type = float)
@@ -56,18 +55,15 @@ if __name__ == '__main__':
     parser.add_argument('-nbb', '--backbone', action='store', default=99.0,help='Length of Polymer Backbone',type=float)
 
 
+    parser.add_argument('-nref_list', '--reference_length', action='store', default=[100,10,1,1,1,1,1],help='Reference Length',type = int)
+    parser.add_argument('-nsc_list', '--sidechains', action='store',nargs='+', default=[[0,0,0,1,5,10,20],[0,0,0,1,5,10,20]],help='Length of Side Chains ',type = float)
+
+    parser.add_argument('-f', '--volumefraction', action='store',nargs='+', default=[[0.5,0.5],[]],help='Volume Fraction',type = float)
+
 
     #sweepable parameters
-    parser.add_argument('-nbbmin', '--backbone_min', action='store', default=99.0,help='Length of Polymer Backbone min',type=float)
-    parser.add_argument('-nbbmax', '--backbone_max', action='store', default=99.0,help='Length of Polymer Backbone max',type=float)
-    parser.add_argument('-dnbb', '--backbone_step', action='store', default=1.0,help='Length of Polymer Backbone step',type=float)
-    parser.add_argument('-nsc', '--sidechains', action='store',nargs='+', default=[20,20],help='Length of Side Chains ',type = float)
 
 
-    parser.add_argument('-nscmin', '--sidechains_min', action='store',nargs='+', default=[20,20],help='Length of Side Chains min',type = float)
-    
-    parser.add_argument('-nscmax', '--sidechains_max', action='store',nargs='+', default=[20,20],help='Length of Side Chains max',type = float)
-    parser.add_argument('-ndsc', '--sidechains_step', action='store',nargs='+', default=[20,20],help='Length of Side Chains step',type = float)
 
     parser.add_argument('-chimin', '--floryhuggins_interaction_parameter_min', action='store', default=[0.1],help='Flory-Huggins Interaction Parameter min (12 13 23)',type = float)
     parser.add_argument('-chimax', '--floryhuggins_interaction_parameter_max', action='store', default=[0.1],help='Flory-Huggins Interaction Parameter max (12 13 23)',type = float)

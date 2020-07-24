@@ -354,16 +354,16 @@ if __name__ == '__main__':
     countlist = []
     for i in range(0,len(args.directory_structure),1):
         countlist.append(sweep_counter(parameter_dict,args.directory_structure[i]))
+    for q in range(0,len(args.phase)):
     
-    for m in range(0,countlist[0]):
-        
-        for n in range(0,countlist[1]):
-        
-            for o in range(0,countlist[2]):
+        for m in range(0,countlist[0]):
             
-                for p in range(0,countlist[3]):
+            for n in range(0,countlist[1]):
+            
+                for o in range(0,countlist[2]):
+                
+                    for p in range(0,countlist[3]):
                     
-                    for q in range(0,len(args.phase)):
 
                         Phase = args.phase[q]
                         d = dimension_determine(Phase)
