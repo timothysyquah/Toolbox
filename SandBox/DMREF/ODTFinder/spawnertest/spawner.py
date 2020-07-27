@@ -60,7 +60,10 @@ for Nbb in N_bb_array:
         rewrite_submit(outfile,infile,replace_text,replace_values)
         
         print('running')
-        time.sleep(1)
+        import subprocess
+        cmd=f"qsub {outfile}"
+        # cmd="sbatch submit.sh"
+        subprocess.call(cmd.split())
         
 
         
