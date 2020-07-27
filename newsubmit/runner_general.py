@@ -123,11 +123,11 @@ def chain_maker(args,parameter_dict,itterlist):
     #assemble sidechains
     full_side_chain_list = []
     for r in range(0,len(parameter_dict['nsc'])):
-        
-        sidearm_coverage = backbone_composition[r]
-        side_chain_list = [args.chain_stat,int(parameter_dict['nsc'][r][itterlist[nsc_loc]]),args.sidearm_species[r],\
-                           args.sidearm_composition[r],parameter_dict['f'][r][itterlist[f_loc]],args.sidearm_spacing[r]]
-        full_side_chain_list.append(side_chain_list)
+        if int(parameter_dict['nsc'][r][itterlist[nsc_loc]])>0:
+            sidearm_coverage = backbone_composition[r]
+            side_chain_list = [args.chain_stat,int(parameter_dict['nsc'][r][itterlist[nsc_loc]]),args.sidearm_species[r],\
+                               args.sidearm_composition[r],parameter_dict['f'][r][itterlist[f_loc]],args.sidearm_spacing[r]]
+            full_side_chain_list.append(side_chain_list)
     chain_list+=full_side_chain_list
     chain_checking(chain_list)
     return chain_list,nbb_loc,chi_loc,nsc_loc,f_loc
