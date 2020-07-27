@@ -10,10 +10,9 @@ IDIR = os.getcwd()
 components = IDIR.split('/')
 path_to_tools = '/'+components[1]+'/'+components[2]+'/.timtools'
 op = open(path_to_tools,'r')
-toolpath = op.read()
-chainpath =toolpath+'/geninput/'
-newsubpath = toolpath+'/newsubmit/'
+chainpath =op.read()+'/geninput/'
 op.close()
+
 import numpy as np
 import sys
 sys.path.append(chainpath)
@@ -22,7 +21,7 @@ from Chains import Input_Builder,Component_Statistics_Counter,\
     Add_Model_Statistics,Grafting_Determinator,chiN_generator,parameter_species
 
 def spacegroup_finder(Phase):
-    spacepath = os.path.join(newsubpath,'spacegroup.dat')
+    spacepath = os.path.join(chainpath,'spacegroup.dat')
     so = open(spacepath,'r')
     spacegroup_dat = so.read().splitlines()
     so.close
@@ -50,12 +49,12 @@ def make_input(PHASE,REPLACE_lIST,WDIR):
     force_scale = REPLACE_lIST[8]
     cellscale = REPLACE_lIST[9]
 #    space_group =  REPLACE_lIST[10]
-    npw = REPLACE_lIST[10]
-    Nref = REPLACE_lIST[11]
-    cell_updater = REPLACE_lIST[12]
-    force_tol=REPLACE_lIST[13]
-    stress_tol=REPLACE_lIST[14]
-    field_updater = REPLACE_lIST[15]
+    npw = REPLACE_lIST[11]
+    Nref = REPLACE_lIST[12]
+    cell_updater = REPLACE_lIST[13]
+    force_tol=REPLACE_lIST[14]
+    stress_tol=REPLACE_lIST[15]
+    field_updater = REPLACE_lIST[16]
     space_group = spacegroup_finder(PHASE)
     
     

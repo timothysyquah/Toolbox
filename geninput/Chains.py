@@ -61,7 +61,7 @@ class Chain_Builder():
                 statistics_length_mult = [1,self.length,self.length]
                 composition =\
                 np.array(model_list[3])*statistics_length_mult[j]
-                if self.statistics=='DGC' or 'FJC':
+                if self.statistics=='DGC' or self.statistics=='FJC':
                     composition = np.around(composition)
                 self.composition =\
                 list_to_text(composition)
@@ -339,7 +339,6 @@ def Add_Model_Statistics(statistics_list,chain_list,\
     return models_add,interation_add,n_sidearm_types
 
 def Grafting_Determinator(chain_list,supported_statistics,ends):
-    # print(chain_list[0][0])
     j = 0
     if ends:
         chaingraftinfo= np.zeros((3,len(chain_list)-1))
@@ -353,7 +352,7 @@ def Grafting_Determinator(chain_list,supported_statistics,ends):
                 unitcheck = abs(np.around(chaingraftinfo[0,j])-chaingraftinfo[0,j])
                 if unitcheck>1e-6:
                     print('Warning Grafting is not precise')
-                chaingraftinfo[0,j] = np.floor(chaingraftinfo[0,j])
+                chaingraftinfo[0,j] = np.around(chaingraftinfo[0,j])
                 if j==0:
                     chaingraftinfo[2,j] =  chaingraftinfo[0,j]-1
                 else:
@@ -363,9 +362,6 @@ def Grafting_Determinator(chain_list,supported_statistics,ends):
                 i.append(chaingraftinfo[1,j])
                 i.append(chaingraftinfo[2,j])
                 j+=1
-        # (chaingraftinfo)
-
-                
     if ends==False:
         chaingraftinfo= np.zeros((3,len(chain_list)-1))
         
@@ -376,7 +372,7 @@ def Grafting_Determinator(chain_list,supported_statistics,ends):
                 chaingraftinfo[0,j]= i[4]*(bb_length-1)
                 if chaingraftinfo[0,j].is_integer()!=True:
                     print('Warning Grafting is not precise')
-                chaingraftinfo[0,j] = np.floor(chaingraftinfo[0,j])
+                chaingraftinfo[0,j] = np.around(chaingraftinfo[0,j])
                 if j==0:
                     chaingraftinfo[1,j] =  1
                     chaingraftinfo[2,j] =  chaingraftinfo[0,j]
@@ -446,10 +442,10 @@ def Lazy_Input_Generator(input_file_path,field,chain_list,chiN,dS,npw,dt,\
     Input_Standard(input_file_path,n_species,kuhn_length_text,chain_label,n_sidearm_types,\
                    models_add,chain_text_list,chiN_list,interation_add,d,\
                    initial_box,npw,field,dt,force_scale_text,stress_scale,\
-                   force_tol,stress_tol,CellUpdater,add_phase,\
-                 space_group,non_primitive_centering,symmetrize,parallel_cuda,\
-                     cuda_thread_block_size,nThreads)
-
+                   force_tol,stress_tol,CellUpdater,cellscale,add_phase,\
+                 space_group,non_primitive_centering,symmetrize,\
+                 parallel_cuda,cuda_thread_block_size,nThreads)
+        
 def Lazy_Input_Generator_General(input_file_path,field,chain_list,chiN,dS,npw,dt,\
                                  initial_box,stress_scale,force_scale,d,chain_label,\
                                  ends,diffuser_method,Nref,invzeta,\
@@ -481,7 +477,6 @@ def Lazy_Input_Generator_General(input_file_path,field,chain_list,chiN,dS,npw,dt
     force_scale_text = parameter_species(force_scale,n_species)
     initial_box_text = parameter_species(initial_box,d)
     npw_text = parameter_species(npw,d)
-
     Input_Standard(input_file_path,n_species,kuhn_length_text,chain_label,n_sidearm_types,\
                    models_add,chain_text_list,chiN_list,interation_add,d,\
                    initial_box_text,npw_text,field,dt,force_scale_text,stress_scale,\
