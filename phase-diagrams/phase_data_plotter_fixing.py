@@ -922,13 +922,13 @@ if __name__ == '__main__':
     parser.add_argument('--stylesheet',action= 'store',default=os.path.dirname(os.path.realpath(sys.argv[0]))+'/better_style.mplstyle',help='This argument is the Matplotlib stylesheet that will be used for graphing') #the default is located in the directory this script is located at
     parser.add_argument('--aspect',action='store',default=None,help='The aspect ratio for the outputted figure use 1 for a square fig, works for a 2d graph right now')
     parser.add_argument('-r', '--refphase', action='store', default=None,help='name of phase to reference to, only matters if 1d')
-    parser.add_argument('-k', '--keywrd', action='store', default=['chi','fA'],help='axis to plot')
-
+    parser.add_argument('-k', '--keywrd', action='store', default=['chi','fA'], nargs='+', help='axis to plot',type=str)
     print("IMPLEMENT CUSTOM AXIS RANGES AND LABELS FROM COMMAND LINE")
     args = parser.parse_args()
-    args.dirs = glob.glob("/home/tquah/IMPORT_BRAID/diblock_phasediagram/chiAB_*/Nsc*/fA*")
+    # args.dirs = glob.glob("/home/tquah/IMPORT_BRAID/diblock_phasediagram/chiAB_*/Nsc*/fA*")
     #fnmeIn="F0_phases.dat"
     #dirs=glob.glob("tau*/phiA*");
+    print("args.keywrd")
     if os.path.isfile(args.stylesheet):
         plt.style.use(args.stylesheet)
         print('Graphing using the {} stylesheet'.format(args.stylesheet))

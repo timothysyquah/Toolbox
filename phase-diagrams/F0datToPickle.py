@@ -18,7 +18,7 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Tool to compute phase boundaries')
     parser.add_argument('-f', '--filename', action='store', default='F0_phases.dat',help='file that contains the phases and free energies at each phase point')
     parser.add_argument('-d', '--dirs', action='store', nargs='+', default=glob.glob("tau*/phiA*"),help='list of directories that contain each phase point')
-    parser.add_argument('-k', '--keyword', action='store', nargs='+', default=['chiAB_','fA'],help='list of directories that contain each phase point')
+    parser.add_argument('-k', '--keyword', action='store', nargs='+', default=['chiAB_','fA'],help='First postition')
 
     # parser.add_argument('-o', '--outfig', action='store', default='',help='name of output figure file')
     # parser.add_argument('--raw', action='store', default='',help='name of raw output file (for plotting in another program')
