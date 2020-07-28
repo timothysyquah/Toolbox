@@ -926,7 +926,7 @@ if __name__ == '__main__':
 
     print("IMPLEMENT CUSTOM AXIS RANGES AND LABELS FROM COMMAND LINE")
     args = parser.parse_args()
-    args.dirs = glob.glob("/home/tquah/IMPORT_BRAID/diblock_phasediagram/chiAB_0.0104/Nsc*/fA*")
+    args.dirs = glob.glob("/home/tquah/IMPORT_BRAID/diblock_phasediagram/chiAB_*/Nsc*/fA*")
     #fnmeIn="F0_phases.dat"
     #dirs=glob.glob("tau*/phiA*");
     if os.path.isfile(args.stylesheet):

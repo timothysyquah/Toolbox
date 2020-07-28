@@ -382,6 +382,7 @@ if __name__ == '__main__':
                                         fieldsin_path = field_path_2
                                     else:
                                         print('field path not found! Using Seedpath')
+                                        os.chdir(IDIR)
                                         break
                                 os.chdir(IDIR)
                             continue
@@ -458,8 +459,10 @@ if __name__ == '__main__':
                                         fieldsin_path = field_path_2
                                 elif status==0 or status==3:
                                     print('Simulation was killed or ran out of time')
+                                    os.chdir(IDIR)
                                     break
                                 else:
                                     print('Simulation was divergent')
+                                    os.chdir(IDIR)
                                     break
                             os.chdir(IDIR)
