@@ -719,8 +719,8 @@ def initialize_nodes(dirs,fnmeIn,keywrd):
         
         # print(re.sub("[a-z,A-Z]","",dir1.split('_')[-1]))
 
-        chiN = float(re.sub("[a-z,A-Z]","",dir1.split('_')[-1]))
-        phiA = float(re.sub("[a-z,A-Z]","",dir2))
+        chiN = float(re.findall("\d+\.\d+", dir1)[0])
+        phiA = float(re.findall("\d+\.\d+", dir2)[0])
 #        split = re.split('/',mydir)
 #        pos = []
 #        for word in split:
