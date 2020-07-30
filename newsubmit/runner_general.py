@@ -80,9 +80,9 @@ def make_WDIR(Phase,countlist,args,itterlist):
     WDIR = ''
     for r in range(0,len(countlist)):
         if type(parameter_dict[args.directory_structure[r]]) == list:
-            WDIR+=(f'{args.directory_structure[r]}{parameter_dict[args.directory_structure[r]][args.directory_nameloc[r]][itterlist[r]]:0.5f}')
+            WDIR+=(f'{args.directory_structure[r]}{parameter_dict[args.directory_structure[r]][args.directory_nameloc[r]][itterlist[r]]:0.10f}')
         else:
-            WDIR+=(f'{args.directory_structure[r]}{parameter_dict[args.directory_structure[r]][itterlist[r]]:0.5f}')
+            WDIR+=(f'{args.directory_structure[r]}{parameter_dict[args.directory_structure[r]][itterlist[r]]:0.10f}')
         if r!=len(countlist):
             WDIR+='/'
     WDIR+=f'{Phase}Phase'
