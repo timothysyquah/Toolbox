@@ -2,6 +2,7 @@
 
 from PolyFTSFieldWriter import *
 from PolyFTSFieldReader import *
+import numpy as np
 
 Nx=8
 NPW=Nx*Nx*Nx
@@ -37,6 +38,14 @@ for i in range(fields.nfields):
     print fields.AllFields[i]
     print fields.AllFieldsImPart[i]
     print "Num points = ",len(fields.AllFields[i])
-
 # TODO: turn this into a proper unit test - store out data in variables, write it out, read it back in and compare.
 # Then clean up files.
+
+fpre = fields.AllFields
+fafter = dummyfielddata
+
+
+
+fnorm1 = fpre[0,:]/np.linalg.norm(fpre[0,:])
+fnorm2 = fafter[0,:]/np.linalg.norm(fafter[0,:])
+check = np.dot(fnorm1,fnorm2.transpose())

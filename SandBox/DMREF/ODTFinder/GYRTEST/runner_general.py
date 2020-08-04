@@ -80,9 +80,9 @@ def make_WDIR(Phase,countlist,args,itterlist):
     WDIR = ''
     for r in range(0,len(countlist)):
         if type(parameter_dict[args.directory_structure[r]]) == list:
-            WDIR+=(f'{args.directory_structure[r]}{parameter_dict[args.directory_structure[r]][args.directory_nameloc[r]][itterlist[r]]:0.5}')
+            WDIR+=(f'{args.directory_structure[r]}{parameter_dict[args.directory_structure[r]][args.directory_nameloc[r]][itterlist[r]]:0.5f}')
         else:
-            WDIR+=(f'{args.directory_structure[r]}{parameter_dict[args.directory_structure[r]][itterlist[r]]:0.5}')
+            WDIR+=(f'{args.directory_structure[r]}{parameter_dict[args.directory_structure[r]][itterlist[r]]:0.5f}')
         if r!=len(countlist):
             WDIR+='/'
     WDIR+=f'{Phase}Phase'
@@ -123,11 +123,11 @@ def chain_maker(args,parameter_dict,itterlist):
     #assemble sidechains
     full_side_chain_list = []
     for r in range(0,len(parameter_dict['nsc'])):
-        if int(parameter_dict['nsc'][r][itterlist[nsc_loc]])>0:
-            sidearm_coverage = backbone_composition[r]
-            side_chain_list = [args.chain_stat,int(parameter_dict['nsc'][r][itterlist[nsc_loc]]),args.sidearm_species[r],\
-                               args.sidearm_composition[r],parameter_dict['f'][r][itterlist[f_loc]],args.sidearm_spacing[r]]
-            full_side_chain_list.append(side_chain_list)
+        
+        sidearm_coverage = backbone_composition[r]
+        side_chain_list = [args.chain_stat,int(parameter_dict['nsc'][r][itterlist[nsc_loc]]),args.sidearm_species[r],\
+                           args.sidearm_composition[r],parameter_dict['f'][r][itterlist[f_loc]],args.sidearm_spacing[r]]
+        full_side_chain_list.append(side_chain_list)
     chain_list+=full_side_chain_list
     chain_checking(chain_list)
     return chain_list,nbb_loc,chi_loc,nsc_loc,f_loc
@@ -260,15 +260,15 @@ if __name__ == '__main__':
 
 
     parser.add_argument('-nscmin', '--sidechains_min', action='store',nargs='+', default=[20,20],help='Length of Side Chains min',type = float)
-    parser.add_argument('-nscmax', '--sidechains_max', action='store',nargs='+', default=[10,30],help='Length of Side Chains max',type = float)
-    parser.add_argument('-ndsc', '--sidechains_step', action='store',nargs='+', default=[-2,2],help='Length of Side Chains step',type = float)
+    parser.add_argument('-nscmax', '--sidechains_max', action='store',nargs='+', default=[20,20],help='Length of Side Chains max',type = float)
+    parser.add_argument('-ndsc', '--sidechains_step', action='store',nargs='+', default=[20,20],help='Length of Side Chains step',type = float)
 
-    parser.add_argument('-chimin', '--floryhuggins_interaction_parameter_min', action='store', default=[0.0289],help='Flory-Huggins Interaction Parameter min (12 13 23)',type = float)
-    parser.add_argument('-chimax', '--floryhuggins_interaction_parameter_max', action='store', default=[0.0289],help='Flory-Huggins Interaction Parameter max (12 13 23)',type = float)
+    parser.add_argument('-chimin', '--floryhuggins_interaction_parameter_min', action='store', default=[0.1],help='Flory-Huggins Interaction Parameter min (12 13 23)',type = float)
+    parser.add_argument('-chimax', '--floryhuggins_interaction_parameter_max', action='store', default=[0.1],help='Flory-Huggins Interaction Parameter max (12 13 23)',type = float)
     parser.add_argument('-dchi', '--floryhuggins_interaction_parameter_step', action='store', default=[-0.005],help='Flory-Huggins Interaction Parameter step (12 13 23)',type = float)
 
-    parser.add_argument('-fmin', '--volumefraction_min', action='store',nargs='+', default=[0.33,0.67],help='Volume Fraction min',type = float)
-    parser.add_argument('-fmax', '--volumefraction_max', action='store',nargs='+', default=[0.33,0.67],help='Volume Fraction max',type = float)
+    parser.add_argument('-fmin', '--volumefraction_min', action='store',nargs='+', default=[0.5,0.5],help='Volume Fraction min',type = float)
+    parser.add_argument('-fmax', '--volumefraction_max', action='store',nargs='+', default=[0.5,0.5],help='Volume Fraction max',type = float)
     parser.add_argument('-df', '--volumefraction_step', action='store',nargs='+', default=[-0.02,0.02],help='Volume Fraction step',type = float)
 
 
@@ -382,7 +382,6 @@ if __name__ == '__main__':
                                         fieldsin_path = field_path_2
                                     else:
                                         print('field path not found! Using Seedpath')
-                                        os.chdir(IDIR)
                                         break
                                 os.chdir(IDIR)
                             continue
@@ -459,10 +458,8 @@ if __name__ == '__main__':
                                         fieldsin_path = field_path_2
                                 elif status==0 or status==3:
                                     print('Simulation was killed or ran out of time')
-                                    os.chdir(IDIR)
                                     break
                                 else:
                                     print('Simulation was divergent')
-                                    os.chdir(IDIR)
                                     break
                             os.chdir(IDIR)
