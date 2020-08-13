@@ -600,7 +600,7 @@ if __name__ == '__main__':
 
 
                             else:
-                                REPLACE_DICT['cellscale'] = args.initial_box_size[q]
+                                REPLACE_DICT['cellscale'] = args.initial_box_size[q][0]
 
                             # REPLACE_lIST = [fieldpath,chain_list,chiN,d,args.chain_label,args.contour_step,args.timestep,args.stressscale,\
                             #         args.forcescale,args.initial_box_size[q],[args.number_of_planewaves[q]],args.reference_length,\

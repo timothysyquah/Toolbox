@@ -33,7 +33,7 @@ npw=32
     -chimin 30 -chimax 30 -dchi -0.0005 \
     -fmin ${fA} ${fB} -fmax ${fA} ${fB} -df 0.1 -0.1 \
     -nref_list 100 \
-    -is chi nbb nsc f nref -drst nref/nref NscA-NscB/nsc fA/f -dirnl None 0-1 1 \
+    -is chi nbb nsc f nref -drst nref/nref NscA-NscB/nsc fA/f -dirnl None 0-1 0 \
     -runpoly True -subpoly False -chain True 
 
 PATH=nref100.0/NscA_0.0_NscB_0.0/fA${fA}/${phase}Phase
@@ -48,7 +48,7 @@ PATH=nref100.0/NscA_0.0_NscB_0.0/fA${fA}/${phase}Phase
             -chimin 3 -chimax 3 -dchi -0.0005 \
             -fmin ${fA} ${fB} -fmax ${fA} ${fB} -df 0.1 -0.1 \
             -nref_list 10 \
-            -is chi nbb nsc f nref -drst nref/nref NscA-NscB/nsc fA/f -dirnl None 0-1 1 \
+            -is chi nbb nsc f nref -drst nref/nref NscA-NscB/nsc fA/f -dirnl None 0-1 0 \
             -runpoly True -subpoly False -chain True 
 
 PATH=nref10.0/NscA_0.0_NscB_0.0/fA${fA}/${phase}Phase
@@ -63,7 +63,7 @@ PATH=nref10.0/NscA_0.0_NscB_0.0/fA${fA}/${phase}Phase
             -chimin .3 -chimax .3 -dchi -0.0005 \
             -fmin ${fA} ${fB} -fmax ${fA} ${fB} -df 0.1 -0.1 \
             -nref_list 1 \
-            -is chi nbb nsc f nref -drst nref/nref NscA-NscB/nsc fA/f -dirnl None 0-1 1 \
+            -is chi nbb nsc f nref -drst nref/nref NscA-NscB/nsc fA/f -dirnl None 0-1 0 \
             -runpoly True -subpoly False -chain True 
 
 PATH=nref1.0/NscA_0.0_NscB_0.0/fA${fA}/${phase}Phase
@@ -78,7 +78,7 @@ PATH=nref1.0/NscA_0.0_NscB_0.0/fA${fA}/${phase}Phase
             -chimin 0.15 -chimax 0.15 -dchi -0.0005 \
             -fmin ${fA} ${fB} -fmax ${fA} ${fB} -df 0.1 -0.1 \
             -nref_list 1 \
-            -is chi nbb nsc f nref -drst nref/nref NscA-NscB/nsc fA/f -dirnl None 0-1 1 \
+            -is chi nbb nsc f nref -drst nref/nref NscA-NscB/nsc fA/f -dirnl None 0-1 0 \
             -runpoly True -subpoly False -chain True 
 
 PATH=nref1.0/NscA_1.0_NscB_2.0/fA${fA}/${phase}Phase
@@ -92,7 +92,7 @@ PATH=nref1.0/NscA_1.0_NscB_2.0/fA${fA}/${phase}Phase
             -chimin 0.1 -chimax 0.1 -dchi -0.0005 \
             -fmin ${fA} ${fB} -fmax ${fA} ${fB} -df 0.1 -0.1 \
             -nref_list 1 \
-            -is chi nbb nsc f nref -drst nref/nref NscA-NscB/nsc fA/f -dirnl None 0-1 1 \
+            -is chi nbb nsc f nref -drst nref/nref NscA-NscB/nsc fA/f -dirnl None 0-1 0 \
             -runpoly True  -subpoly False -chain True 
 
 PATH=nref1.0/NscA_2.0_NscB_4.0/fA${fA}/${phase}Phase
@@ -106,7 +106,7 @@ PATH=nref1.0/NscA_2.0_NscB_4.0/fA${fA}/${phase}Phase
             -chimin 0.06 -chimax 0.06 -dchi -0.0005 \
             -fmin ${fA} ${fB} -fmax ${fA} ${fB} -df 0.1 -0.1 \
             -nref_list 1 \
-            -is chi nbb nsc f nref -drst nref/nref NscA-NscB/nsc fA/f -dirnl None 0-1 1 \
+            -is chi nbb nsc f nref -drst nref/nref NscA-NscB/nsc fA/f -dirnl None 0-1 0 \
             -runpoly True  -subpoly False -chain True 
 
 PATH=nref1.0/NscA_4.0_NscB_8.0/fA${fA}/${phase}Phase
@@ -120,7 +120,7 @@ PATH=nref1.0/NscA_4.0_NscB_8.0/fA${fA}/${phase}Phase
             -chimin 0.033 -chimax 0.033 -dchi -0.0005 \
             -fmin ${fA} ${fB} -fmax ${fA} ${fB} -df 0.1 -0.1 \
             -nref_list 1 \
-            -is chi nbb nsc f nref -drst nref/nref NscA-NscB/nsc fA/f -dirnl None 0-1 1 \
+            -is chi nbb nsc f nref -drst nref/nref NscA-NscB/nsc fA/f -dirnl None 0-1 0 \
             -runpoly True  -subpoly False -chain True 
 
 PATH=nref1.0/NscA_8.0_NscB_16.0/fA${fA}/${phase}Phase
@@ -134,7 +134,7 @@ PATH=nref1.0/NscA_8.0_NscB_16.0/fA${fA}/${phase}Phase
             -chimin 0.023 -chimax 0.029 -dchi 0.001 \
             -fmin ${fA} ${fB} -fmax ${fA} ${fB} -df 0.1 -0.1 \
             -nref_list 1 \
-            -is nbb nsc f nref chi -drst nref/nref NscA-NscB/nsc fA/f chiAB/chi -dirnl None 0-1 1 0\
+            -is nbb nsc f nref chi -drst nref/nref NscA-NscB/nsc fA/f chiAB/chi -dirnl None 0-1 0 0\
             -runpoly True  -subpoly False -chain True 
 
 # Copy back results

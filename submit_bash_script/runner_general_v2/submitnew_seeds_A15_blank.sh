@@ -19,7 +19,7 @@ npw=32
     -chimin 30 -chimax 30 -dchi -0.0005 \
     -fmin ${fA} ${fB} -fmax ${fA} ${fB} -df 0.1 -0.1 \
     -nref_list 100 \
-    -is chi nbb nsc f nref -drst nref/nref NscA-NscB/nsc fA/f -dirnl None 0-1 1 \
+    -is chi nbb nsc f nref -drst nref/nref NscA-NscB/nsc fA/f -dirnl None 0-1 0 \
     -runpoly False -subpoly False -chain False
 
 
@@ -33,7 +33,7 @@ npw=32
             -chimin 3 -chimax 3 -dchi -0.0005 \
             -fmin ${fA} ${fB} -fmax ${fA} ${fB} -df 0.1 -0.1 \
             -nref_list 10 \
-            -is chi nbb nsc f nref -drst nref/nref NscA-NscB/nsc fA/f -dirnl None 0-1 1 \
+            -is chi nbb nsc f nref -drst nref/nref NscA-NscB/nsc fA/f -dirnl None 0-1 0 \
             -runpoly False -subpoly False -chain False
 
 
@@ -47,7 +47,7 @@ npw=32
             -chimin .3 -chimax .3 -dchi -0.0005 \
             -fmin ${fA} ${fB} -fmax ${fA} ${fB} -df 0.1 -0.1 \
             -nref_list 1 \
-            -is chi nbb nsc f nref -drst nref/nref NscA-NscB/nsc fA/f -dirnl None 0-1 1 \
+            -is chi nbb nsc f nref -drst nref/nref NscA-NscB/nsc fA/f -dirnl None 0-1 0 \
             -runpoly False -subpoly False -chain False
 
 
@@ -61,7 +61,7 @@ npw=32
             -chimin 0.15 -chimax 0.15 -dchi -0.0005 \
             -fmin ${fA} ${fB} -fmax ${fA} ${fB} -df 0.1 -0.1 \
             -nref_list 1 \
-            -is chi nbb nsc f nref -drst nref/nref NscA-NscB/nsc fA/f -dirnl None 0-1 1 \
+            -is chi nbb nsc f nref -drst nref/nref NscA-NscB/nsc fA/f -dirnl None 0-1 0 \
             -runpoly False -subpoly False -chain False
 
 
@@ -74,7 +74,7 @@ npw=32
             -chimin 0.1 -chimax 0.1 -dchi -0.0005 \
             -fmin ${fA} ${fB} -fmax ${fA} ${fB} -df 0.1 -0.1 \
             -nref_list 1 \
-            -is chi nbb nsc f nref -drst nref/nref NscA-NscB/nsc fA/f -dirnl None 0-1 1 \
+            -is chi nbb nsc f nref -drst nref/nref NscA-NscB/nsc fA/f -dirnl None 0-1 0 \
             -runpoly False -subpoly False -chain False 
 
 
@@ -87,7 +87,7 @@ npw=32
             -chimin 0.06 -chimax 0.06 -dchi -0.0005 \
             -fmin ${fA} ${fB} -fmax ${fA} ${fB} -df 0.1 -0.1 \
             -nref_list 1 \
-            -is chi nbb nsc f nref -drst nref/nref NscA-NscB/nsc fA/f -dirnl None 0-1 1 \
+            -is chi nbb nsc f nref -drst nref/nref NscA-NscB/nsc fA/f -dirnl None 0-1 0 \
             -runpoly False -subpoly False -chain False 
 
 
@@ -100,7 +100,7 @@ npw=32
             -chimin 0.033 -chimax 0.033 -dchi -0.0005 \
             -fmin ${fA} ${fB} -fmax ${fA} ${fB} -df 0.1 -0.1 \
             -nref_list 1 \
-            -is chi nbb nsc f nref -drst nref/nref NscA-NscB/nsc fA/f -dirnl None 0-1 1 \
+            -is chi nbb nsc f nref -drst nref/nref NscA-NscB/nsc fA/f -dirnl None 0-1 0 \
             -runpoly False -subpoly False -chain False 
 
 
@@ -113,7 +113,7 @@ npw=32
             -chimin 0.023 -chimax 0.029 -dchi 0.001 \
             -fmin ${fA} ${fB} -fmax ${fA} ${fB} -df 0.1 -0.1 \
             -nref_list 1 \
-            -is nbb nsc f nref chi -drst nref/nref NscA-NscB/nsc fA/f chiAB/chi -dirnl None 0-1 1 0\
+            -is nbb nsc f nref chi -drst nref/nref NscA-NscB/nsc fA/f chiAB/chi -dirnl None 0-1 0 0\
             -runpoly False -subpoly False -chain False 
 
 
