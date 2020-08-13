@@ -924,9 +924,9 @@ if __name__ == '__main__':
     print("IMPLEMENT CUSTOM AXIS RANGES AND LABELS FROM COMMAND LINE")
     args = parser.parse_args()
     # args.dirs = glob.glob("/home/tquah/IMPORT_BRAID/diblock_phasediagram/chiAB_*/Nsc*/fA*")
-    args.dirs = glob.glob("/home/tquah/IMPORT_BRAID/diblock_phasediagram/chiAB_0.0289/NscA_20*/fA*")
+    # args.dirs = glob.glob("/home/tquah/IMPORT_BRAID/diblock_phasediagram/chiAB_0.014*/NscA_20*/fA*")
     # args.dirs = glob.glob("/home/tquah/IMPORT_BRAID/NSCASYM/chiAB_0.0289/NscA_18.*/fA*")
-    # args.dirs = glob.glob("/home/tquah/IMPORT_BRAID/NSCASYM/chiAB_0.0289/ABratio_1.8*/fA*")
+    args.dirs = glob.glob("/home/tquah/IMPORT_BRAID/NSCASYM_02/chiAB_0.0289/ABratio_2*/fA*")
     # os.chdir('/home/tquah/IMPORT_BRAID/NSCASYM_02_other/')
     # args.dirs = glob.glob("chiAB_0.0289/ABratio_1.2*/fA*")
 

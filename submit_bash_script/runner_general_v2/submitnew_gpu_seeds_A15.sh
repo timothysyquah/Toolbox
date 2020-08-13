@@ -28,55 +28,54 @@ IDIR=`pwd`
 
 source activate mp
 
-fA=0.36000
-fB=0.64000
-phase=O701
-L0=4-8-13
-npw=32-32-64
+fA=0.33000
+fB=0.67000
+phase=A15
+L0=5
+npw=32
+~/toolbox/newsubmit/runner_general_v2.py \
+    -stat DGC -p ${phase} -nt -1 -sp ${IDIR}/SEEDS/ -ds 0.1 -cl AB-Bottlebrush -dt 0.01 \
+    -ss 0.001 -fs 1.0 0.5 -L0 ${L0} -npw ${npw} -ftol 1e-5 \
+    -stol 1e-4 -bsp 1 2 -sas 1 2 -sac 1.0 1.0 -space 1 1 -b 1.0 0.5 \
+    -nbbmin 99 -nbbmax 99 -dnbb 1.0 \
+    -nscmin 0 0 -nscmax 0 0 -ndsc 2 -2 \
+    -chimin 30 -chimax 30 -dchi -0.0005 \
+    -fmin ${fA} ${fB} -fmax ${fA} ${fB} -df 0.1 -0.1 \
+    -nref_list 100 \
+    -is chi nbb nsc f nref -drst nref/nref NscA-NscB/nsc fA/f -dirnl None 0-1 1 \
+    -runpoly True -subpoly False -chain True -gd ${GPUDEV}
+
+PATH=nref100.0/NscA_0.0_NscB_0.0/fA${fA}/${phase}Phase
+
 
 ~/toolbox/newsubmit/runner_general_v2.py \
-    -stat DGC -p ${phase} -nt -1 -sp ${IDIR}/SEEDS/ -spt Main -ds 0.1 -cl AB-Bottlebrush -dt 0.001 \
+    -stat DGC -p ${phase} -nt -1 -sp ${IDIR}/${PATH}/ -spt Job -ds 0.1 -cl AB-Bottlebrush -dt 0.01 \
             -ss 0.001 -fs 1.0 0.5 -L0 ${L0} -npw ${npw} -ftol 1e-5 \
-            -stol 1e-4 -bsp 1 2 -sas 1 2 -sac 1.0 1.0 -space 1 1 -b 1.0 1.0 \
-            -nbbmin 99 -nbbmax 99 -dnbb 1.0 \
-            -nscmin 0 0 -nscmax 0 0 -ndsc 2 -2 \
-            -chimin 30 -chimax 30 -dchi -0.0005 \
-            -fmin ${fA} ${fB} -fmax ${fA} ${fB} -df 0.1 -0.1 \
-            -nref_list 100 \
-            -is chi nbb nsc f nref -drst nref/nref NscA-NscB/nsc fA/f -dirnl None 0-1 1 \
-            -runpoly true  -subpoly False -chain true -gd ${GPUDEV}
-
-PATH=nref100.0/NscA_0.0_NscB_0.0/fA${fA}/O701Phase
-
-
-~/toolbox/newsubmit/runner_general_v2.py \
-    -stat DGC -p ${phase} -nt -1 -sp ${IDIR}/${PATH}/ -spt Job -ds 0.1 -cl AB-Bottlebrush -dt 0.001 \
-            -ss 0.001 -fs 1.0 0.5 -L0 ${L0} -npw ${npw} -ftol 1e-5 \
-            -stol 1e-4 -bsp 1 2 -sas 1 2 -sac 1.0 1.0 -space 1 1 -b 1.0 1.0 \
+            -stol 1e-4 -bsp 1 2 -sas 1 2 -sac 1.0 1.0 -space 1 1 -b 1.0 0.5 \
             -nbbmin 99 -nbbmax 99 -dnbb 1.0 \
             -nscmin 0 0 -nscmax 0 0 -ndsc 2 -2 \
             -chimin 3 -chimax 3 -dchi -0.0005 \
             -fmin ${fA} ${fB} -fmax ${fA} ${fB} -df 0.1 -0.1 \
             -nref_list 10 \
             -is chi nbb nsc f nref -drst nref/nref NscA-NscB/nsc fA/f -dirnl None 0-1 1 \
-            -runpoly true  -subpoly False -chain true -gd ${GPUDEV}
+            -runpoly True -subpoly False -chain True -gd ${GPUDEV}
 
-PATH=nref10.0/NscA_0.0_NscB_0.0/fA${fA}/O701Phase
+PATH=nref10.0/NscA_0.0_NscB_0.0/fA${fA}/${phase}Phase
 
 
 ~/toolbox/newsubmit/runner_general_v2.py \
-    -stat DGC -p ${phase} -nt -1 -sp ${IDIR}/${PATH}/ -spt Job -ds 0.1 -cl AB-Bottlebrush -dt 0.001 \
+    -stat DGC -p ${phase} -nt -1 -sp ${IDIR}/${PATH}/ -spt Job -ds 0.1 -cl AB-Bottlebrush -dt 0.01 \
             -ss 0.001 -fs 1.0 0.5 -L0 ${L0} -npw ${npw} -ftol 1e-5 \
-            -stol 1e-4 -bsp 1 2 -sas 1 2 -sac 1.0 1.0 -space 1 1 -b 1.0 1.0 \
+            -stol 1e-4 -bsp 1 2 -sas 1 2 -sac 1.0 1.0 -space 1 1 -b 1.0 0.5 \
             -nbbmin 99 -nbbmax 99 -dnbb 1.0 \
             -nscmin 0 0 -nscmax 0 0 -ndsc 2 -2 \
             -chimin .3 -chimax .3 -dchi -0.0005 \
             -fmin ${fA} ${fB} -fmax ${fA} ${fB} -df 0.1 -0.1 \
             -nref_list 1 \
             -is chi nbb nsc f nref -drst nref/nref NscA-NscB/nsc fA/f -dirnl None 0-1 1 \
-            -runpoly true  -subpoly False -chain true -gd ${GPUDEV}
+            -runpoly True -subpoly False -chain True -gd ${GPUDEV}
 
-PATH=nref1.0/NscA_0.0_NscB_0.0/fA${fA}/O701Phase
+PATH=nref1.0/NscA_0.0_NscB_0.0/fA${fA}/${phase}Phase
 
 
 ~/toolbox/newsubmit/runner_general_v2.py \
@@ -84,81 +83,68 @@ PATH=nref1.0/NscA_0.0_NscB_0.0/fA${fA}/O701Phase
             -ss 0.001 -fs 1.0 0.5 -L0 ${L0} -npw ${npw} -ftol 1e-5 \
             -stol 1e-4 -bsp 1 2 -sas 1 2 -sac 1.0 1.0 -space 1 1 -b 1.0 1.0 \
             -nbbmin 99 -nbbmax 99 -dnbb 1.0 \
-            -nscmin 1 1 -nscmax 1 1 -ndsc 2 -2 \
+            -nscmin 1 2 -nscmax 1 2 -ndsc 2 -2 \
             -chimin 0.15 -chimax 0.15 -dchi -0.0005 \
             -fmin ${fA} ${fB} -fmax ${fA} ${fB} -df 0.1 -0.1 \
             -nref_list 1 \
             -is chi nbb nsc f nref -drst nref/nref NscA-NscB/nsc fA/f -dirnl None 0-1 1 \
-            -runpoly true  -subpoly False -chain true -gd ${GPUDEV}
+            -runpoly True -subpoly False -chain True -gd ${GPUDEV}
 
-PATH=nref1.0/NscA_1.0_NscB_1.0/fA${fA}/O701Phase
+PATH=nref1.0/NscA_1.0_NscB_2.0/fA${fA}/${phase}Phase
 
 ~/toolbox/newsubmit/runner_general_v2.py \
     -stat DGC -p ${phase} -nt -1 -sp ${IDIR}/${PATH}/ -spt Job -ds 0.1 -cl AB-Bottlebrush -dt 0.001 \
             -ss 0.001 -fs 1.0 0.5 -L0 ${L0} -npw ${npw} -ftol 1e-5 \
             -stol 1e-4 -bsp 1 2 -sas 1 2 -sac 1.0 1.0 -space 1 1 -b 1.0 1.0 \
             -nbbmin 99 -nbbmax 99 -dnbb 1.0 \
-            -nscmin 2 2 -nscmax 2 2 -ndsc 2 -2 \
+            -nscmin 2 4 -nscmax 2 4 -ndsc 2 -2 \
             -chimin 0.1 -chimax 0.1 -dchi -0.0005 \
             -fmin ${fA} ${fB} -fmax ${fA} ${fB} -df 0.1 -0.1 \
             -nref_list 1 \
             -is chi nbb nsc f nref -drst nref/nref NscA-NscB/nsc fA/f -dirnl None 0-1 1 \
-            -runpoly true  -subpoly False -chain true -gd ${GPUDEV}
+            -runpoly True  -subpoly False -chain True -gd ${GPUDEV}
 
-PATH=nref1.0/NscA_2.0_NscB_2.0/fA${fA}/O701Phase
-
-~/toolbox/newsubmit/runner_general_v2.py \
-    -stat DGC -p ${phase} -nt -1 -sp ${IDIR}/${PATH}/ -spt Job -ds 0.1 -cl AB-Bottlebrush -dt 0.001 \
-            -ss 0.001 -fs 1.0 0.5 -L0 ${L0} -npw ${npw} -ftol 1e-5 \
-            -stol 1e-4 -bsp 1 2 -sas 1 2 -sac 1.0 1.0 -space 1 1 -b 1.0 1.0 \
-            -nbbmin 99 -nbbmax 99 -dnbb 1.0 \
-            -nscmin 5 5 -nscmax 5 5 -ndsc 2 -2 \
-            -chimin 0.05 -chimax 0.05 -dchi -0.0005 \
-            -fmin ${fA} ${fB} -fmax ${fA} ${fB} -df 0.1 -0.1 \
-            -nref_list 1 \
-            -is chi nbb nsc f nref -drst nref/nref NscA-NscB/nsc fA/f -dirnl None 0-1 1 \
-            -runpoly true  -subpoly False -chain true -gd ${GPUDEV}
-
-PATH=nref1.0/NscA_10.0_NscB_10.0/fA${fA}/O701Phase
+PATH=nref1.0/NscA_2.0_NscB_4.0/fA${fA}/${phase}Phase
 
 ~/toolbox/newsubmit/runner_general_v2.py \
     -stat DGC -p ${phase} -nt -1 -sp ${IDIR}/${PATH}/ -spt Job -ds 0.1 -cl AB-Bottlebrush -dt 0.001 \
             -ss 0.001 -fs 1.0 0.5 -L0 ${L0} -npw ${npw} -ftol 1e-5 \
             -stol 1e-4 -bsp 1 2 -sas 1 2 -sac 1.0 1.0 -space 1 1 -b 1.0 1.0 \
             -nbbmin 99 -nbbmax 99 -dnbb 1.0 \
-            -nscmin 10 10 -nscmax 10 10 -ndsc 2 -2 \
-            -chimin 0.027 -chimax 0.027 -dchi -0.0005 \
+            -nscmin 4 8 -nscmax 4 8 -ndsc 2 -2 \
+            -chimin 0.06 -chimax 0.06 -dchi -0.0005 \
             -fmin ${fA} ${fB} -fmax ${fA} ${fB} -df 0.1 -0.1 \
             -nref_list 1 \
             -is chi nbb nsc f nref -drst nref/nref NscA-NscB/nsc fA/f -dirnl None 0-1 1 \
-            -runpoly true  -subpoly False -chain true -gd ${GPUDEV}
-PATH=nref1.0/NscA_10.0_NscB_10.0/fA${fA}/O701Phase
+            -runpoly True  -subpoly False -chain True -gd ${GPUDEV}
+
+PATH=nref1.0/NscA_4.0_NscB_8.0/fA${fA}/${phase}Phase
 
 ~/toolbox/newsubmit/runner_general_v2.py \
     -stat DGC -p ${phase} -nt -1 -sp ${IDIR}/${PATH}/ -spt Job -ds 0.1 -cl AB-Bottlebrush -dt 0.001 \
             -ss 0.001 -fs 1.0 0.5 -L0 ${L0} -npw ${npw} -ftol 1e-5 \
             -stol 1e-4 -bsp 1 2 -sas 1 2 -sac 1.0 1.0 -space 1 1 -b 1.0 1.0 \
             -nbbmin 99 -nbbmax 99 -dnbb 1.0 \
-            -nscmin 15 15 -nscmax 15 15 -ndsc 2 -2 \
-            -chimin 0.0187 -chimax 0.0187 -dchi -0.0005 \
+            -nscmin 8 16 -nscmax 8 16 -ndsc 2 -2 \
+            -chimin 0.033 -chimax 0.033 -dchi -0.0005 \
             -fmin ${fA} ${fB} -fmax ${fA} ${fB} -df 0.1 -0.1 \
             -nref_list 1 \
             -is chi nbb nsc f nref -drst nref/nref NscA-NscB/nsc fA/f -dirnl None 0-1 1 \
-            -runpoly true  -subpoly False -chain true -gd ${GPUDEV}
+            -runpoly True  -subpoly False -chain True -gd ${GPUDEV}
 
-PATH=nref1.0/NscA_15.0_NscB_15.0/fA${fA}/O701Phase
+PATH=nref1.0/NscA_8.0_NscB_16.0/fA${fA}/${phase}Phase
 
 ~/toolbox/newsubmit/runner_general_v2.py \
     -stat DGC -p ${phase} -nt -1 -sp ${IDIR}/${PATH}/ -spt Job -ds 0.1 -cl AB-Bottlebrush -dt 0.001 \
             -ss 0.001 -fs 1.0 0.5 -L0 ${L0} -npw ${npw} -ftol 1e-5 \
             -stol 1e-4 -bsp 1 2 -sas 1 2 -sac 1.0 1.0 -space 1 1 -b 1.0 1.0 \
             -nbbmin 99 -nbbmax 99 -dnbb 1.0 \
-            -nscmin 20 20 -nscmax 20 20 -ndsc 2 -2 \
-            -chimin 0.0143 -chimax 0.0143 -dchi -0.0005 \
+            -nscmin 12 28 -nscmax 12 28 -ndsc 2 -2 \
+            -chimin 0.023 -chimax 0.029 -dchi 0.001 \
             -fmin ${fA} ${fB} -fmax ${fA} ${fB} -df 0.1 -0.1 \
             -nref_list 1 \
-            -is chi nbb nsc f nref -drst nref/nref NscA-NscB/nsc fA/f -dirnl None 0-1 1 \
-            -runpoly true  -subpoly False -chain true -gd ${GPUDEV}
+            -is nbb nsc f nref chi -drst nref/nref NscA-NscB/nsc fA/f chiAB/chi -dirnl None 0-1 1 0\
+            -runpoly True  -subpoly False -chain True -gd ${GPUDEV}
 
 # Copy back results
 if [ "$rundir" != "$outdir" ]; then

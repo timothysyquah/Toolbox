@@ -502,11 +502,14 @@ if __name__ == '__main__':
                                             field_checker(field_path_1,field_path_3)
                                         else:
                                             print(WDIR)
-                                            print('field path not found! Using Seedpath')
+                                            print('field path not found!')
                                             os.chdir(IDIR)
                                             break
+                                    else:
+                                        print('System Not converged...')
+                                        os.chdir(IDIR)
+                                        break
                                     os.chdir(IDIR)
-                                continue
                             #fA need to think of a general way to recompute maybe use polyfts to rename the directory
                             #set index 
                             #chain archetecture
@@ -517,15 +520,50 @@ if __name__ == '__main__':
                             
                             WDIR_fieldpath = os.path.join(WDIR,fieldpath)
                             if p==0 or args.chainbool==False:
-                                if args.seed_path_type=='Main':
+                                if args.seed_path_type=='Main' or args.seed_path_type=='main' or args.seed_path_type=='MAIN':
                                     fieldsin_path = os.path.join(args.seed_path,f'{Phase}_fields.in')
-                                else:
-                                    field_path_1 = os.path.join(args.seed_path,'fields_k.bin')
-                                    field_path_2 = os.path.join(args.seed_path,'fields_k.dat')
-                                    if os.path.isfile(field_path_1):
-                                        fieldsin_path = field_path_1
-                                    elif os.path.isfile(field_path_2):
-                                        fieldsin_path = field_path_2
+                                elif args.seed_path_type=='JOB' or args.seed_path_type=='job' or args.seed_path_type=='Job':
+                                    os.chdir(args.seed_path)
+                                    so = open('STATUS','r')
+                                    status = int(so.read())
+                                    so.close()
+                                    if status==2:
+                                        print(WDIR)
+                                        print('Simulation Converged!')
+                                        phaseout = open(f'{Phase}.out')
+                                        content = phaseout.read().splitlines()
+                                        phaseout.close()
+                                        
+                                        if Phase.find('O70')==0:
+                                            
+                                            args.initial_box_size[q] = domain_size_extractor(content,d)
+
+                                        else:
+                                            finalcell = domain_size_extractor(content,d)
+                                            args.initial_box_size[q][0] = finalcell/(10/np.sqrt(args.reference_length_list[itterlist[nref_loc]]))
+                                        
+                                        full_WDIR = os.path.join(IDIR,args.seed_path)
+                                        field_path_1 = os.path.join(args.seed_path,'fields_k.bin')
+                                        field_path_2 = os.path.join(args.seed_path,'fields_k.dat')
+                                        field_path_3 = os.path.join(args.seed_path,fieldpath)
+
+                                        if os.path.isfile(field_path_1):
+                                            fieldsin_path = field_path_1
+                                        elif os.path.isfile(field_path_2):
+                                            fieldsin_path = field_path_2
+                                        else:
+                                            print(args.seed_path)
+                                            print('field path not found!')
+                                            os.chdir(IDIR)
+                                            break
+                                    else:
+                                        print('SEED Not converged...')
+                                        os.chdir(IDIR)
+                                        break
+                                    os.chdir(IDIR)
+                                    
+
+           
                                 shutil.copy(fieldsin_path,WDIR_fieldpath)
                             else:
                                 shutil.copy(fieldsin_path,WDIR_fieldpath)
