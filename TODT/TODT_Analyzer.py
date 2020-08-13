@@ -189,7 +189,7 @@ plt.xlabel(r'$\alpha$ ($N_{sc}/N_{BB}$)')
 plt.ylabel(r'$(\chi N_{eff})_{ODT}$')
 
 plt.legend(bbox_to_anchor=(1.05, 1),framealpha=0.00, ncol=2,handleheight=2, labelspacing=0.025)
-path_export = os.path.join(E_Path,'chiNeff_ODT_vs_alpha.pdf')
+path_export = os.path.join(E_Path,'chiNeff_ODT_vs_alpha.png')
 plt.savefig(path_export,dpi = 300)
 
 

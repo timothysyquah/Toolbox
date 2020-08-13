@@ -40,7 +40,8 @@ def spacegroup_finder(Phase):
 def make_input(PHASE,REPLACE_DICT,WDIR):
     var_list = list(REPLACE_DICT)
     #Inputs from spawning script
-    
+    INFILE=f'{PHASE}.in'
+
     if 'field' in var_list:
        field = REPLACE_DICT['field']
     else:
@@ -168,40 +169,118 @@ def make_input(PHASE,REPLACE_DICT,WDIR):
     else:
         add_phase = True
 
-    if 'add_phase' in var_list:
-       add_phase = REPLACE_DICT['add_phase']
+    if 'non_primitive_centering' in var_list:
+       non_primitive_centering = REPLACE_DICT['non_primitive_centering']
     else:
-        add_phase = True
+        non_primitive_centering = True
 
+    if 'symmetrize' in var_list:
+       symmetrize = REPLACE_DICT['symmetrize']
+    else:
+        symmetrize = 'on'
+
+    if 'inputfileversion' in var_list:
+       inputfileversion = REPLACE_DICT['inputfileversion']
+    else:
+        inputfileversion = 3
+
+    if 'nummodel' in var_list:
+       nummodel = REPLACE_DICT['nummodel']
+    else:
+        nummodel = 1
+
+    if 'supported_statistics' in var_list:
+       supported_statistics = REPLACE_DICT['supported_statistics']
+    else:
+        supported_statistics = ['CGC','DGC','FJC']
 
     #Some Adjustable Values
-    INFILE=f'{PHASE}.in'
-    initial_box = [10/np.sqrt(Nref)]
-    add_phase = True
-    non_primitive_centering = 'True'
-    symmetrize = 'on'
+    
+    if 'initial_box' in var_list:
+       initial_box = REPLACE_DICT['initial_box']
+    else:
+        initial_box = [10/np.sqrt(Nref)]
 
     if space_group is None:
         add_phase = False
-        initial_box = [cellscale*initial_box[0]]
+        initial_box = [cellscale[0]*initial_box[0]]
 
-    inputfileversion = 3
-    nummodel = 1
-    supported_statistics = ['CGC','DGC','FJC']
-    partition_function = 'canonical'
-    ham_bool = 'True'
-    stress_bool = 'True'
-    chem_pot_bool = 'False'
-    idealgas_bool = 'False'
-    field_type = 'HFields'
-    timesteps_block = 1000
-    block_num = 1000
-    variablecell_bool = 'True'
-    density_history_bool = 'False'
-    field_history_bool = 'False'
-    density_chain_bool = 'False'
-    format_fields_bool = 'False'
-    volfrac_chain = 1.0
+    if 'partition_function' in var_list:
+       partition_function = REPLACE_DICT['partition_function']
+    else:
+        partition_function = 'canonical'
+
+    if 'ham_bool' in var_list:
+       ham_bool = REPLACE_DICT['ham_bool']
+    else:
+        ham_bool = 'True'
+
+    if 'stress_bool' in var_list:
+       stress_bool = REPLACE_DICT['stress_bool']
+    else:
+        stress_bool = 'True'
+
+    if 'chem_pot_bool' in var_list:
+       chem_pot_bool = REPLACE_DICT['chem_pot_bool']
+    else:
+        chem_pot_bool = 'False'
+
+    if 'idealgas_bool' in var_list:
+       idealgas_bool = REPLACE_DICT['idealgas_bool']
+    else:
+        idealgas_bool = 'False'
+ 
+    if 'field_type' in var_list:
+       field_type = REPLACE_DICT['field_type']
+    else:
+        field_type = 'HFields'
+
+
+    if 'field_type' in var_list:
+       field_type = REPLACE_DICT['field_type']
+    else:
+        field_type = 'HFields'
+
+    if 'timesteps_block' in var_list:
+       timesteps_block = REPLACE_DICT['timesteps_block']
+    else:
+        timesteps_block = 1000
+        
+    if 'block_num' in var_list:
+       block_num = REPLACE_DICT['block_num']
+    else:
+        block_num = 1000
+
+    if 'variablecell_bool' in var_list:
+       variablecell_bool = REPLACE_DICT['variablecell_bool']
+    else:
+        variablecell_bool = 'True'
+        
+    if 'density_history_bool' in var_list:
+       density_history_bool = REPLACE_DICT['density_history_bool']
+    else:
+        density_history_bool = 'False'
+
+    if 'field_history_bool' in var_list:
+       field_history_bool = REPLACE_DICT['field_history_bool']
+    else:
+        field_history_bool = 'False'
+
+    if 'density_chain_bool' in var_list:
+       density_chain_bool = REPLACE_DICT['density_chain_bool']
+    else:
+        density_chain_bool = 'False'
+
+    if 'format_fields_bool' in var_list:
+       format_fields_bool = REPLACE_DICT['format_fields_bool']
+    else:
+        format_fields_bool = 'False'
+
+    if 'volfrac_chain' in var_list:
+       volfrac_chain = REPLACE_DICT['volfrac_chain']
+    else:
+        volfrac_chain = 1.0
+
 
 
     input_file_path = os.path.join(WDIR,INFILE)
