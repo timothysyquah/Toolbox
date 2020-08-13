@@ -428,7 +428,8 @@ if __name__ == '__main__':
     dirlogic_check = [len(args.directory_struct_names),len(args.nameloc)]
     listcheck(dirlogic_check,'Check Directory Naming Valriables')
 
-    
+    if type(args.reference_length_list)!=list:
+        args.reference_length_list = [args.reference_length_list]
     
     #setup dictionary
     parameter_dict = dict()
@@ -437,7 +438,6 @@ if __name__ == '__main__':
     parameter_dict['nsc'] = nsc_sweep_list
     parameter_dict['f'] = fA_sweep_list
     parameter_dict['nref'] = np.array(args.reference_length_list)
-
     fieldpath = 'fields.in'
 
     
