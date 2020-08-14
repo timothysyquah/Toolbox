@@ -923,15 +923,15 @@ if __name__ == '__main__':
     parser.add_argument('-k', '--keywrd', action='store', default=[], nargs='+', help='axis to plot',type=str)
     print("IMPLEMENT CUSTOM AXIS RANGES AND LABELS FROM COMMAND LINE")
     args = parser.parse_args()
-    # args.dirs = glob.glob("/home/tquah/IMPORT_BRAID/diblock_phasediagram/chiAB_*/Nsc*/fA*")
+    args.dirs = glob.glob("/home/tquah/IMPORT_BRAID/diblock_phasediagram/chiAB_*/Nsc*/fA*")
     # args.dirs = glob.glob("/home/tquah/IMPORT_BRAID/diblock_phasediagram/chiAB_0.014*/NscA_20*/fA*")
     # args.dirs = glob.glob("/home/tquah/IMPORT_BRAID/NSCASYM/chiAB_0.0289/NscA_18.*/fA*")
-    args.dirs = glob.glob("/home/tquah/IMPORT_BRAID/NSCASYM_02/chiAB_0.0289/ABratio_2*/fA*")
+    # args.dirs = glob.glob("/home/tquah/IMPORT_BRAID/NSCASYM_02/chiAB_0.0289/ABratio_2*/fA*")
     # os.chdir('/home/tquah/IMPORT_BRAID/NSCASYM_02_other/')
     # args.dirs = glob.glob("chiAB_0.0289/ABratio_1.2*/fA*")
 
     args.refphase = 'DIS'
-    args.keywrd = ['f','chi']
+    args.keywrd = ['chi','f']
     # args.keywrd = ['chi','f']
     args.raw = 'line2.dat'
 

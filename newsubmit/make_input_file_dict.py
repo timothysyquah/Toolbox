@@ -140,6 +140,10 @@ def make_input(PHASE,REPLACE_DICT,WDIR):
     else:
         raise Exception('nThreads Required!-No Default')
 
+    if 'opennThreads' in var_list:
+       opennThreads = REPLACE_DICT['opennThreads']
+    else:
+        opennThreads = 1 
 
     if nThreads!=1:
         if 'parallel_cuda' in var_list:
@@ -323,5 +327,5 @@ def make_input(PHASE,REPLACE_DICT,WDIR):
                      variablecell_bool,density_history_bool,field_history_bool,\
                      density_chain_bool,format_fields_bool,volfrac_chain,cellscale,
                      add_phase,space_group,non_primitive_centering,\
-                     symmetrize,parallel_cuda,cuda_thread_block_size,nThreads).Write_to_Text()
+                     symmetrize,parallel_cuda,cuda_thread_block_size,opennThreads).Write_to_Text()
     f.close()
