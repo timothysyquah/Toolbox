@@ -9,7 +9,7 @@ import os
 import re
 
 
-Import_Path ="/home/tquah/IMPORT_BRAID/NSCASYM_02_other/chiAB_0.0289/"
+Import_Path ="/home/tquah/IMPORT_BRAID/NSCASYM/chiAB_0.0289/"
 newname = 'ABratio_'
 
 list_of_directories = os.listdir(Import_Path)

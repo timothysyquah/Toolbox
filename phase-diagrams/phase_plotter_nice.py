@@ -19,7 +19,7 @@ rcParams['axes.labelsize'] =15
 rcParams['xtick.labelsize'] = 15
 rcParams['ytick.labelsize'] = 15
 rcParams['legend.fontsize'] = 11
-
+plt.close('all')
 def file_sorter(file_list, filetype):
     list_files = []
     for file in file_list:
@@ -164,7 +164,7 @@ data_from_file = whitespace_remover(data_from_file)
 phase_list, phase_loc = phase_list_parser(data_from_file)
 data_dict = extract_data(phase_list, data_from_file, phase_loc, delimiter=' ')
 from scipy.optimize import curve_fit
-plt.figure()
+plt.figure(figsize=(5,5.2))
 for boundary in data_dict:
     x = data_dict[boundary][:,0]
     y = data_dict[boundary][:,1]*Neff
@@ -175,10 +175,12 @@ for boundary in data_dict:
 
     
 plt.xlim(0.1,0.51)
-plt.text(0.40,50,'LAM')
-plt.text(0.31,50,'GYR')
-plt.text(0.22,50,'HEX')
-plt.text(0.14,50,'BCC')
+textsize = 15
+ypos = 51
+plt.text(0.40,ypos,'LAM',color = 'r',size = textsize)
+plt.text(0.31,ypos,'GYR',color = 'r',size = textsize)
+plt.text(0.24,ypos,'HEX',color = 'r',size = textsize)
+plt.text(0.14,ypos,'BCC',color = 'r',size = textsize)
 plt.xlabel(r'$f_A$')
 plt.ylabel(r'$\chi N_{eff}$')
 plt.tight_layout()

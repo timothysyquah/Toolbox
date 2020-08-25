@@ -150,7 +150,7 @@ def extend_data_cubicspline(df,dfA = 0.001):
     return new_df
 
 
-file_path_full = 'line2.dat'
+file_path_full = 'lineratio.dat'
 
 fo = open(file_path_full, 'r')
 data_from_file = fo.read().splitlines()
@@ -164,7 +164,7 @@ data_from_file = whitespace_remover(data_from_file)
 phase_list, phase_loc = phase_list_parser(data_from_file)
 data_dict = extract_data(phase_list, data_from_file, phase_loc, delimiter=' ')
 from scipy.optimize import curve_fit
-plt.figure()
+plt.figure(figsize=(5,5.2))
 for boundary in data_dict:
     x = data_dict[boundary][:,0]
     y = data_dict[boundary][:,1]*Neff
@@ -173,15 +173,17 @@ for boundary in data_dict:
     # yplot = func(xplot,popt[0],popt[1],popt[2])
     plt.plot(x,y,'-ok',marker='s',markersize=5)
 
-    
-plt.xlim(-0.,0.55)
-plt.text(0.49,8,'LAM')
-plt.text(0.43,8,'GYR')
-plt.text(0.3,8,'HEX')
-plt.text(0.15,8,'BCC')
-plt.text(0.05,8,'DIS')
+ypos = 6
+plt.xlim(-0.,0.60)
+plt.ylim(1,9.5)
+textsize = 15
+ypos = 5
+plt.text(0.50,ypos,'LAM',color = 'r',size = textsize)
+plt.text(0.40,ypos,'GYR',color = 'r',size = textsize)
+plt.text(0.3,ypos,'HEX',color = 'r',size = textsize)
+plt.text(0.15,ypos,'SPH',color = 'r',size = textsize)
 
 plt.xlabel(r'$f_A$')
-plt.ylabel(r'$n_{sc,B}/n_{sc,A}$')
+plt.ylabel(r'$N_{sc,B}/N_{sc,A}$')
 plt.tight_layout()
 plt.savefig('/home/tquah/IMPORT_BRAID/phasediagramasym.pdf',dpi=300)

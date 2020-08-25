@@ -179,7 +179,7 @@ class PhaseBoundaryHolder:
         '''utility to add nodes to the provided axis'''
         for node in nodes:
             x,y=node.pos[0], node.pos[1]
-            ax.plot(x,y,marker='.',color='black',markersize=0.5)
+            ax.plot(x,y,marker='.',color='black',markersize=2.0)
 
     def ax_plot_boundaries(self,ax,marker=None, color=None, showlabels=False):
 
@@ -545,7 +545,7 @@ class Node:
         self.F = F
         self.nextnode = [None]*2*dim
         self.visited = False
-        self.F_THRESHOLD = 1e-4
+        self.F_THRESHOLD = 1e-5
         self.check_all_phases_DIS()
     def get_phase_index(self,myphase):
         for i,phase in enumerate(self.phases):
@@ -648,7 +648,8 @@ def interpolate_nodes(nodeA, nodeB, dim):
     
     lineA = linesegment(p1,p2)
     lineB = linesegment(p3,p4)
-    pos_boundary_dim,F_boundary = intersection(lineA,lineB)
+    pos_boundary_dim,F_boundary = intersection(lineA,lineB)    
+
     
     pos_boundary = list(nodeA.pos)
     pos_boundary[dim] = pos_boundary_dim
@@ -682,7 +683,8 @@ def plot_node_connectivity(nodes):
             nextnode = node.get_node_dn(dim=i)
             if nextnode != None:
                 xnext = nextnode.pos[0]
-                ynext = nextnode.pos[1]
+                ynext = nextnode.pos[1]   
+
                 dx = xnext - x
                 dy = ynext - y
                 plt.plot(xnext,ynext,'.')
@@ -923,19 +925,21 @@ if __name__ == '__main__':
     parser.add_argument('-k', '--keywrd', action='store', default=[], nargs='+', help='axis to plot',type=str)
     print("IMPLEMENT CUSTOM AXIS RANGES AND LABELS FROM COMMAND LINE")
     args = parser.parse_args()
-    args.dirs = glob.glob("/home/tquah/IMPORT_BRAID/diblock_phasediagram/chiAB_*/Nsc*/fA*")
-    # args.dirs = glob.glob("/home/tquah/IMPORT_BRAID/diblock_phasediagram/chiAB_0.014*/NscA_20*/fA*")
-    # args.dirs = glob.glob("/home/tquah/IMPORT_BRAID/NSCASYM/chiAB_0.0289/NscA_18.*/fA*")
-    # args.dirs = glob.glob("/home/tquah/IMPORT_BRAID/NSCASYM_02/chiAB_0.0289/ABratio_2*/fA*")
+    args.dirs = glob.glob("/home/tquah/Projects/sweep-asym-armlength_BCC_fix/chiAB*/Nsc*/fA*")[:614]
+    # args.dirs = glob.glob("/home/tquah/Projects/sweep-asym-armlength_BCC_fix/chiAB_0.008*/Nsc*/fA*")
+
+    # args.dirs = glob.glob("/home/tquah/IMPORT_BRAID/diblock_phasediagram/chiAB*/NscA_20*/fA0.25000")
+    # args.dirs = glob.glob("/home/tquah/Projects/sweep-asym-armlength_BCC_fix/chiAB_0.0134*/Nsc*/fA*")
+    # args.dirs = glob.glob("/home/tquah/IMPORT_BRAID/NSCASYM/chiAB_0.0289/ABratio*/fA*")
     # os.chdir('/home/tquah/IMPORT_BRAID/NSCASYM_02_other/')
-    # args.dirs = glob.glob("chiAB_0.0289/ABratio_1.2*/fA*")
+    # args.dirs = glob.glob("chiAB_0.0289/ABratio*/fA*")
 
     args.refphase = 'DIS'
-    args.keywrd = ['chi','f']
-    # args.keywrd = ['chi','f']
-    args.raw = 'line2.dat'
+    # args.keywrd = ['ABratio','f']
+    args.keywrd = ['chi','fA']
+    args.raw = 'lineratio.dat'
 
-    args.interp_dimension = [0,1]
+    args.interp_dimension = [1,2]
     #fnmeIn="F0_phases.dat"
     #dirs=glob.glob("tau*/phiA*");
     print("args.keywrd")

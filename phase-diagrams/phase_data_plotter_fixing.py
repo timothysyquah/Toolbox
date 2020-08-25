@@ -535,7 +535,7 @@ def intersection(L1, L2):
 
 class Node:
     __slots__ = 'pos', 'dim', 'phases', 'F', 'nextnode', 'visited', 'F_THRESHOLD','is_all_DIS'
-    def __init__(self,pos, phases,F):
+    def __init__(self,pos, phases,F,F_THRESHOLD):
         self.pos = pos
         self.dim = len(pos)
         dim = len(self.pos)
@@ -695,7 +695,7 @@ def plot_node_connectivity(nodes):
 
 
 #this assumes that F0_phases.dat has been generated in each chiN*/phiA* directory
-def initialize_nodes(dirs,fnmeIn,keywrd):
+def initialize_nodes(dirs,fnmeIn,keywrd,Ftol):
     ''' 
         Go through directories (dirs) and look for filename (fnmeIn) and load the phase information 
         the file is expected to contain:
@@ -739,7 +739,7 @@ def initialize_nodes(dirs,fnmeIn,keywrd):
                     phases.append(phase)
                     F.append(float(l[1]))
             pos = (phiA,chiN)
-            nodes.append(Node(pos,phases,F))
+            nodes.append(Node(pos,phases,F,Ftol))
         except FileNotFoundError:
            print('WARNING: Free energy data not found at {} try using extractF0 to generate it'.format(fnme))
 
@@ -923,6 +923,8 @@ if __name__ == '__main__':
     parser.add_argument('--aspect',action='store',default=None,help='The aspect ratio for the outputted figure use 1 for a square fig, works for a 2d graph right now')
     parser.add_argument('-r', '--refphase', action='store', default=None,help='name of phase to reference to, only matters if 1d')
     parser.add_argument('-k', '--keywrd', action='store', default=[], nargs='+', help='axis to plot',type=str)
+    parser.add_argument('-tol', '--freeenergytol', action='store', default=1e-4, help='Free Energy Plot',type=float)
+
     print("IMPLEMENT CUSTOM AXIS RANGES AND LABELS FROM COMMAND LINE")
     args = parser.parse_args()
     # args.dirs = glob.glob("/home/tquah/IMPORT_BRAID/diblock_phasediagram/chiAB_*/Nsc*/fA*")
@@ -995,14 +997,14 @@ if __name__ == '__main__':
 
 
     if args.dim == 1:
-        nodes = initialize_nodes(args.dirs, args.filename,args.keywrd)
+        nodes = initialize_nodes(args.dirs, args.filename,args.keywrd,args.freeenergytol)
         boundaryholder = calc_phase_boundaries(nodes)
         boundaryholder.plot(args.outfig,args.plottype, nodes=nodes,xlabel=args.xlabel, ylabel=args.ylabel,axisrange=args.axisrange,n=args.dim,aspect=args.aspect,refPhase=args.refphase)
         if args.raw != '':
             print("Saving free energy curve data to \'%s\'" % args.raw)
             boundaryholder.write(args.raw,dim=1)
     elif args.dim == 2:
-        nodes = initialize_nodes(args.dirs, args.filename,args.keywrd)
+        nodes = initialize_nodes(args.dirs, args.filename,args.keywrd,args.freeenergytol)
         boundaryholder = calc_phase_boundaries(nodes)
         dist_threshold = args.linecutoff
         boundaryholder.set_dist_thresholds(dist_threshold)
