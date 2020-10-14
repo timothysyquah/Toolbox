@@ -11,10 +11,8 @@ import numpy as np
 import os
 import matplotlib.pyplot as plt
 from scipy.interpolate import CubicSpline
-from scipy.interpolate import UnivariateSpline
-
 import pandas as pd
-from scipy.signal import savgol_filter
+import scipy.signal as signal
 plt.rc('font', family='serif')
 from matplotlib import rcParams
 rcParams['text.usetex'] = True 
@@ -156,74 +154,72 @@ def extend_data_cubicspline(df,dfA = 0.001):
     return new_df
 
 
+file_path_full = 'lineratio_091120-n11.dat'
+
+fo = open(file_path_full, 'r')
+data_from_file = fo.read().splitlines()
+fo.close()
+
 def func(x, a, b, c):
     return a * np.exp(-b * x) + c
-file_path_full = 'testline_short.dat'
-
-fo = open(file_path_full, 'r')
-data_from_file = fo.read().splitlines()
-fo.close()
-
-Neff = 2100
 
 data_from_file = whitespace_remover(data_from_file)
 phase_list, phase_loc = phase_list_parser(data_from_file)
 data_dict = extract_data(phase_list, data_from_file, phase_loc, delimiter=' ')
-
-
 from scipy.optimize import curve_fit
-plt.figure(figsize=(5,5.2))
+plt.figure(figsize=(5,5))
 for boundary in data_dict:
     x = data_dict[boundary][:,0]
-    y = data_dict[boundary][:,1]*Neff
-    line = CubicSpline(x,y)
-    xnew = np.linspace(np.min(x),np.max(x),1000)
-    ynew = line(xnew)
+    y =data_dict[boundary][:,1]
     # popt, pcov = curve_fit(func, x, y)
     # xplot = np.linspace(np.min(x),np.max(x),100)
     # yplot = func(xplot,popt[0],popt[1],popt[2])
-    plt.plot(xnew,ynew,'k')
-    print(boundary)
-    xextra = np.linspace(0,np.min(x))
-    yextra = line(xextra)
-    plt.plot(xextra,yextra,'--k')
+    plt.plot(x,y,'k')
+    # plt.plot(x,y,'-ok',marker='s',markersize=5)
+
+ypos = 6
+# plt.xlim(.0,0.50)
+# plt.ylim(np.sqrt(1.22),np.sqrt(4))
+textsize = 13
+# plt.text(0.40,np.sqrt(1.5),'LAM',color = 'k',size = textsize)
+# plt.text(0.3,np.sqrt(2),'GYR',color = 'k',size = textsize)
+# plt.arrow(0.37,np.sqrt(2.05),.025,0,color = 'k',head_length=0.01,width = 0.025)
+# plt.text(0.2,np.sqrt(3.8),'A15',color = 'k',size = textsize)
+# plt.text(0.18,np.sqrt(3),'Sigma',color = 'k',size = textsize)
+
+# plt.text(0.28,np.sqrt(3),'HEX',color = 'k',size = textsize)
+# plt.text(0.135,np.sqrt(2),'BCC',color = 'k',size = textsize)
+# plt.text(0.05,np.sqrt(1.5),'DIS',color = 'k',size = textsize)
 
 
-file_path_full = 'testline_og.dat'
-fo = open(file_path_full, 'r')
-data_from_file = fo.read().splitlines()
-fo.close()
 
-Neff = 2100
+pathleq = '/home/tquah/Projects/PhaseDiagram/jleq.csv'
+df = pd.read_csv(pathleq)
+items = list(df)
 
-data_from_file = whitespace_remover(data_from_file)
-phase_list, phase_loc = phase_list_parser(data_from_file)
-data_dict = extract_data(phase_list, data_from_file, phase_loc, delimiter=' ')
 
-for boundary in data_dict:
-    x = data_dict[boundary][:,0]
-    y = data_dict[boundary][:,1]*Neff
-    # popt, pcov = curve_fit(func, x, y)
-    # xplot = np.linspace(np.min(x),np.max(x),100)
-    # yplot = func(xplot,popt[0],popt[1],popt[2])
-    plt.plot(x,y,'ob',marker='s',markersize=5)
 
+for i in range(0,int(len(items)/2)):
+    xraw = np.array(df[items[2*i]])
+    xnonorder = xraw[~np.isnan(xraw)]
+    ind = list(np.argsort(xnonorder))
+    x = xnonorder[ind]
+    yraw = np.array(df[items[2*i+1]])
     
-plt.xlim(0.08,0.51)
-plt.ylim(15,83)
-textsize = 15
-ypos = 51
-plt.text(0.15,25,'DIS',color = 'k',size = textsize)
-from matplotlib.patches import Rectangle
-plt.text(0.40,ypos,'LAM',color = 'k',size = textsize)
-plt.text(0.27,30,'GYR',color = 'k',size = textsize)
-plt.arrow(0.32,31,0.025,0,color = 'k',head_length=0.01,width = 0.5)
-plt.text(0.24,51,'HEX',color = 'k',size = textsize)
-plt.text(0.115,75,'BCC',color = 'k',size = textsize)
-# plt.Rectangle((0.35,21.84),0.3,30,facecolor="black", alpha=0.1)
-# plt.gca().add_patch(Rectangle((0.35,21),0.05,10,linewidth=1,edgecolor='r',facecolor='none'))
+    y = yraw[~np.isnan(yraw)]
+    y = y[ind]
+    skip = 4
+    # fun = np.poly1d(np.polyfit(x[::skip], y[::skip],6))
+
+    # newx = np.linspace(np.min(x),np.max(x),20)
+    # newy= fun(newx)
+    plt.plot(x,y,'--r',alpha= 0.25,label = i)
+    # plt.plot(x,y,'b',alpha= 0.5,label = i)
+
+plt.ylim(1,3.7)
+plt.xlim(0,0.6)
 
 plt.xlabel(r'$f_A$')
-plt.ylabel(r'$\chi N_{tot}$')
+plt.ylabel(r'$\epsilon$')
 plt.tight_layout()
-plt.savefig('/home/tquah/Presentations/FirstYearTalkQuah/images/phasediagram.png',dpi=300)
+plt.savefig('/home/tquah/Presentations/FirstYearTalkQuah/images/phasediagramasym_2.png',dpi=300)

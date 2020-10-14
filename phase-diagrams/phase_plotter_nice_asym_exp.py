@@ -13,7 +13,9 @@ import matplotlib.pyplot as plt
 from scipy.interpolate import CubicSpline
 import pandas as pd
 from scipy.signal import savgol_filter
-plt.rc('font', family='serif')
+plt.rc('font', family='sans-serif')
+plt.rc('text', usetex=True)
+
 from matplotlib import rcParams
 rcParams['text.usetex'] = True 
 rcParams['text.latex.preamble'] = [r'\usepackage[cm]{sfmath}']
@@ -23,7 +25,6 @@ rcParams['axes.labelsize'] =20
 rcParams['xtick.labelsize'] = 20
 rcParams['ytick.labelsize'] = 20
 rcParams['legend.fontsize'] = 11
-
 def file_sorter(file_list, filetype):
     list_files = []
     for file in file_list:
@@ -160,8 +161,14 @@ fo = open(file_path_full, 'r')
 data_from_file = fo.read().splitlines()
 fo.close()
 
+Neff = 1
 def func(x, a, b, c):
     return a * np.exp(-b * x) + c
+
+NscA = np.arange(2,18+1e-6,2)
+NscB = 40-NscA
+ratio = np.around(np.sqrt((NscB+1)/(NscA+1)),3)
+ratioreplace = NscB/NscA
 
 data_from_file = whitespace_remover(data_from_file)
 phase_list, phase_loc = phase_list_parser(data_from_file)
@@ -170,29 +177,194 @@ from scipy.optimize import curve_fit
 plt.figure(figsize=(5,5))
 for boundary in data_dict:
     x = data_dict[boundary][:,0]
-    y = data_dict[boundary][:,1]
+    y = data_dict[boundary][:,1]*Neff
+    # count=0
+    # for r in ratio:
+    #     loc = np.where(y==r)[0]
+    #     if len(loc)>0:
+            
+    #         y[loc] = ratioreplace[count]
+    #     count+=1
+    
+    
     # popt, pcov = curve_fit(func, x, y)
     # xplot = np.linspace(np.min(x),np.max(x),100)
     # yplot = func(xplot,popt[0],popt[1],popt[2])
     plt.plot(x,y,'k')
     # plt.plot(x,y,'-ok',marker='s',markersize=5)
 
+# path1_exp = '/home/tquah/Projects/PhaseDiagram/lam.csv'
+# path2_exp = '/home/tquah/Projects/PhaseDiagram/cylinder.csv'
+# path3_exp = '/home/tquah/Projects/PhaseDiagram/dis.csv'
+# path4_exp = '/home/tquah/Projects/PhaseDiagram/spherical.csv'
+
+path3_dob = '/home/tquah/Projects/PhaseDiagram/Dobreninpts.dat'
+# lamarray = np.loadtxt(path1_exp,delimiter=',')
+# cylinderarray = np.loadtxt(path2_exp,delimiter=',')
+# disarray = np.loadtxt(path3_exp,delimiter=',')
+# sphericalarray = np.loadtxt(path4_exp,delimiter=',')
+path_exp = '/home/tquah/Projects/PhaseDiagram/Experimental_Dataset.csv'
+
+df = pd.read_csv(path_exp)
+header = list(df)
+
+references = sorted(list(set(list(df['Reference']))))
+update_references = []
+for ref in references:
+    newref = ref.replace('-',' ')
+    update_references.append(newref)
+               
+fullreference = list(df['Reference'])
+fullphases =  list(df['Phase'])
+                  
+                  
+phases = sorted(list(set(list(df['Phase']))))
+symbol = ['x','o','+','h']
+color = ['k','r','g','b']
+ab_ratio = np.array(df['NscB']/df['NscA'])
+
+NscAverage =  np.array((df['NscB']+df['NscA'])/2)
+
+Nsc_Backbone = NscAverage/np.array(df['Nbb(Total)'])
+
+
+count1 = 0
+x = np.arange(10)
+condlist = [x<3, x>5]
+choicelist = [x, x**2]
+print(np.select(condlist, choicelist))
+
+
+
+
+
+for ref in references:
+    count2 = 0 
+    for phase in phases:
+        refindex= [i for i, x in enumerate(fullreference) if x ==ref]
+        phaseindex= [i for i, x in enumerate(fullphases) if x ==phase]
+        
+        
+        
+        loc = list(set(refindex) & set(phaseindex))
+        if len(loc)>0:
+            
+            print(Nsc_Backbone[loc])
+            
+            
+            
+            np.where(Nsc_Backbone[loc]<0.8 or Nsc_Backbone[loc]==np.nan )
+            
+            
+            yraw = ab_ratio[loc]
+            xraw = np.array(df['fA'][loc])
+
+            yloc = np.where(yraw>1)[0]
+            xfilter = xraw[yloc]
+            yfilter = yraw[yloc]
+            
+            
+            
+            
+            # print(yfilter)
+            # nscnbbloc = np.where(Nsc_Backbone[loc]<1.0)[0]
+            # print(nscnbbloc)
+            yloc = np.where(1<y)[0]
+        
+        
+        
+            name = phase+'-'+ref
+            plt.scatter(x[yloc],np.sqrt(y[yloc]),c=color[count1],marker = symbol[count2],label = name)      
+        count2+=1
+    count1+=1
+
+dobarray = np.loadtxt(path3_dob)
+ypos = 6
+# plt.xlim(-.05,1.05)
+# plt.xlim(0,0.5)
+
+# plt.ylim(1.22,4)
+# textsize = 15
+# plt.text(0.40,1.3,'LAM',color = 'k',size = textsize)
+# plt.text(0.3,2,'GYR',color = 'k',size = textsize)
+# plt.arrow(0.37,2.05,.025,0,color = 'k',head_length=0.01,width = 0.05)
+# plt.text(0.17,3.5,'A15',color = 'k',size = textsize)
+
+# plt.text(0.28,3,'HEX',color = 'k',size = textsize)
+# plt.text(0.12,2,'BCC',color = 'k',size = textsize)
+# plt.text(0.025,1.5,'DIS',color = 'k',size = textsize)
+
+# plt.xlabel(r'$f_A$')
+# plt.ylabel(r'$N_{sc,B}/N_{sc,A}$')
+
+# plt.plot(lamarray[:,0],lamarray[:,1],'+',label = 'LAM')
+# plt.plot(cylinderarray[:,0],cylinderarray[:,1],'o',label = 'Cylinders')
+# plt.plot(disarray[0],disarray[1],'<',label = 'DIS')
+# plt.plot(sphericalarray[0],sphericalarray[1],'^',label = 'Spherical')
+
+# plt.legend()
+alpha = 0.5
+# y = np.sqrt(np.power(dobarray[:,1],4))
+# plt.plot(1-dobarray[:35,0],y[:35],'--r',alpha = 0.5)
+# plt.plot(1-dobarray[36:77,0],y[36:77],'--r',alpha = 0.5)
+# plt.plot(1-dobarray[78:134,0],y[78:134],'--r',alpha = 0.5)
+# plt.plot(1-dobarray[135:,0],y[135:],'--r',alpha = 0.5)
+
+# pos1 = (np.max(1-dobarray[:35,0])+0)/2
+
+
+# plt.text(0.1,3,'S',color = 'r',size = textsize)
+# plt.text(0.25,3,'C',color = 'r',size = textsize)
+# plt.text(0.48,3,'L',color = 'r',size = textsize)
+
+# plt.text(0.2,8,'S',color = 'r',size = textsize)
+# plt.text(0.37,8,'C',color = 'r',size = textsize)
+# plt.text(0.48,8,'L',color = 'r',size = textsize)
+# plt.text(0.9,8,'C',color = 'r',size = textsize)
+# plt.text(1.0,88,'S',color = 'r',size = textsize)
+
+
+
+# plt.text(0.1,18,'S',color = 'r',size = textsize)
+# plt.text(0.37,18,'C',color = 'r',size = textsize)
+# plt.text(0.6,18,'L',color = 'r',size = textsize)
+# plt.text(0.9,18,'C',color = 'r',size = textsize)
+# plt.text(1.0,18,'S',color = 'r',size = textsize)
+
+# plt.text(0.2,12,'S',color = 'k',size = textsize)
+# plt.text(0.37,12,'C',color = 'k',size = textsize)
+# plt.text(0.6,12,'L',color = 'k',size = textsize)
+# plt.text(0.82,12,'C',color = 'k',size = textsize)
+# plt.text(0.9,12,'S',color = 'k',size = textsize)
+
+
+
+
+
 ypos = 6
 # plt.xlim(.0,0.50)
-# plt.ylim(1.,19)
-textsize = 13
+plt.ylim(1.0,3.7)
+# textsize = 15
 # plt.text(0.40,1.5,'LAM',color = 'k',size = textsize)
 # plt.text(0.3,2,'GYR',color = 'k',size = textsize)
 # plt.arrow(0.37,2.05,.025,0,color = 'k',head_length=0.01,width = 0.05)
-# # plt.text(0.2,3.8,'A15',color = 'k',size = textsize)
-# plt.text(0.175,3.5,'Sigma',color = 'k',size = textsize)
+# plt.text(0.185,3.5,'A15',color = 'k',size = textsize)
 
 # plt.text(0.28,3,'HEX',color = 'k',size = textsize)
 # plt.text(0.135,2,'BCC',color = 'k',size = textsize)
 # plt.text(0.05,1.5,'DIS',color = 'k',size = textsize)
+plt.legend()
+plt.tight_layout()
 
 plt.xlabel(r'$f_A$')
-plt.ylabel(r'$N_{sc,B}/N_{sc,A}$')
-
+plt.ylabel(r'$\epsilon$')
 plt.tight_layout()
-plt.savefig('/home/tquah/Presentations/FirstYearTalkQuah/images/phasediagramasym_3.png',dpi=300)
+# plt.savefig('/home/tquah/Presentations/FirstYearTalkQuah/images/phasediagramasym_1.png',dpi=300)
+plt.savefig('/home/tquah/Presentations/FirstYearTalkQuah/images/phasediagramasym_2.png',dpi=300)
+
+# plt.figure()
+# plt.plot(1-dobarray[:35,0],y[:35],'--r')
+# plt.plot(1-dobarray[36:77,0],y[36:77],'--r')
+# plt.plot(1-dobarray[78:134,0],y[78:134],'--r')
+# plt.plot(1-dobarray[135:,0],y[135:],'--r')
+# plt.ylim(0,19)

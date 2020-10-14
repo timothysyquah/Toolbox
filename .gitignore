@@ -1,4 +1,6 @@
 *.pyc
-*.in
 *.out
+*.in
+*.dat
 submit.sh
+SandBox

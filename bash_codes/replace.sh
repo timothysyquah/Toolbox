@@ -1,16 +1,16 @@
 #!/bin/bash
 
 echo $PWD
-original='~/PolyFTS-update-symmetrizer/bin/Release'
+original='spacegroup.dat'
 targets=($(grep -r -l $original *))
-replace='/home/lequieu/PolyFTS-update-symmetrizer/bin/Release'
+replace='spacegroup.in'
 length=${#targets[@]}
-for ((i = 0; i != length; i++)); do
+for ((i = 1; i != length; i++)); do
 #	echo "target $i: '${targets[i]}'"
 #	echo $replace
-#	echo "${targets[i]}"
-	echo "$i"
-	echo "s|$original|$replace|g "${targets[i]}"		
+	echo "${targets[i]}"
+#	echo "$i"
+#	echo "s|$original|$replace|g "${targets[i]}"		
 done
  
 

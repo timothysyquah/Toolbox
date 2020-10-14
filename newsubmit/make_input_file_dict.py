@@ -22,7 +22,7 @@ from Chains import Input_Builder,Component_Statistics_Counter,\
     Add_Model_Statistics,Grafting_Determinator,chiN_generator,parameter_species
 
 def spacegroup_finder(Phase):
-    spacepath = os.path.join(newsubpath,'spacegroup.dat')
+    spacepath = os.path.join(newsubpath,'spacegroup.req')
     so = open(spacepath,'r')
     spacegroup_dat = so.read().splitlines()
     # print(spacegroup_dat)

@@ -541,6 +541,9 @@ class Node:
         dim = len(self.pos)
         if len(F) != len(phases):
             raise ValueError('length of phases and F are not equal!',phases, F)
+        Fnew = []
+        # for i in F:
+        #     Fnew.append(i*100)
         self.phases = phases
         self.F = F
         self.nextnode = [None]*2*dim
@@ -915,7 +918,7 @@ if __name__ == '__main__':
     parser.add_argument('--zlabel', action='store', default=r"$\tau$")
     parser.add_argument('--ylabel', action='store', default=r"$\chi N$",help='')
     parser.add_argument('--axisrange', action='store', nargs=4, default=[None,None,None,None],help='')
-    parser.add_argument('--linecutoff', action='store', nargs='+', default=[1e30,1e30],help='maximum length of lines to draw in phase diagrams, useful to clean them up')
+    parser.add_argument('--linecutoff', action='store', nargs='+', default=[0.2,1],help='maximum length of lines to draw in phase diagrams, useful to clean them up')
     parser.add_argument('-n','--dim',action='store',default=None,help='Number of dimensions to plot phase data in \n   1 => Free energy curves\n   2 => Phase Diagram \n   3 => 3d phase diagram  (guesses by default)')
     parser.add_argument('-i','--interp_dimension',action='store',default=[0],nargs='+',help='Dimensions to interpolate the phase diagram along ex: [0,1] would interpolate in 2 dimensions')
     parser.add_argument('-p','--plotstyle3d',action='store',default='flat',help='This argument changes the 3d plot style. Flat => multiple graphs with different linestyles on top of each other')
@@ -925,21 +928,29 @@ if __name__ == '__main__':
     parser.add_argument('-k', '--keywrd', action='store', default=[], nargs='+', help='axis to plot',type=str)
     print("IMPLEMENT CUSTOM AXIS RANGES AND LABELS FROM COMMAND LINE")
     args = parser.parse_args()
-    args.dirs = glob.glob("/home/tquah/Projects/sweep-asym-armlength_BCC_fix/chiAB*/Nsc*/fA*")[:614]
+    # args.dirs = glob.glob("/home/tquah/Projects/sweep-asym-armlength_BCC_fix/chiAB_0.0082/Nsc*/fA*")
     # args.dirs = glob.glob("/home/tquah/Projects/sweep-asym-armlength_BCC_fix/chiAB_0.008*/Nsc*/fA*")
+    # args.dirs = glob.glob("/home/tquah/Projects/sweep-asym-armlength_BCC_fix/chiAB_0.0144*/Nsc*/fA*")
 
     # args.dirs = glob.glob("/home/tquah/IMPORT_BRAID/diblock_phasediagram/chiAB*/NscA_20*/fA0.25000")
-    # args.dirs = glob.glob("/home/tquah/Projects/sweep-asym-armlength_BCC_fix/chiAB_0.0134*/Nsc*/fA*")
-    # args.dirs = glob.glob("/home/tquah/IMPORT_BRAID/NSCASYM/chiAB_0.0289/ABratio*/fA*")
+    # args.dirs = glob.glob("/home/tquah/Projects/sweep-asym-armlength_BCC_fix/chiAB_*/Nsc*/fA*")
+    # args.dirs = glob.glob("/home/tquah/IMPORT_BRAID/NSCASYM_02_other02/chiAB_0.0289/ABratio_5*/fA*")
+    # args.dirs = glob.glob("/home/tquah/Projects/asymnonspecial/chiAB_0.0289/ABratio_19*/fA*")
+    # args.dirs = glob.glob("/home/tquah/Projects/asymdir/chiAB_0.0289/ABratio*/fA*")
+    args.dirs = glob.glob("/home/tquah/Projects/prelimasymdir/chiAB_0.0289/ABratio_1.2*/fA0.**")
+
+    # args.dirs = glob.glob("/home/tquah/IMPORT_BRAID/NSCASYM_02_other/chiAB_0.0289/ABrati0_*/f*")
+
+
     # os.chdir('/home/tquah/IMPORT_BRAID/NSCASYM_02_other/')
     # args.dirs = glob.glob("chiAB_0.0289/ABratio*/fA*")
 
     args.refphase = 'DIS'
-    # args.keywrd = ['ABratio','f']
-    args.keywrd = ['chi','fA']
-    args.raw = 'lineratio.dat'
+    args.keywrd = ['ABratio','fA']
+    # args.keywrd = ['chi','fA']
+    args.raw = 'phaseboundaries_share.dat'
 
-    args.interp_dimension = [1,2]
+    args.interp_dimension = [0,0]
     #fnmeIn="F0_phases.dat"
     #dirs=glob.glob("tau*/phiA*");
     print("args.keywrd")

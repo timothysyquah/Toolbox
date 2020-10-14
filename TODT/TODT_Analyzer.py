@@ -17,22 +17,27 @@ import random
 
 plt.rc('font', family='serif')
 from matplotlib import rcParams
-rcParams['axes.labelsize'] = 15
-rcParams['xtick.labelsize'] = 12
-rcParams['ytick.labelsize'] = 12
+rcParams['text.usetex'] = True 
+rcParams['text.latex.preamble'] = [r'\usepackage[cm]{sfmath}']
+rcParams['font.family'] = 'sans-serif'
+
+rcParams['axes.labelsize'] =20
+rcParams['xtick.labelsize'] = 20
+rcParams['ytick.labelsize'] = 20
 rcParams['legend.fontsize'] = 11
 
 def fzeroCubicSpline(fun,x0):
     return fsolve(fun,x0)
 
 
-E_Path = '/home/tquah/Documents/ODT_graphs'
+E_Path = '/home/tquah/Presentations/FirstYearTalkQuah/images/'
 # path = '/home/tquah/IMPORT_KNOT/TODT.dict'
 path = '/home/tquah/IMPORT_BRAID/T0data.dict'
 # path = '/home/tquah/IMPORT_KNOT/TODT1.dict'
 
 number_of_initial_guesses = 100
 plotting = False
+plt.close('all')
 
 
 
@@ -110,11 +115,11 @@ for i in range(0,len(overall_list)):
             
             
             
-            if plotting:
-                plt.figure()
-                plt.plot(xrun,ydiff,'r')
-                plt.plot(chi,Diff(chi),'ok')
-                plt.title('Nbb = %d and Nsc = %d'%(overall_list[i][0],overall_list[i][1]))
+            # if plotting:
+                # plt.figure()
+                # plt.plot(xrun,ydiff,'r')
+                # plt.plot(chi,Diff(chi),'ok')
+                # plt.title('Nbb = %d and Nsc = %d'%(overall_list[i][0],overall_list[i][1]))
                 # width = (np.max(ydiff)-np.min(ydiff))*0.025
                 # plt.ylim(Diff(chi)-width,Diff(chi)+width)
             chiN = chi*Neff
@@ -130,9 +135,9 @@ op.close()
 
 #plot alpha
 
-plt.figure()
-alpha = DataArray[:,0]/DataArray[:,1]
-plt.plot(alpha,DataArray[:,2],'ok')
+# plt.figure()
+# alpha = DataArray[:,0]/DataArray[:,1]
+# plt.plot(alpha,DataArray[:,2],'ok')
 
 
 
@@ -141,24 +146,23 @@ plt.plot(alpha,DataArray[:,2],'ok')
 marker = ['+', 'o', '*','v','^','<','>','s','p','h','H','x']
 color = ['k','b', 'r', 'c', 'm', 'y','g', 'tab:red','tab:blue', 'tab:orange', 'tab:green', 'tab:purple', 'tab:brown', 'tab:pink', 'tab:gray', 'tab:olive', 'tab:cyan']
 
-plt.figure()
-nbbunique = sorted(set(list(DataArray[:,1])))
-alpha = DataArray[:,0]/DataArray[:,1]
-count = 0
-for nbb in nbbunique:
-    loc = np.where(DataArray[:,1]==nbb)
-    if len(loc[0])>3:
-        plt.scatter(alpha[loc],DataArray[loc,2],label='$N_{bb}=%d$'%int(nbb+1))
-        count+=1
+# plt.figure()
+# nbbunique = sorted(set(list(DataArray[:,1])))
+# alpha = DataArray[:,0]/DataArray[:,1]
+# count = 0
+# for nbb in nbbunique:
+#     loc = np.where(DataArray[:,1]==nbb)
+#     if len(loc[0])>3:
+#         plt.scatter(alpha[loc],DataArray[loc,2],label='$N_{bb}=%d$'%int(nbb+1))
+#         count+=1
         
 
-plt.xlabel(r'$\alpha$ ($N_{sc}/N_{BB}$)')
-plt.ylabel(r'$(\chi N_{eff})_{ODT}$')
+# plt.xlabel(r'$\alpha$ ($N_{sc}/N_{BB}$)')
+# plt.ylabel(r'$(\chi N_{eff})_{ODT}$')
 
-plt.legend(bbox_to_anchor=(1.05, 1),framealpha=0.00, ncol=2,handleheight=2, labelspacing=0.025)
-path_export = os.path.join(E_Path,'chiNeff_ODT_vs_alpha.pdf')
-plt.savefig(path_export,dpi = 300)
-
+# plt.legend(bbox_to_anchor=(1.05, 1),framealpha=0.00, ncol=2,handleheight=2, labelspacing=0.025)
+# path_export = os.path.join(E_Path,'chiNeff_ODT_vs_alpha.pdf')
+# plt.savefig(path_export,dpi = 300)
 plt.figure()
 nbbunique = sorted(set(list(DataArray[:,1])))
 alpha = DataArray[:,0]/DataArray[:,1]
@@ -176,19 +180,20 @@ N = 5000
 B = np.random.normal(param[0], 1*se[0], N)
 M = np.random.normal(param[1], 1*se[1], N)
 
-for b,m in zip(B, M):
-    plt.plot(xplot, curvefitfun(xplot,b,m), '-', color='gray', alpha=0.005)
-plt.text(0,35,r'$(\chi N_{eff})_{ODT} = (%0.1f \pm %0.1f)\alpha^{%0.3f \pm %0.3f}$+10.5'%(param[0],se[0],param[1],se[1]))
+# for b,m in zip(B, M):
+#     plt.plot(xplot, curvefitfun(xplot,b,m), '-', color='gray', alpha=0.005)
+# plt.text(0,35,r'$(\chi N_{eff})_{ODT} = (%0.1f \pm %0.1f)\alpha^{%0.3f \pm %0.3f}$+10.5'%(param[0],se[0],param[1],se[1]))
 plt.plot(alpha,DataArray[:,2],'ob')
 plt.plot(xplot,yplot,'--r')
 
 
 
 
-plt.xlabel(r'$\alpha$ ($N_{sc}/N_{BB}$)')
-plt.ylabel(r'$(\chi N_{eff})_{ODT}$')
+plt.xlabel(r'$\alpha$ ($N_{sc}/N_{bb}$)')
+plt.ylabel(r'$(\chi N_{tot})_{ODT}$')
 
 plt.legend(bbox_to_anchor=(1.05, 1),framealpha=0.00, ncol=2,handleheight=2, labelspacing=0.025)
+plt.tight_layout()
 path_export = os.path.join(E_Path,'chiNeff_ODT_vs_alpha.png')
 plt.savefig(path_export,dpi = 300)
 
@@ -222,51 +227,51 @@ plt.savefig(path_export,dpi = 300)
 # plt.savefig(path_export,dpi = 300)
 
 
-nscunique = sorted(set(list(DataArray[:,0])))
-plt.figure()
-count = 0
-for nsc in nscunique:
-    loc = np.where(DataArray[:,0]==nsc)
+# nscunique = sorted(set(list(DataArray[:,0])))
+# plt.figure()
+# count = 0
+# for nsc in nscunique:
+#     loc = np.where(DataArray[:,0]==nsc)
     
-    plt.scatter(alpha[loc],DataArray[loc,2],color=color[count],marker=marker[count],label='$N_{sc}$=%0.3f'%nsc)
+#     plt.scatter(alpha[loc],DataArray[loc,2],color=color[count],marker=marker[count],label='$N_{sc}$=%0.3f'%nsc)
 
-    count+=1
-plt.legend()
+#     count+=1
+# plt.legend()
 
 
-nscunique = sorted(set(list(DataArray[:,0])))
-plt.figure()
-count = 0
-for nsc in nscunique:
-    loc = np.where(DataArray[:,0]==nsc)
+# nscunique = sorted(set(list(DataArray[:,0])))
+# plt.figure()
+# count = 0
+# for nsc in nscunique:
+#     loc = np.where(DataArray[:,0]==nsc)
     
     
-    if len(loc[0])>2:
-        if nsc!=0:
-            param,pcov = curve_fit(curvefitfun,DataArray[loc,1][0],DataArray[loc,2][0],p0 = [3,-0.5])
+#     if len(loc[0])>2:
+#         if nsc!=0:
+#             param,pcov = curve_fit(curvefitfun,DataArray[loc,1][0],DataArray[loc,2][0],p0 = [3,-0.5])
 
-            xplot = np.linspace(50,200,100)
-            yplot = curvefitfun(xplot,param[0],param[1])
-            plt.plot(xplot,yplot,color=color[count])
-            residuals = DataArray[loc,2][0]- curvefitfun(DataArray[loc,1][0], param[0],param[1])
-            ss_res = np.sum(residuals**2)
-            ss_tot = np.sum((DataArray[loc,2][0]-np.mean(DataArray[loc,2][0]))**2)
-            r_squared = 1 - (ss_res / ss_tot)
-            print(nsc)
-            print(param)
-            # print(r_squared)
+#             xplot = np.linspace(50,200,100)
+#             yplot = curvefitfun(xplot,param[0],param[1])
+#             plt.plot(xplot,yplot,color=color[count])
+#             residuals = DataArray[loc,2][0]- curvefitfun(DataArray[loc,1][0], param[0],param[1])
+#             ss_res = np.sum(residuals**2)
+#             ss_tot = np.sum((DataArray[loc,2][0]-np.mean(DataArray[loc,2][0]))**2)
+#             r_squared = 1 - (ss_res / ss_tot)
+#             print(nsc)
+#             print(param)
+#             # print(r_squared)
 
 
 
-    plt.scatter(DataArray[loc,1],DataArray[loc,2],color=color[count],marker=marker[count],label='$N_{sc}$=%0.3f'%nsc)
+#     plt.scatter(DataArray[loc,1],DataArray[loc,2],color=color[count],marker=marker[count],label='$N_{sc}$=%0.3f'%nsc)
 
-    count+=1
-plt.legend(framealpha=0.00, ncol=2,handleheight=2, labelspacing=0.025)
+#     count+=1
+# plt.legend(framealpha=0.00, ncol=2,handleheight=2, labelspacing=0.025)
 
-plt.xlabel(r'$N_{bb}$')
-plt.ylabel(r'$(\chi N_{eff})_{ODT}$')
-path_export = os.path.join(E_Path,'chiNeff_ODT_vs_Nbb.pdf')
-plt.savefig(path_export,dpi = 300)
+# plt.xlabel(r'$N_{bb}$')
+# plt.ylabel(r'$(\chi N_{eff})_{ODT}$')
+# path_export = os.path.join(E_Path,'chiNeff_ODT_vs_Nbb.pdf')
+# plt.savefig(path_export,dpi = 300)
 
 
 # plt.figure()
