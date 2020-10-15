@@ -35,6 +35,7 @@ if __name__ == '__main__':
     phaselist = [a for a in args.phaselist ]
     oe = open(exportpath,'w+')
     for Phase in phaselist:
+        print(Phase)
         ODT_directories = []
         ODT_SEED = []
         ratio = []
