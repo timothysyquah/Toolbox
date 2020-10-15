@@ -32,7 +32,7 @@ if __name__ == '__main__':
     seedlist = []
     exportpath = os.path.join(pwd,exportname)
     tol = args.tol
-    phaselist = args.phaselist
+    phaselist = [a for a in args.phaselist ]
     oe = open(exportpath,'w+')
     for Phase in phaselist:
         ODT_directories = []
