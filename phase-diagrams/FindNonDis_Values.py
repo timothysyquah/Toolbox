@@ -101,5 +101,5 @@ if __name__ == '__main__':
                         path2  = seeddict[i,j][0]
                     else:
                         continue
-                    oe.write(f'{path1} {path2} {Phase}Phase \n')             
+                    oe.write(f'{path1} {path2} {Phase} \n')             
     oe.close() 
