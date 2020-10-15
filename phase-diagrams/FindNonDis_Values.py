@@ -87,7 +87,7 @@ if __name__ == '__main__':
                 export_dict[i,j] = []
                 for direct in store_dict_low[i,j]:
                     # print(direct)
-                    path1 = direct
+                    path1 = os.path.join(pwd,direct)
                     if len(seeddict[i,j])>1:
                         fA = float(direct.split('/')[-1][2:])
                         fAlist = []
@@ -95,10 +95,10 @@ if __name__ == '__main__':
                             fAlist.append(float(seed.split('/')[-1][2:]))
                         diff_fA = (np.array(fAlist)-fA)**2
                         seedloc = np.where(np.min(diff_fA)==diff_fA)[0][0]
-                        path2 = seeddict[i,j][seedloc]
+                        path2 = os.path.join(pwd,seeddict[i,j][seedloc])
                         
                     elif len(seeddict[i,j])==1:
-                        path2  = seeddict[i,j][0]
+                        path2  = os.path.join(pwd,seeddict[i,j][0])
                     else:
                         continue
                     oe.write(f'{path1} {path2} {Phase} \n')             
