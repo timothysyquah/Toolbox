@@ -22,8 +22,8 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Tool to figure out what simulations to rerun')
     parser.add_argument('-e', '--exportname', action='store', default='resubmit.dat',help='exportdata')
     parser.add_argument('-f', '--filename', action='store', default='F0_phases.dat',help='file that contains the phases and free energies at each phase point')
-    parser.add_argument('-d', '--dirs', action='store', nargs='+', default=glob.glob("chi*/NscA_20*/fA*"),help='list of directories that contain each phase point')
-    parser.add_argument('-p', '--phaselist', action='store', default=['FCC','BCC'], nargs='+', help='Phase List')
+    parser.add_argument('-d', '--dirs', action='store', nargs='+', default=glob.glob("chi*/NscA_*/fA*"),help='list of directories that contain each phase point')
+    parser.add_argument('-p', '--phaselist', action='store', default=[''], nargs='+', help='Phase List')
     parser.add_argument('-t', '--tol', action='store', default=1e-5, nargs='+', help='Tolerance',type=float)
     args = parser.parse_args()
     dirs = args.dirs
