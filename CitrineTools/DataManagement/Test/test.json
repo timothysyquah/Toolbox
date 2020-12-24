@@ -1,0 +1,18 @@
+{
+    "properties": [
+        {
+            "name": "NPW",
+            "vectors": [
+                32,
+                32,
+                32
+            ]
+        },
+        {
+            "name": "Free Energy",
+            "scaler": 3.2
+        }
+    ],
+    "category": "system.chemical",
+    "chemicalFormula": "A_30(A')_2 B_70(B')_2 C_30(C')_2"
+}

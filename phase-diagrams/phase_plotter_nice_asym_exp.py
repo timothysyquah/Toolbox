@@ -155,7 +155,7 @@ def extend_data_cubicspline(df,dfA = 0.001):
     return new_df
 
 
-file_path_full = 'lineratio_091120-n1.dat'
+file_path_full = 'asym-10-23-2020.dat'
 
 fo = open(file_path_full, 'r')
 data_from_file = fo.read().splitlines()
@@ -174,7 +174,9 @@ data_from_file = whitespace_remover(data_from_file)
 phase_list, phase_loc = phase_list_parser(data_from_file)
 data_dict = extract_data(phase_list, data_from_file, phase_loc, delimiter=' ')
 from scipy.optimize import curve_fit
-plt.figure(figsize=(5,5))
+fig = plt.figure(figsize=(6.5,5))
+
+ax = plt.subplot(111)
 for boundary in data_dict:
     x = data_dict[boundary][:,0]
     y = data_dict[boundary][:,1]*Neff
@@ -190,7 +192,7 @@ for boundary in data_dict:
     # popt, pcov = curve_fit(func, x, y)
     # xplot = np.linspace(np.min(x),np.max(x),100)
     # yplot = func(xplot,popt[0],popt[1],popt[2])
-    plt.plot(x,y,'k')
+    ax.plot(x,y,'k')
     # plt.plot(x,y,'-ok',marker='s',markersize=5)
 
 # path1_exp = '/home/tquah/Projects/PhaseDiagram/lam.csv'
@@ -198,12 +200,12 @@ for boundary in data_dict:
 # path3_exp = '/home/tquah/Projects/PhaseDiagram/dis.csv'
 # path4_exp = '/home/tquah/Projects/PhaseDiagram/spherical.csv'
 
-path3_dob = '/home/tquah/Projects/PhaseDiagram/Dobreninpts.dat'
+path3_dob = '/media/tquah/TOSHIBA EXT/Projects/PhaseDiagram/Dobreninpts.dat'
 # lamarray = np.loadtxt(path1_exp,delimiter=',')
 # cylinderarray = np.loadtxt(path2_exp,delimiter=',')
 # disarray = np.loadtxt(path3_exp,delimiter=',')
 # sphericalarray = np.loadtxt(path4_exp,delimiter=',')
-path_exp = '/home/tquah/Projects/PhaseDiagram/Experimental_Dataset.csv'
+path_exp = '/media/tquah/TOSHIBA EXT/Projects/PhaseDiagram/Experimental_Dataset_v2.csv'
 
 df = pd.read_csv(path_exp)
 header = list(df)
@@ -219,20 +221,23 @@ fullphases =  list(df['Phase'])
                   
                   
 phases = sorted(list(set(list(df['Phase']))))
-symbol = ['x','o','+','h']
+symbol = ['o','+','+','h']
 color = ['k','r','g','b']
-ab_ratio = np.array(df['NscB']/df['NscA'])
+ab_ratio = np.sqrt(np.array(df['NscB']/df['NscA']))*np.array((df['bB']/df['bA']))
 
 NscAverage =  np.array((df['NscB']+df['NscA'])/2)
 
 Nsc_Backbone = NscAverage/np.array(df['Nbb(Total)'])
+
+NaNloc = np.where(np.isnan(Nsc_Backbone)==True)[0]
+Nsc_Backbone[NaNloc]=0
 
 
 count1 = 0
 x = np.arange(10)
 condlist = [x<3, x>5]
 choicelist = [x, x**2]
-print(np.select(condlist, choicelist))
+# print(np.select(condlist, choicelist))
 
 
 
@@ -245,36 +250,42 @@ for ref in references:
         phaseindex= [i for i, x in enumerate(fullphases) if x ==phase]
         
         
-        
         loc = list(set(refindex) & set(phaseindex))
         if len(loc)>0:
             
-            print(Nsc_Backbone[loc])
+            # print(Nsc_Backbone[loc])
             
             
-            
-            np.where(Nsc_Backbone[loc]<0.8 or Nsc_Backbone[loc]==np.nan )
-            
-            
-            yraw = ab_ratio[loc]
-            xraw = np.array(df['fA'][loc])
 
-            yloc = np.where(yraw>1)[0]
-            xfilter = xraw[yloc]
-            yfilter = yraw[yloc]
+            mloc = np.where(Nsc_Backbone[loc]<0.8)[0]
+            floc = []
+            for m in mloc:
+                floc.append(np.where(Nsc_Backbone[loc][m]==Nsc_Backbone)[0][0])
+            if len(floc)>0:
+                
+                yraw = ab_ratio[floc]
+                # print(yraw)
+                xraw = np.array(df['fA'][floc])
+    
+                yloc = np.where(yraw>1)[0]
+                xfilter = xraw[yloc]
+                yfilter = yraw[yloc]
+                
+                print(ref)
+                print(floc)
+
+                
+                
+                # print(yfilter)
+                # nscnbbloc = np.where(Nsc_Backbone[loc]<1.0)[0]
+                # print(nscnbbloc)
+                yloc = np.where(1<y)[0]
             
+                # print(xfilter)
             
-            
-            
-            # print(yfilter)
-            # nscnbbloc = np.where(Nsc_Backbone[loc]<1.0)[0]
-            # print(nscnbbloc)
-            yloc = np.where(1<y)[0]
-        
-        
-        
-            name = phase+'-'+ref
-            plt.scatter(x[yloc],np.sqrt(y[yloc]),c=color[count1],marker = symbol[count2],label = name)      
+                name = phase+'-'+ref
+                if len(xfilter)>0:
+                    ax.scatter(xfilter,np.sqrt(yfilter),c=color[count1],marker = symbol[count2],label = name)      
         count2+=1
     count1+=1
 
@@ -342,8 +353,8 @@ alpha = 0.5
 
 
 ypos = 6
-# plt.xlim(.0,0.50)
-plt.ylim(1.0,3.7)
+plt.xlim(-0.05,1.05)
+plt.ylim(0.9,3.7)
 # textsize = 15
 # plt.text(0.40,1.5,'LAM',color = 'k',size = textsize)
 # plt.text(0.3,2,'GYR',color = 'k',size = textsize)
@@ -353,14 +364,14 @@ plt.ylim(1.0,3.7)
 # plt.text(0.28,3,'HEX',color = 'k',size = textsize)
 # plt.text(0.135,2,'BCC',color = 'k',size = textsize)
 # plt.text(0.05,1.5,'DIS',color = 'k',size = textsize)
-plt.legend()
+ax.legend(bbox_to_anchor=(1.1, 1.05))
 plt.tight_layout()
 
 plt.xlabel(r'$f_A$')
 plt.ylabel(r'$\epsilon$')
 plt.tight_layout()
 # plt.savefig('/home/tquah/Presentations/FirstYearTalkQuah/images/phasediagramasym_1.png',dpi=300)
-plt.savefig('/home/tquah/Presentations/FirstYearTalkQuah/images/phasediagramasym_2.png',dpi=300)
+plt.savefig('/home/tquah/Figures/10-23-2020-GFKD-Meeting/asymexp_phasediagram.png',dpi=300)
 
 # plt.figure()
 # plt.plot(1-dobarray[:35,0],y[:35],'--r')

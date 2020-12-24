@@ -9,8 +9,8 @@ import os
 import re
 import numpy as np
 
-# Import_Path ="/home/tquah/Projects/asymdir/chiAB_0.0289"
-Import_Path ="/home/tquah/Projects/prelimasymdir/chiAB_0.0289"
+Import_Path ="/media/tquah/TOSHIBA EXT/Projects/chiN_60_asymdir/chiAB_0.0289"
+# Import_Path ="/home/tquah/Projects/prelimasymdir/chiAB_0.0289"
 
 newname = 'ABratio_'
 

@@ -16,8 +16,10 @@ Nref = 100
 Nref_desire = 1 
 #path = '/home/tquah/PolyFTS_ALL/PolyFTS/seeds/BlockPolymerMelt2Spec/spheresSigma_P4_2overmnm_Aminor_fields.in'
 #path = '/home/tquah/PolyFTS_ALL/PolyFTS/seeds/BlockPolymerMelt2Spec/networkO70_Fdddconv_Aminor_fields.in'
-path = '/home/tquah/PolyFTS_ALL/PolyFTS/seeds/BlockPolymerMelt2Spec/networkO70_Fdddconv_Aminor_fields.in'
-export_path = '/home/tquah/SEEDS/test.in'
+#path = '/home/tquah/PolyFTS_ALL/PolyFTS/seeds/BlockPolymerMelt2Spec/networkO70_Fdddconv_Aminor_fields.in'
+path = '/home/tquah/PolyFTS_ALL/PolyFTS/seeds/BlockPolymerMelt/TwoSpecies/spheresBCCprim_Im-3m_Aminor_fields.in'
+
+export_path = '/home/tquah/SEEDS/Polymer/BCCPhase/fields.in'
 field_adjust = Nref/Nref_desire
 hcell_adjust = np.sqrt(Nref/Nref_desire)
 

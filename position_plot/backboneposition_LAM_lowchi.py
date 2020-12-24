@@ -13,7 +13,7 @@ from scipy.interpolate import CubicSpline
 
 color = ['tab:blue','tab:orange','tab:red','tab:olive','tab:brown']
 
-path = '/home/tquah/Projects/positions/Test/density_chain0.dat'
+path = '/home/tquah/Projects/positions/backboneposition_LAM_lowchi/Bottlebrush/density_chain0.dat'
 
 data = np.loadtxt(path)
 
@@ -31,7 +31,7 @@ for i in range(1,shape[1]):
         plt.plot(x,y,label = str(i))
 # plt.legend()
 
-path = '/home/tquah/Projects/positions/Test_linear/density_chain0.dat'
+path = '/home/tquah/Projects/positions/backboneposition_LAM_lowchi/linear/density_chain0.dat'
 
 data = np.loadtxt(path)
 
@@ -52,7 +52,7 @@ plt.ylabel(r'$\rho(x^*) / \int dx \rho(x^*)$')
 
 
 plt.tight_layout()
-path = '/home/tquah/Projects/positions/Test/density.dat'
+path = '/home/tquah/Projects/positions/backboneposition_LAM_lowchi/Bottlebrush/density.dat'
 data = np.loadtxt(path)
 
 shape = np.shape(data)
@@ -66,7 +66,7 @@ for i in range(1,shape[1]):
     y = cs(x)/integral
     plt.plot(x,y,label = 'bottlebrush')
 
-path = '/home/tquah/Projects/positions/Test_linear/density.dat'
+path = '/home/tquah/Projects/positions/backboneposition_LAM_lowchi/linear/density.dat'
 data = np.loadtxt(path)
 
 shape = np.shape(data)

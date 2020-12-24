@@ -155,7 +155,7 @@ def extend_data_cubicspline(df,dfA = 0.001):
     return new_df
 
 
-file_path_full = 'lineratio_091120-n1.dat'
+file_path_full = 'asympd.dat'
 
 fo = open(file_path_full, 'r')
 data_from_file = fo.read().splitlines()
@@ -193,12 +193,12 @@ for boundary in data_dict:
     plt.plot(x,y,'k')
     # plt.plot(x,y,'-ok',marker='s',markersize=5)
 
-path1_exp = '/home/tquah/Projects/PhaseDiagram/lam.csv'
-path2_exp = '/home/tquah/Projects/PhaseDiagram/cylinder.csv'
-path3_exp = '/home/tquah/Projects/PhaseDiagram/dis.csv'
-path4_exp = '/home/tquah/Projects/PhaseDiagram/spherical.csv'
+path1_exp = '/media/tquah/TOSHIBA EXT/Projects/PhaseDiagram/lam.csv'
+path2_exp = '/media/tquah/TOSHIBA EXT/Projects/PhaseDiagram/cylinder.csv'
+path3_exp = '/media/tquah/TOSHIBA EXT/Projects/PhaseDiagram/dis.csv'
+path4_exp = '/media/tquah/TOSHIBA EXT/Projects/PhaseDiagram/spherical.csv'
 
-path3_dob = '/home/tquah/Projects/PhaseDiagram/Dobreninpts.dat'
+path3_dob = '/media/tquah/TOSHIBA EXT/Projects/PhaseDiagram/Dobreninpts.dat'
 lamarray = np.loadtxt(path1_exp,delimiter=',')
 cylinderarray = np.loadtxt(path2_exp,delimiter=',')
 disarray = np.loadtxt(path3_exp,delimiter=',')
@@ -285,7 +285,7 @@ plt.xlabel(r'$f_A$')
 plt.ylabel(r'$\epsilon$')
 plt.tight_layout()
 # plt.savefig('/home/tquah/Presentations/FirstYearTalkQuah/images/phasediagramasym_1.png',dpi=300)
-plt.savefig('/home/tquah/Presentations/FirstYearTalkQuah/images/phasediagramasym_2.png',dpi=300)
+plt.savefig('/home/tquah/Figures/asymsst_phasediagram.png',dpi=300)
 
 # plt.figure()
 # plt.plot(1-dobarray[:35,0],y[:35],'--r')

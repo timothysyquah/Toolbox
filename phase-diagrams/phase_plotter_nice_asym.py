@@ -154,7 +154,7 @@ def extend_data_cubicspline(df,dfA = 0.001):
     return new_df
 
 
-file_path_full = 'lineratio_091120-n1.dat'
+file_path_full = 'asympd.dat'
 
 fo = open(file_path_full, 'r')
 data_from_file = fo.read().splitlines()
@@ -171,10 +171,12 @@ plt.figure(figsize=(5,5))
 for boundary in data_dict:
     x = data_dict[boundary][:,0]
     y = data_dict[boundary][:,1]
+    
+    ysort = np.argsort(y)
     # popt, pcov = curve_fit(func, x, y)
     # xplot = np.linspace(np.min(x),np.max(x),100)
     # yplot = func(xplot,popt[0],popt[1],popt[2])
-    plt.plot(x,y,'k')
+    plt.plot(x[ysort],y[ysort],'k')
     # plt.plot(x,y,'-ok',marker='s',markersize=5)
 
 ypos = 6
@@ -192,7 +194,7 @@ textsize = 13
 # plt.text(0.05,1.5,'DIS',color = 'k',size = textsize)
 
 plt.xlabel(r'$f_A$')
-plt.ylabel(r'$N_{sc,B}/N_{sc,A}$')
+plt.ylabel(r'$\epsilon$')
 
 plt.tight_layout()
-plt.savefig('/home/tquah/Presentations/FirstYearTalkQuah/images/phasediagramasym_3.png',dpi=300)
+plt.savefig('/home/tquah/Figures/asym_phasediagram.png',dpi=300)

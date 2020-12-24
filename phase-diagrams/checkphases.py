@@ -38,6 +38,7 @@ def field_checker(fields_1,fields_2,tol):
     for point in result:
         if point<tol:
             print('Warning:Desired Field May Not Have been Formed')
+            print(result)
     os.chdir(IDIR)
 
 

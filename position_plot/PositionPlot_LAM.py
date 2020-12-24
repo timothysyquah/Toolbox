@@ -9,12 +9,12 @@ Created on Wed Sep  9 10:16:35 2020
 import numpy as np
 import matplotlib.pyplot as plt
 import os
-pathlist = ['/home/tquah/Projects/positions/LAM/0.0104/density_chain0.dat',\
-            '/home/tquah/Projects/positions/LAM/0.0189/density_chain0.dat',\
-            '/home/tquah/Projects/positions/LAM/0.0289/density_chain0.dat',\
-            '/home/tquah/Projects/positions/LAM/0.0389/density_chain0.dat']
+pathlist = ['/home/tquah/Projects/positions/PositionPlot_LAM/LAM/0.0104/density_chain0.dat',\
+            '/home/tquah/Projects/positions/PositionPlot_LAM/LAM/0.0189/density_chain0.dat',\
+            '/home/tquah/Projects/positions/PositionPlot_LAM/LAM/0.0289/density_chain0.dat',\
+            '/home/tquah/Projects/positions/PositionPlot_LAM/LAM/0.0389/density_chain0.dat']
                         
-export_path = '/home/tquah/Projects/positions/LAM/Analysis'
+export_path = '/home/tquah/Projects/positions/PositionPlot_LAM/LAM/Analysis'
 plt.close('all')
 errortotal = dict()
 
