@@ -122,6 +122,7 @@ if __name__ == '__main__':
     for directory in args.dirs:
 #        print(directory)
         count+=1
+        os.chdir(directory)
         phaselist = glob.glob('*Phase')
         for phase in phaselist:
 #            if phase=='HEXPhase':
@@ -132,8 +133,7 @@ if __name__ == '__main__':
             if phase not in phases2ignore:
                 phasefind = phase.find('Phase')
                 phasename = phase[:phasefind]
-                phase_directory = os.path.join(directory,phase)
-                os.chdir(phase_directory)
+                os.chdir(phase)
                 files = os.listdir('./')
                 if 'fields_k.bin' in files:
     
