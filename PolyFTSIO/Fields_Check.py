@@ -122,7 +122,7 @@ if __name__ == '__main__':
     for directory in args.dirs:
 #        print(directory)
         count+=1
-        phaselist = [phase for phase in os.listdir(directory) if phase.find('Phase')!=-1]
+        phaselist = glob.glob('*Phase')
         for phase in phaselist:
 #            if phase=='HEXPhase':
 #                so = open('STRUCTURE','w+')
