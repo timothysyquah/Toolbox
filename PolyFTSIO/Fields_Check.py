@@ -159,11 +159,7 @@ if __name__ == '__main__':
                     if args.verbose:
                         print(directory)
                         print(phase+' %0.3f'%fieldvalue)
-    
-                    if fieldvalue>0.90:
-                        so.write('2')
-                    else:
-                        so.write('0')
+                    so.write('%0.3f'%fieldvalue)
                     so.close()
                 os.chdir(WDIR)
             
