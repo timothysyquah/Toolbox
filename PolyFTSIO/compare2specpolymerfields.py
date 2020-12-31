@@ -18,22 +18,23 @@ def return_fields(path):
     field.readFields(path,True)
     field_Re = field.AllFields
     field_Im = field.AllFieldsImPart
-    return field_Re,field_Im
+    npw = field.griddim
+    return field_Re,field_Im,npw
 
 #Nref = 100
 #Nref_desire = 1 
 #path = '/home/tquah/PolyFTS_ALL/PolyFTS/seeds/BlockPolymerMelt2Spec/spheresSigma_P4_2overmnm_Aminor_fields.in'
 #path = '/home/tquah/PolyFTS_ALL/PolyFTS/seeds/BlockPolymerMelt2Spec/networkO70_Fdddconv_Aminor_fields.in'
 #path = '/home/tquah/PolyFTS_ALL/PolyFTS/seeds/BlockPolymerMelt2Spec/networkO70_Fdddconv_Aminor_fields.in'
-path1 = '/home/tquah/SEEDS/Polymer/DifferenceBetweenSeedTypes/spheresBCCprim_Im-3m_Aminor_fields_2spec.in'
-path2 = '/home/tquah/SEEDS/Polymer/DifferenceBetweenSeedTypes/spheresBCCprim_Im-3m_Aminor_fields.in'
+path1 = '/home/tquah/SEEDS/Polymer/DifferenceBetweenSeedTypes/spheresBCCconv_Im-3m_Aminor_fields_2spec.in'
+path2 = '/home/tquah/SEEDS/Polymer/DifferenceBetweenSeedTypes/spheresBCCconv_Im-3m_Aminor_fields.in'
 
 #export_path = '/home/tquah/SEEDS/Polymer/BCCPhase/fields.in'
 
 
 
-field1_Re,field1_Im = return_fields(path1)
-field2_Re,field2_Im = return_fields(path2)
+field1_Re,field1_Im,npw1 = return_fields(path1)
+field2_Re,field2_Im,npw2 = return_fields(path2)
 
 
 field_diff = field1_Re[1,:]+field2_Re[0,:]
