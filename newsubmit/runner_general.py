@@ -278,7 +278,6 @@ if __name__ == '__main__':
     parser.add_argument('-runpoly', '--runpolyfts', action='store', default=False,help='Run polyFTS directly',type = str_to_bool)
     parser.add_argument('-subpoly', '--submitpolyfts', action='store', default=False,help='Submit polyFTS',type = str_to_bool)
     parser.add_argument('-chain', '--chainbool', action='store', default=False,help='Chaining should be done on last variable (directory_structure) cannot use with submit',type = str_to_bool)
-    parser.add_argument('-gd', '--gpu_device', action='store', default=None,help='GPU device',type = gpu_lgic)
 
     args = parser.parse_args()
     print(args)
