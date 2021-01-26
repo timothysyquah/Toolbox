@@ -422,7 +422,7 @@ if __name__ == '__main__':
     #check if seed path exists
     if os.path.exists(args.seed_path)!=True and args.seed_path_type=='Main':
         raise RuntimeError('Seed Path Does not Exist')
-    check_set_equality(args.itterative_structure,['chi','nbb','nsc','f','nref'],'Directory Structure needs chi,nbb,nsc,f,nref')
+    check_set_equality(sorted(args.itterative_structure),sorted(['chi','nbb','nsc','f','nref']),'Directory Structure needs chi,nbb,nsc,f,nref')
     
     #check directory logic
     dirlogic_check = [len(args.directory_struct_names),len(args.nameloc)]
