@@ -19,7 +19,7 @@ import numpy as np
 import sys
 sys.path.append(chainpath)
 print(chainpath)
-from Chains import Input_Builder,Component_Statistics_Counter,\
+from Chains import Input_Builder,Component_Statistics_Counter, Chain_Builder,\
     Add_Model_Statistics,Grafting_Determinator,chiN_generator,parameter_species
 
 ##Script works on DGC/FJC/CGC
@@ -29,7 +29,7 @@ from Chains import Input_Builder,Component_Statistics_Counter,\
 
 
 WDIR = os.getcwd()
-backbone_statistics = 'DGC'
+backbone_statistics = 'FJC'
 #Nbb = 100
 backbone_length = 99 # This is a quirk from continuous chains where the N_bb = L+1 
 backbone_species = [1,2]
@@ -37,7 +37,7 @@ backbone_composition = [0.5,0.5]
 backbone_list = [backbone_statistics,backbone_length,backbone_species,\
                   backbone_composition]
 
-sidearm_statistics_1 = 'DGC'
+sidearm_statistics_1 = 'FJC'
 #Nsc = 20
 sidearm_length_1 = 19 # This is a quirk from continuous chains where the N_bb = L+1 
 sidearm_species_1 = [3]
@@ -48,10 +48,10 @@ sidechain_1_list = [sidearm_statistics_1,sidearm_length_1,sidearm_species_1,\
                   sidearm_composition_1,sidearm_coverage_1,graft_density]
 
 
-sidearm_statistics_2 = 'DGC'
+sidearm_statistics_2 = 'FJC'
 #Nsc = 10
 sidearm_length_2 = 9 # This is a quirk from continuous chains where the N_bb = L+1 
-sidearm_species_2 = [4]
+sidearm_species_2 = [2]
 sidearm_composition_2 = [1.0]
 sidearm_coverage_2 = 0.5
 graft_density = 1  #currently this doesn't do anything...currently only does graft density of 1
@@ -59,12 +59,12 @@ sidechain_2_list = [sidearm_statistics_2,sidearm_length_2,sidearm_species_2,\
                   sidearm_composition_2,sidearm_coverage_2,graft_density]
 
 
-chain_list = [backbone_list,sidechain_1_list,sidechain_2_list]
+chain_list = [backbone_list,sidechain_1_list,sidechain_2_list,sidechain_2_list]
 
 
-b = [1.,1.,0.9,0.9]  
+b = [1.,1.,1.]  
 #chiN12,chiN13,chiN14,chiN23,chiN24,chiN34
-chiN = [0.1,0,0.1,0.1,0,0.1] 
+chiN = [0.1,0.1,0] 
 
 chain_label = 'AB-Bottlebrush'
 field = 'fields.in'
@@ -137,10 +137,7 @@ statistics_interactions_add = [[],\
 
 #count species
 components,statistics_list,n_species = Component_Statistics_Counter(chain_list)
-if n_species==2:
-    modeltype = 'BlockPolymerMelt2Spec'
-if n_species>=3:
-    modeltype = 'BlockPolymerMelt'
+modeltype = 'Polymer'
 
 
 
@@ -152,6 +149,69 @@ models_add,interation_add,n_sidearm_types =\
 
 #Currently Grafting density only works for 1.0, but there are ways to bypass this section
 #Makes Chains section in inputfile
+def Grafting_Determinator(chain_list,supported_statistics,ends):
+    j = 0
+    if ends:
+        chaingraftinfo= np.zeros((3,len(chain_list)-1))
+        
+        for i in chain_list:
+            graftingdensity = i[-1]
+            if len(i)==4:
+                bb_length = i[1]
+            if len(i)!=4:
+                chaingraftinfo[0,j]= i[4]*(bb_length+1)
+                unitcheck = abs(np.around(chaingraftinfo[0,j])-chaingraftinfo[0,j])
+                if unitcheck>1e-6:
+                    print('Warning Grafting is not precise')
+                chaingraftinfo[0,j] = np.around(chaingraftinfo[0,j])
+                if j==0:
+                    chaingraftinfo[2,j] =  chaingraftinfo[0,j]-1
+                else:
+                    chaingraftinfo[1,j] =  chaingraftinfo[2,j-1]+1         
+                    chaingraftinfo[2,j] =  chaingraftinfo[0,j]+chaingraftinfo[1,j]-1
+                i.append(chaingraftinfo[0,j])
+                i.append(chaingraftinfo[1,j])
+                i.append(chaingraftinfo[2,j])
+                print(i)
+                j+=1
+    if ends==False:
+        chaingraftinfo= np.zeros((3,len(chain_list)-1))
+        
+        for i in chain_list:
+            if len(i)==4:
+                bb_length = i[1]
+            if len(i)!=4:
+                chaingraftinfo[0,j]= i[4]*(bb_length-1)
+                if chaingraftinfo[0,j].is_integer()!=True:
+                    print('Warning Grafting is not precise')
+                chaingraftinfo[0,j] = np.around(chaingraftinfo[0,j])
+                if j==0:
+                    chaingraftinfo[1,j] =  1
+                    chaingraftinfo[2,j] =  chaingraftinfo[0,j]
+                else:
+                    chaingraftinfo[1,j] =  chaingraftinfo[2,j-1]+1         
+                    chaingraftinfo[2,j] =  chaingraftinfo[0,j]+chaingraftinfo[1,j]-1
+                i.append(chaingraftinfo[0,j])
+                i.append(chaingraftinfo[1,j])
+                i.append(chaingraftinfo[2,j])
+                j+=1
+
+    j = 0
+    chain_text_list = []
+    for i in chain_list:
+        chain_text_list.\
+        append(Chain_Builder(i,j,supported_statistics).Chain_Text_Write())
+        j+=1
+    return chain_list,chain_text_list
+
+    
+    
+    
+    
+    
+    
+    
+    
 chain_list,chain_text_list = Grafting_Determinator(chain_list, supported_statistics, ends)
 
 #Turn everything into text to be put into Input Builder
@@ -176,3 +236,11 @@ Input_Builder(f,inputfileversion,nummodel,modeltype,n_species,\
                   add_phase,space_group,non_primitive_centering,\
                   symmetrize,parallel_cuda,cuda_thread_block_size,nThreads).Write_to_Text()
 f.close()
+
+
+#read datafile
+
+
+op = open(input_file_path,'r')
+data_file = op.read()
+op.close()

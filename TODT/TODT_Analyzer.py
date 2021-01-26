@@ -18,7 +18,7 @@ import random
 plt.rc('font', family='serif')
 from matplotlib import rcParams
 rcParams['text.usetex'] = True 
-rcParams['text.latex.preamble'] = [r'\usepackage[cm]{sfmath}']
+# rcParams['text.latex.preamble'] = [r'\usepackage[cm]{sfmath}']
 rcParams['font.family'] = 'sans-serif'
 
 rcParams['axes.labelsize'] =20
@@ -32,7 +32,9 @@ def fzeroCubicSpline(fun,x0):
 
 E_Path = '/home/tquah/Presentations/FirstYearTalkQuah/images/'
 # path = '/home/tquah/IMPORT_KNOT/TODT.dict'
-path = '/home/tquah/IMPORT_BRAID/T0data.dict'
+# path = '/home/tquah/IMPORT_BRAID/T0data.dict'
+path = '/home/tquah/IMPORT_KNOT/FJC.dict'
+
 # path = '/home/tquah/IMPORT_KNOT/TODT1.dict'
 
 number_of_initial_guesses = 100
@@ -63,14 +65,13 @@ def curvefitfun(x,a,b):
 # def chiN(x,a,b,c):
 #     return a+(x**c)*b
 scount= 0
-tol = 1e-6
+tol = 1e-8
 
 op = open('odtfound.dat','w+')
 
 
 initial_count = 0
 for i in range(0,len(overall_list)):
-    
     
     Linitial =   F0dat[overall_list[i][0],overall_list[i][1],'LAM']
     Dinitial = F0dat[overall_list[i][0],overall_list[i][1],'DIS']
@@ -79,7 +80,12 @@ for i in range(0,len(overall_list)):
         continue
     
     Larray = Linitial[Linitial[:,0].argsort()]
+    
+    
+    
     Darray = Dinitial[Dinitial[:,0].argsort()]
+    # plt.figure()
+    # plt.plot(Larray[:,0],Larray[:,1]-Darray[:,1])
 
     Neff = (overall_list[i][0]+1)*overall_list[i][1]
     x0 = np.max(Larray[:,0])
@@ -87,10 +93,10 @@ for i in range(0,len(overall_list)):
         Diff = CubicSpline(Larray[:,0],Larray[:,1]-Darray[:,1])    
         Derriv = Diff.derivative()
     
-        
+        # plt.figure()
         # plt.plot(Larray[:,0],Larray[:,1])
         # plt.plot(Darray[:,0],Darray[:,1])
-        # plt.plot(Darray[:,0],Larray[:,1]-Darray[:,1])
+        # plt.scatter(Darray[:,0],Larray[:,1]-Darray[:,1])
         xrun = np.linspace(np.min(Larray[:,0]),np.max(Larray[:,0]),100)
         ydiff = Diff(xrun)
         dydiff = Derriv(xrun)
@@ -104,7 +110,7 @@ for i in range(0,len(overall_list)):
             if scount==0:
                 print('Skipping...ODT not found')
                 scount+=1
-            print('Nbb = %d and Nsc = %d'%(overall_list[i][0],overall_list[i][1]))
+            print('Nbb = %d and Nsc = %d'%(overall_list[i][1],overall_list[i][0]))
         else:
             
             # print('Working')
@@ -175,7 +181,10 @@ se = np.sqrt(np.diag(pcov))
 
 
 xplot = np.linspace(0,1,100)
-yplot = curvefitfun(xplot,param[0],param[1])
+
+paramstore = [24.93592205,0.83854799]
+
+yplot = curvefitfun(xplot,paramstore[0],paramstore[1])
 N = 5000
 B = np.random.normal(param[0], 1*se[0], N)
 M = np.random.normal(param[1], 1*se[1], N)

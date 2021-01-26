@@ -21,7 +21,7 @@ rcParams['text.usetex'] = True
 rcParams['text.latex.preamble'] = [r'\usepackage[cm]{sfmath}']
 rcParams['font.family'] = 'sans-serif'
 
-rcParams['axes.labelsize'] =20
+rcParams['axes.labelsize'] =23
 rcParams['xtick.labelsize'] = 20
 rcParams['ytick.labelsize'] = 20
 rcParams['legend.fontsize'] = 11
@@ -170,7 +170,7 @@ data_from_file = whitespace_remover(data_from_file)
 phase_list, phase_loc = phase_list_parser(data_from_file)
 data_dict = extract_data(phase_list, data_from_file, phase_loc, delimiter=' ')
 
-
+splinelist = []
 from scipy.optimize import curve_fit
 plt.figure(figsize=(5,5.2))
 for boundary in data_dict:
@@ -182,13 +182,12 @@ for boundary in data_dict:
     # popt, pcov = curve_fit(func, x, y)
     # xplot = np.linspace(np.min(x),np.max(x),100)
     # yplot = func(xplot,popt[0],popt[1],popt[2])
-    plt.plot(xnew,ynew,'k')
     print(boundary)
+    plt.plot(xnew,ynew,'k',linewidth=3,)
     xextra = np.linspace(0,np.min(x))
     yextra = line(xextra)
-    plt.plot(xextra,yextra,'--k')
-
-
+    plt.plot(xextra,yextra,'--k',linewidth=2)
+    splinelist.append([line,np.min(x),np.max(x)])
 file_path_full = 'testline_og.dat'
 fo = open(file_path_full, 'r')
 data_from_file = fo.read().splitlines()
@@ -206,24 +205,78 @@ for boundary in data_dict:
     # popt, pcov = curve_fit(func, x, y)
     # xplot = np.linspace(np.min(x),np.max(x),100)
     # yplot = func(xplot,popt[0],popt[1],popt[2])
-    plt.plot(x,y,'ob',marker='s',markersize=5)
+    # plt.plot(x,y,'ob',marker='s',markersize=5)
 
-    
-plt.xlim(0.08,0.51)
+def splinesolver(spline,xmin,xmax,y):
+    xspace = np.linspace(xmin,xmax,100)
+    yspace = spline(xspace)-y
+    cs = CubicSpline(xspace,yspace)
+    return cs.roots()[0]
+
+def avg(x1,x2):
+    return (x1+x2)/2
+#get positions of each label using boundary
+y_sph = 70
+y_gyr = 33
+y_cyl = 50
+y_dis = 25
+y_lam = 50
+xmin = 0.08
+xmax = 0.51
+#DIS
+x_dis = splinesolver(splinelist[0][0],splinelist[0][1],splinelist[0][2],y_dis)
+xdispos = avg(x_dis,xmin)
+#SPH
+x_sph1 = splinesolver(splinelist[0][0],splinelist[0][1],splinelist[0][2],y_sph)
+x_sph2 = splinesolver(splinelist[1][0],splinelist[1][1],splinelist[1][2],y_sph)
+xsphpos = avg(x_sph1,x_sph2)
+#HEX
+x_hex1 = splinesolver(splinelist[1][0],splinelist[1][1],splinelist[1][2],y_cyl)
+x_hex2 = splinesolver(splinelist[2][0],splinelist[2][1],splinelist[2][2],y_cyl)
+xhexpos = avg(x_hex1,x_hex2)
+#GYR
+x_gyr1 = splinesolver(splinelist[2][0],splinelist[2][1],splinelist[2][2],y_gyr)
+x_gyr2 = splinesolver(splinelist[3][0],splinelist[3][1],splinelist[3][2],y_gyr)
+xgyrpos = avg(x_gyr1,x_gyr2)
+#LAM
+x_lam1 = splinesolver(splinelist[3][0],splinelist[3][1],splinelist[3][2],y_lam)
+x_lam2 = 0.51
+xlampos = avg(x_lam1,x_lam2)
+
+
+
+
+
+
+plt.xlim(xmin,xmax)
 plt.ylim(15,83)
-textsize = 15
+textsize = 23
 ypos = 51
-plt.text(0.15,25,'DIS',color = 'k',size = textsize)
+plt.text(xdispos,y_dis,'D',color = 'k',size = textsize,ha = 'center')
 from matplotlib.patches import Rectangle
-plt.text(0.40,ypos,'LAM',color = 'k',size = textsize)
-plt.text(0.27,30,'GYR',color = 'k',size = textsize)
-plt.arrow(0.32,31,0.025,0,color = 'k',head_length=0.01,width = 0.5)
-plt.text(0.24,51,'HEX',color = 'k',size = textsize)
-plt.text(0.115,75,'BCC',color = 'k',size = textsize)
+plt.text(xlampos,y_lam,'L',color = 'k',size = textsize,ha = 'center')
+plt.text(xgyrpos,y_gyr,'G',color = 'k',size = textsize,ha = 'center')
+# plt.arrow(0.32,31,0.025,0,color = 'k',head_length=0.01,width = 0.5)
+plt.text(xhexpos,y_cyl,'C',color = 'k',size = textsize,ha = 'center')
+plt.text(xsphpos,y_sph,'S',color = 'k',size = textsize,ha = 'center')
 # plt.Rectangle((0.35,21.84),0.3,30,facecolor="black", alpha=0.1)
 # plt.gca().add_patch(Rectangle((0.35,21),0.05,10,linewidth=1,edgecolor='r',facecolor='none'))
-
+plt.xticks(list([0.1,0.2,0.3,0.4,0.5]))
 plt.xlabel(r'$f_A$')
-plt.ylabel(r'$\chi N_{tot}$')
+plt.ylabel(r'$\chi N$')
 plt.tight_layout()
 plt.savefig('/home/tquah/Presentations/FirstYearTalkQuah/images/phasediagram.png',dpi=300)
+
+
+# xx = np.linspace(0.4,0.5,100)
+# y1 = splinelist[0](xx)
+# y2 = splinelist[-1](xx)
+# c3 = CubicSpline(xx,y1-y2)
+# roots = c3.roots()
+
+# # plt.figure()
+# # plt.plot(xx,y1-y2)
+# plt.plot(roots[0],splinelist[-1](roots[0]),'or')
+
+
+

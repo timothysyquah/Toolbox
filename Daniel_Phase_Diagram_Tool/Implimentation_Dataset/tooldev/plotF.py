@@ -5,7 +5,8 @@ import scipy as sp
 import scipy.stats
 import matplotlib.pyplot as plt
 import itertools
-from scipy.spatial import Delaunay
+from scipy.spatial import Delaunay,Voronoi
+import os
 np.set_printoptions(linewidth=180)
 plt.rcParams.update({
     'font.size': 16, 
@@ -136,8 +137,11 @@ tol = 1e-8
 fmin = 0.09
 fmax = 0.41
 
-# phase_names = ['BCC','DIS','HEX','A15','SIGMA','LAM','GYR']
-phase_names = ['BCC','DIS','HEX','A15','SIGMA','SIGMA144','SIGMA192']
+phase_names = ['BCC','DIS','HEX','A15','SIGMA','LAM','GYR']
+
+
+os.chdir("/media/tquah/TOSHIBA EXT/Projects/DMREF/sweep-asym-armlength_corrected/PHASE_FREE_ENERGY")
+# phase_names = ['BCC','DIS','HEX','LAM','GYR']
 nphases = len(phase_names)
 data = [] # store data as a list of np arrays
 
@@ -221,6 +225,7 @@ plt.triplot(pt_array[:,0], pt_array[:,1], tri.simplices,c='k',alpha=0.3)
 if draw_boundaries:
     edge_list = []
     phase_boundaries = [];
+    phase_boundary_dict = dict()
     for simpidx in range(tri.simplices.shape[0]):
         # generate all pairs of vertices for edges
         tmpedges = list(itertools.combinations(tri.simplices[simpidx,:],2))
@@ -234,12 +239,14 @@ if draw_boundaries:
         if (len(allbdypts)%2 == 0):
             while (len(allbdypts) > 0):
                 len0=len(allbdypts)
-                #print(allbdypts)
                 for l in range(1,len(allbdypts)):
                     #print(bdypts[0],bdypts[l])
                     #print(sorted(bdypts[0][2]),sorted(bdypts[l][2]))
                     if (sorted(allbdypts[0][2]) == sorted(allbdypts[l][2])):
                         phase_boundaries.append([allbdypts[0][0],allbdypts[l][0]])
+                        
+#                        boundary_name = stable_phase_names[allbdypts[0][-1][0]]+'-'+stable_phase_names[allbdypts[0][-1][1]]
+                        print(allbdypts[0][0])
                         del allbdypts[l]
                         del allbdypts[0]
                         break
@@ -287,7 +294,7 @@ if draw_boundaries:
     
     
     for j in range(len(phase_boundaries)):
-        ax.plot([phase_boundaries[j][0][0],phase_boundaries[j][1][0]],[phase_boundaries[j][0][1],phase_boundaries[j][1][1]],c='k')
+        ax.scatter([phase_boundaries[j][0][0],phase_boundaries[j][1][0]],[phase_boundaries[j][0][1],phase_boundaries[j][1][1]],c='k')
 plt.xlim(fmin,fmax)
 # plt.ylim(1,3)
 

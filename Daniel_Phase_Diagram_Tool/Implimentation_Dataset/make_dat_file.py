@@ -20,22 +20,21 @@ import scipy as sp
 import scipy.stats
 import itertools
 
-def data_extraction(path,filename,keyword):
-    IDIR_og = os.getcwd()
-    os.chdir(path)
-    IDIR = os.getcwd()
+def data_extraction(files,filename,keyword,rule):
     dir_dict = dict()
-    for file in glob.glob(f'./chiAB_0.0289/ABratio_*/fA0.**/{filename}', recursive = True):
+    for file in files:
         dir_split = file.split('/')
-        full_path = os.path.join(IDIR,file)
-        op = open(full_path,'r')
+        op = open(file,'r')
         dataread = op.read().splitlines()
         op.close()
         dictionary_list = []
         for i in range(0,len(keyword)-1):
             dir1loc = dir_split.index([s for s in dir_split if keyword[i] in s][0])
             dir1=dir_split[dir1loc]
-            dictionary_list.append(float(re.findall("\d+\.\d+", dir1)[0]))
+            listofvalues = re.findall("\d+\.\d+", dir1)
+            converted = [float(i) for i in listofvalues]
+            process_rule = rule[i](np.array(converted))
+            dictionary_list.append(process_rule)
     
         dir2loc = dir_split.index([s for s in dir_split if keyword[-1] in s][0])
         dir2=dir_split[dir2loc]
@@ -56,8 +55,26 @@ def data_extraction(path,filename,keyword):
             else:
                 print('Simulations have STATUS 0 1 3...revist extractF0.dat...')
                 break
-    os.chdir(IDIR_og)
     return dir_dict
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 def obtain_unique_dims(dictionary):
     
     keys = list(dictionary)
@@ -67,71 +84,9 @@ def obtain_unique_dims(dictionary):
         temp = []
 
         for key in keys:
-        
             temp.append(key[i])
         returnlist.append(sorted(list(set(temp))))
     return returnlist
-        
-
-path = "/media/tquah/TOSHIBA EXT/Projects/chiN_60_asymdir"
-export_path = "/home/tquah/Figures/11-11-2020-PhasePlotterTool/"
-filename = 'F0_phases.dat'
-keyword = ['ABratio','f']
-data_dict = data_extraction(path,filename,keyword)
-
-
-phaselist = ['BCC','HEX','A15','SIGMA']
-
-
-
-
-
-
-# #need to generalize for beyond SIGMA
-# for key in header_sigma:
-#     sort = np.argsort(data_dict[key][:,0])
-#     data_dict[key] = data_dict[key][sort]
-#     if key[1]=='A1596':
-#         data_dict.pop(key, None)
-#     if key[1].find('SIGMA')!=-1:
-#         if key[1]!='SIGMA':
-#             main_array = data_dict[(key[0],'SIGMA')]
-#             sigma_array = data_dict[key]
-#             compare_points = np.intersect1d(main_array[:,0],sigma_array[:,0],return_indices=True)
-                
-#             if len(compare_points[0])>0:
-#                 for i in range(0,len(compare_points),1):
-#                     if main_array[compare_points[1][i],1] > sigma_array[compare_points[2][i],1]:
-#                         main_array[compare_points[1][i],1] = sigma_array[compare_points[2][i],1]
-            
-#             unique = np.setdiff1d(sigma_array[:,0],main_array[:,0])
-#             if len(unique)>0:
-#                 indices = np.searchsorted(sigma_array[:,0], unique)
-#                 main_array = np.vstack((main_array,sigma_array[indices,:]))
-#             sort = np.argsort(main_array[:,0])
-#             main_array = main_array[sort,:]
-#             data_dict[(key[0],'SIGMA')] = main_array
-#             data_dict.pop(key, None)
-
-        
-listofvar = obtain_unique_dims(data_dict)
-
-header = list(data_dict)
-#print(listofvar)
-
-phase_dict = dict()
-for key in header:
-    shape = np.shape(data_dict[key])
-    temp_array = np.zeros((shape[0],3))
-    temp_array[:,0] = data_dict[key][:,0]
-    temp_array[:,1] = key[0]
-    temp_array[:,2] = data_dict[key][:,1]
-
-    if key[1] in list(phase_dict):
-        phase_dict[key[1]] = np.vstack((phase_dict[key[1]],temp_array))
-    else:        
-        phase_dict[key[1]] = temp_array
-
 
 def Clean_Array(Array):
     unique_array = np.unique(Array[:,0:2],axis=0)
@@ -168,7 +123,67 @@ def Combine_Phases(dictionary,phase):
                 temp_array = np.vstack((temp_array,dictionary[key]))
     return temp_array
 
-    
+
+# path = "/media/tquah/TOSHIBA EXT/Projects/chiN_60_asymdir"
+# path = "/media/tquah/TOSHIBA EXT/Projects/sweep-asym-armlength_BCC_fix"
+
+path = "/media/tquah/TOSHIBA EXT/Projects/sweep-asym-armlength_BCC_fix"
+
+path = '/media/tquah/TOSHIBA EXT/Projects/DMREF/sweep-asym-armlength_corrected'
+
+export_path = "/home/tquah/Figures/11-11-2020-PhasePlotterTool/"
+
+pwd = os.getcwd()
+os.chdir(path)
+
+directories = 'chiAB_0.0289*/Nsc*/fA0.*'
+filename = 'F0_phases.dat'
+keyword = ['Nsc','f']
+
+list_of_directory = glob.glob(os.path.join(directories,filename), recursive = True)
+
+
+tuplerule = lambda x: np.sqrt((x[1]+1)/(x[0]+1))
+ABratio = lambda x : x*1
+chiN = lambda x : 2100*x
+fA = lambda x : x*1
+
+rules = [tuplerule,fA]
+
+data_dict = data_extraction(list_of_directory,filename,keyword,rules)
+
+# phaselist = ['LAM','HEX','BCC','DIS','GYR']
+phaselist = ['BCC','HEX','A15','SIGMA','DIS']
+
+        
+listofvar = obtain_unique_dims(data_dict)
+
+header = list(data_dict)
+#print(listofvar)
+
+phase_dict = dict()
+for key in header:
+    shape = np.shape(data_dict[key])
+    if len(shape)==2:
+        temp_array = np.zeros((shape[0],3))
+        temp_array[:,0] = data_dict[key][:,0]
+        temp_array[:,1] = key[0]
+        temp_array[:,2] = data_dict[key][:,1]
+
+    else:
+        temp_array = np.zeros((1,3))
+        temp_array[:,0] = data_dict[key][0]
+        temp_array[:,1] = key[0]
+        temp_array[:,2] = data_dict[key][1]
+
+
+    if key[1] in list(phase_dict):
+        phase_dict[key[1]] = np.vstack((phase_dict[key[1]],temp_array))
+    else:        
+        phase_dict[key[1]] = temp_array
+
+
+#only to clean up SIGMA shinanigans 
 temp_array = Combine_Phases(phase_dict,'SIGMA')
 clean_array = Clean_Array(temp_array)
 header = list(phase_dict)
@@ -179,8 +194,16 @@ phase_dict['SIGMA'] = clean_array
 
 
 
+alldir = os.listdir()
+if 'PHASE_FREE_ENERGY' not in alldir:
+    os.mkdir('PHASE_FREE_ENERGY')
+os.chdir('PHASE_FREE_ENERGY')
+
 for phase in list(phase_dict):
-    np.savetxt('./tooldev/'+phase+'.dat',phase_dict[phase],header = '# fA epsilon free_energy',delimiter = ' ')
+    print(phase)
+    np.savetxt(phase+'.dat',phase_dict[phase],header = '# fA epsilon free_energy',delimiter = ' ')
 
 
 
+
+os.chdir(pwd)

@@ -98,8 +98,9 @@ ymin = -0.1
 ymax = 0.05
 fmin = 0.01
 fmax = 0.5
-
-phase_names = ['BCC','DIS','HEX','A15','SIGMA']
+import os
+os.chdir("/media/tquah/TOSHIBA EXT/Projects/sweep-asym-armlength_BCC_fix/PHASE_FREE_ENERGY")
+phase_names = ['BCC','DIS','HEX','LAM','GYR']
 nphases = len(phase_names)
 data = [] # store data as a list of np arrays
 

@@ -270,8 +270,52 @@ def Input_Standard(input_file_path,n_species,kuhn_length_text,chain_label,n_side
     
     if n_species==2:
         modeltype = 'BlockPolymerMelt2Spec'
-    if n_species>=3:
+    elif n_species>=3:
         modeltype = 'BlockPolymerMelt'
+        
+        
+    inputfileversion = 3
+    nummodel = 1
+    partition_function = 'canonical'
+    ham_bool = 'True'
+    stress_bool = 'True'
+    chem_pot_bool = 'False'
+    idealgas_bool = 'False'
+    field_type = 'HFields'
+    field_updater = 'SIS'
+    timesteps_block = 1000
+    block_num = 1000
+    variablecell_bool = 'True'
+    density_history_bool = 'False'
+    field_history_bool = 'False'
+    density_chain_bool = 'False'
+    format_fields_bool = 'True'
+    volfrac_chain = 1.0
+    
+    f = open(input_file_path,'w+')    
+    Input_Builder(f,inputfileversion,nummodel,modeltype,n_species,\
+                     kuhn_length_text,chain_label,n_sidearm_types,\
+                     models_add,chain_text_list,chiN_list,interation_add,\
+                     d,initial_box,npw,partition_function,\
+                     ham_bool,stress_bool,chem_pot_bool,idealgas_bool,\
+                     field_type,field,field_updater,cell_updater,timesteps_block,\
+                     block_num,dt,force_scale_text,stress_scale,force_tol,stress_tol,\
+                     variablecell_bool,density_history_bool,field_history_bool,\
+                     density_chain_bool,format_fields_bool,volfrac_chain,cellscale,
+                     add_phase,space_group,non_primitive_centering,\
+                     symmetrize,parallel_cuda,cuda_thread_block_size,nThreads).Write_to_Text()
+    f.close()
+
+def Input_Standard_Polymer(input_file_path,n_species,kuhn_length_text,chain_label,n_sidearm_types,\
+                   models_add,chain_text_list,chiN_list,interation_add,d,\
+                   initial_box,npw,field,dt,force_scale_text,stress_scale,\
+                   force_tol,stress_tol,cell_updater,cellscale,add_phase,\
+                 space_group,non_primitive_centering,symmetrize,\
+                 parallel_cuda,cuda_thread_block_size,nThreads):
+    
+    modeltype = 'Polymer'
+        
+        
     inputfileversion = 3
     nummodel = 1
     partition_function = 'canonical'

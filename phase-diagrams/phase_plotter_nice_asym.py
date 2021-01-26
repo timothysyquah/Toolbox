@@ -154,8 +154,8 @@ def extend_data_cubicspline(df,dfA = 0.001):
     return new_df
 
 
-file_path_full = 'asympd.dat'
-
+#file_path_full = 'asym-10-23-2020.dat'
+file_path_full = '/home/tquah/BottlebrushPaper/PhaseBoundaries/asymbottlebrush.dat'
 fo = open(file_path_full, 'r')
 data_from_file = fo.read().splitlines()
 fo.close()
@@ -180,18 +180,24 @@ for boundary in data_dict:
     # plt.plot(x,y,'-ok',marker='s',markersize=5)
 
 ypos = 6
-# plt.xlim(.0,0.50)
+plt.xlim(.0,1.0)
 # plt.ylim(1.,19)
 textsize = 13
-# plt.text(0.40,1.5,'LAM',color = 'k',size = textsize)
-# plt.text(0.3,2,'GYR',color = 'k',size = textsize)
-# plt.arrow(0.37,2.05,.025,0,color = 'k',head_length=0.01,width = 0.05)
-# # plt.text(0.2,3.8,'A15',color = 'k',size = textsize)
-# plt.text(0.175,3.5,'Sigma',color = 'k',size = textsize)
+plt.text(0.65,2.5,'L',color = 'k',size = textsize,ha = 'center')
+plt.text(0.5,2.5,'G',color = 'k',size = textsize,ha = 'center')
+plt.text(0.71,2.5,'G',color = 'k',size = textsize,ha = 'center')
+plt.text(0.83,2.5,'C',color = 'k',size = textsize,ha = 'center')
+plt.text(0.83,2.0,'S',color = 'k',size = textsize,ha = 'center')
 
-# plt.text(0.28,3,'HEX',color = 'k',size = textsize)
-# plt.text(0.135,2,'BCC',color = 'k',size = textsize)
-# plt.text(0.05,1.5,'DIS',color = 'k',size = textsize)
+# plt.arrow(0.37,2.05,.025,0,color = 'k',head_length=0.01,width = 0.05)
+# plt.text(0.2,3.8,'A15',color = 'k',size = textsize)
+plt.text(0.295,3.5,'A15',color = 'k',size = textsize,ha = 'center')
+plt.text(0.19,2.5,'$\sigma$',color = 'k',size = textsize,ha = 'center')
+
+plt.text(0.38,2.5,'C',color = 'k',size = textsize,ha = 'center')
+plt.text(0.155,1.2,'S',color = 'k',size = textsize,ha = 'center')
+plt.text(0.07,2.5,'D',color = 'k',size = textsize,ha = 'center')
+plt.text(0.95,2.5,'D',color = 'k',size = textsize,ha = 'center')
 
 plt.xlabel(r'$f_A$')
 plt.ylabel(r'$\epsilon$')

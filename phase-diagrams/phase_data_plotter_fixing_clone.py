@@ -916,9 +916,9 @@ if __name__ == '__main__':
     parser.add_argument('-t', '--plottype', action='store', default='simplecolors',help='type of plot to generate')
     parser.add_argument('--xlabel', action='store', default=r"$f_A$",help='label for xaxis, can use \'$\' to write latex')
     parser.add_argument('--zlabel', action='store', default=r"$\tau$")
-    parser.add_argument('--ylabel', action='store', default=r"$\chi N$",help='')
+    parser.add_argument('--ylabel', action='store', default=r"$chi$",help='')
     parser.add_argument('--axisrange', action='store', nargs=4, default=[None,None,None,None],help='')
-    parser.add_argument('--linecutoff', action='store', nargs='+', default=[0,0],help='maximum length of lines to draw in phase diagrams, useful to clean them up')
+    parser.add_argument('--linecutoff', action='store', nargs='+', default=[0.1,1],help='maximum length of lines to draw in phase diagrams, useful to clean them up')
     parser.add_argument('-n','--dim',action='store',default=None,help='Number of dimensions to plot phase data in \n   1 => Free energy curves\n   2 => Phase Diagram \n   3 => 3d phase diagram  (guesses by default)')
     parser.add_argument('-i','--interp_dimension',action='store',default=[0],nargs='+',help='Dimensions to interpolate the phase diagram along ex: [0,1] would interpolate in 2 dimensions')
     parser.add_argument('-p','--plotstyle3d',action='store',default='flat',help='This argument changes the 3d plot style. Flat => multiple graphs with different linestyles on top of each other')
@@ -930,14 +930,19 @@ if __name__ == '__main__':
     args = parser.parse_args()
     # args.dirs = glob.glob("/home/tquah/Projects/DMREF/sweep-asym-armlength_BCC_fix/chiAB_*/Nsc*/fA*")
     # args.dirs = glob.glob("/home/tquah/Projects/sweep-asym-armlength_BCC_fix/chiAB_0.008*/Nsc*/fA*")
-    # args.dirs = glob.glob("/home/tquah/Projects/sweep-asym-armlength_BCC_fix/chiAB_0.0144*/Nsc*/fA*")
+    # args.dirs = glob.glob("/home/tquah/Projects/sweep-asym-armlength_BCC_fix/chiAB_0*/Nsc*/fA*")
 
     # args.dirs = glob.glob("/home/tquah/IMPORT_BRAID/diblock_phasediagram/chiAB*/NscA_20*/fA0.25000")
     # args.dirs = glob.glob("/media/tquah/TOSHIBA EXT/Projects/DMREF/sweep-asym-armlength_asymBCC_fix/chiAB_0.0134*/Nsc*/fA*")
     # args.dirs = glob.glob("/media/tquah/TOSHIBA EXT/Projects/DMREF/sweep-asym-armlength_asymBCC_fix/chiAB_0.0134*/Nsc*/fA*")
     # args.dirs = glob.glob("/media/tquah/TOSHIBA EXT/Projects/chiN_60_asymdir/chiAB*/ABratio_*/fA0.*")
-    args.dirs = glob.glob("/media/tquah/TOSHIBA EXT/Projects/DMREF/sweep-asym-armlength_asymBCC_fix/chiAB_0.0124*/Nsc*/fA*")
-    args.dirs = glob.glob("/media/tquah/TOSHIBA EXT/Projects/sweep-asym-armlength_BCC_fix/chiAB_*/Nsc*/fA*")
+#    args.dirs = glob.glob("/media/tquah/TOSHIBA EXT/Projects/DMREF/sweep-asym-armlength_asymBCC_fix/chiAB_*/Nsc*/fA*")
+    # args.dirs = glob.glob("/media/tquah/TOSHIBA EXT/Projects/sweep-asym-armlength_BCC_fix/chiAB_0*/Nsc*/fA*")
+    # args.dirs = glob.glob("/media/tquah/TOSHIBA EXT/Projects/DGC_FJC_CGC_sym/FJC/chiAB_0*/Nsc*/fA*")
+    # args.dirs = glob.glob("/media/tquah/TOSHIBA EXT/Projects/DGC_FJC_CGC_sym/CGC_empty_2/chiAB_0.0359*/Nsc*/fA*")
+    args.dirs = glob.glob("//media/tquah/TOSHIBA EXT/Projects/eps_development/eps_lambda_2/chiAB_0*/Nsc*/fA*")
+    # args.dirs = glob.glob("//media/tquah/TOSHIBA EXT/Projects/eps_development/eps_bA_SC_1.24/chiAB_0*/Nsc*/fA*")
+    # args.dirs = glob.glob("//media/tquah/TOSHIBA EXT/Projects/eps_development/eps_bA_BB_1.24/chiAB_0*/Nsc*/fA*")
 
     # args.dirs = glob.glob("/home/tquah/IMPORT_BRAID/NSCASYM_02_other02/chiAB_0.0289/ABratio_5*/fA*")
     # args.dirs = glob.glob("/home/tquah/Projects/asymnonspecial/chiAB_0.0289/ABratio_19*/fA*")
@@ -949,12 +954,32 @@ if __name__ == '__main__':
 
     # os.chdir('/home/tquah/IMPORT_BRAID/NSCASYM_02_other/')
     # args.dirs = glob.glob("chiAB_0.0289/ABratio*/fA*")
-
-    args.refphase = 'DIS'
+    
+    # fAstore =np.array([0.09938, 0.11196, 0.14258, 0.16786, 0.18056, 0.19828, 0.21098,\
+    #    0.22371, 0.24928, 0.2795 , 0.29234, 0.32237, 0.36111, 0.37798,\
+    #    0.39093, 0.40392, 0.43001, 0.45963, 0.47273, 0.50215, 0.51225,\
+    #    0.54167, 0.55767, 0.57088, 0.58413, 0.61315, 0.63975, 0.65311,\
+    #    0.68193, 0.69342, 0.72222, 0.75084, 0.76434, 0.79276, 0.80509,\
+    #    0.81988, 0.83349, 0.86171, 0.87536, 0.90278])
+    # from copy import deepcopy
+    
+    # dirs = args.dirs
+    
+    # del args.dirs
+    # args.dirs = []
+    # for direct in dirs:
+    #     value = float(re.findall(r'[\d]*[.][\d]+', direct.split('/')[-1])[0])
+    #     if value in fAstore:
+    #         args.dirs.append(direct)
+    
+    
+    
+    
+    args.refphase = 'A15'
     # args.keywrd = ['ABratio','fA']
     args.keywrd = ['chi','fA']
-    args.dim =2  #len(args.keywrd)
-    # args.raw = 'asymslice.dat'
+    args.dim =1  #len(args.keywrd)
+    args.raw = '/home/tquah/BottlebrushPaper/PhaseBoundaries/chiasymbottlebrush.dat'
 
     args.interp_dimension = [0]
     #fnmeIn="F0_phases.dat"

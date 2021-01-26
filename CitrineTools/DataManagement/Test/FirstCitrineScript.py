@@ -107,7 +107,7 @@ s#             dir1=dir_split[dir1loc]
 #                     dir_dict[tuple(newlist)] = np.array([innerstore,float(splitdata[1])])
 #             else:
 #                 print('Simulations have STATUS 0 1 3...revist extractF0.dat...')
-#                 break
+#                 breakuntitled1
 #     os.chdir(IDIR_og)
 #     return dir_dict
 
@@ -137,7 +137,7 @@ s#             dir1=dir_split[dir1loc]
 #             break
 #         break
 #     os.chdir(IDIR_og)
-#     return test
+#     return testuntitled1
 # def extract_xy(data_dict):
 #     l1 = []
 #     l2 = []

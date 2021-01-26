@@ -10,9 +10,7 @@ Created on Thu Aug 20 19:17:05 2020
 from PolyFTSFieldWriter import *
 from PolyFTSFieldReader import *
 import numpy as np
-import argparse
 import os
-from Fields_Check import fields_compare
 import glob
 #Function 
 def return_fields(path):
@@ -24,8 +22,8 @@ def return_fields(path):
     npw = field.griddim
     return field_Re,field_Im,hcell,npw
 #import path 
-path = '/home/tquah/EXPORT_KNOT/SEEDS_2spec1red'
-os.chdir(path)
+#path = '/home/tquah/EXPORT_KNOT/SEEDS_2spec1red'
+#os.chdir(path)
 Phases = glob.glob('*Phase')
 #Phases = ['A15Phase']
 

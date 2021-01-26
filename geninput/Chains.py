@@ -270,7 +270,7 @@ def Input_Standard(input_file_path,n_species,kuhn_length_text,chain_label,n_side
     
     if n_species==2:
         modeltype = 'BlockPolymerMelt2Spec'
-    if n_species>=3:
+    elif n_species>=3:
         modeltype = 'BlockPolymerMelt'
     inputfileversion = 3
     nummodel = 1

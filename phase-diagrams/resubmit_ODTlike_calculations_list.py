@@ -60,7 +60,7 @@ def StatusLogic(value):
         print('Warning Wrong Criteria')
         return False
 
-def StructureLogic(value,tol = 0.9):
+def StructureLogic(value,tol = 0.95):
     if value >= tol:
         return True
     else:
@@ -74,11 +74,30 @@ marker = ['+', 'o', 's','v','^','<','>','x','p','h','H','*']
 #os.chdir('/media/tquah/TOSHIBA EXT/Projects/DMREF/sweep-asym-armlength_asymBCC_fix/')
 os.chdir('/media/tquah/TOSHIBA EXT/Projects/DMREF/sweep-asym-armlength_asymBCC_fix/')
 exportpath = '/home/tquah/Figures/DOCUMENTATION/'
+listpath = '/home/tquah/ResubmitList/01182021.txt'
+def convertfiletolist(path):
+    op = open(path,'r')
+    data = op.read().splitlines()
+    op.close()
+    submitlist = []
+    for row in data:
+        templist = []
+        for obj in row.split():
+            
+            try:
+                value = eval(obj)
+            except NameError:
+                value = obj
+
+            templist.append(value)
+        submitlist.append(templist)
+    return submitlist
+
 phasediagram_tag = 'chiN_fA'
-phasetolerance = 0.90
+phasetolerance = 0.9
 # os.chdir('/media/tquah/TOSHIBA EXT/Projects/DMREF/sweep-asym-armlength_corrected')
 # os.chdir('/media/tquah/TOSHIBA EXT/Projects/DMREF/sweep-asym-armlength_corrected')
-os.chdir('/media/tquah/TOSHIBA EXT/Projects/sweep-asym-armlength_BCC_fix/')
+#os.chdir('/media/tquah/TOSHIBA EXT/Projects/sweep-asym-armlength_BCC_fix/')
 
 #Keywords you need to use
 wdir = os.getcwd()
@@ -87,9 +106,8 @@ output_name = 'RESUBMIT.dat'
 # do not include DIS
 desired_phaselist = ['BCCPhase', 'HEXPhase','LAMPhase','GYRPhase']
 # desired_phaselist = ['GYRPhase']
-desired_phaselist = ['HEXPhase']
-# desired_phaselist = ['LAMPhase']
-desired_phaselist = ['BCCPhase', 'HEXPhase','LAMPhase']
+desired_phaselist = ['HEXPhase','LAMPhase','BCCPhase']
+# desired_phaselist = ['HEXPhase']
 
 # desired_phaselist = ['BCCPhase']
 
@@ -110,7 +128,7 @@ listofcategory = Combine_List_Category(dirs)
 ordered_category = Seperate_Categories_unique(listofcategory)
 depth_category = [len(x) for x in ordered_category]
 # organize dictionary
-data_dictionary = Combine_Dictionary(listofcategory, disflag=True,tol = 1e-6)
+data_dictionary = Combine_Dictionary(listofcategory, disflag=True)
 # create fA lists for each categoryarray
 unique_phases = All_Phases(data_dictionary)
 phaselist = deepcopy(unique_phases)
@@ -133,14 +151,22 @@ prepfAdictionary(fA_structure, phaselist)
 fA_populate(data_dictionary, fA_structure, phaselist, 'Structure')
 
 
-# Collects Points that fail the following criteria
-DIS_resubmitlist = DIS_List_Gather(fA_dict, phaselist) #only detects if at least one surrounding point is NOT DIS
-Divergent_resubmitlist = Divergent_List_Gather(fA_status, phaselist) #detects 1, but can be modified for 0 and 3
-Structure_resubmitlist = Structure_List_Gather(fA_structure, phaselist,tol =phasetolerance) #detects with a tolerance of 0.9, but uses similar logic to DIS
+# # Collects Points that fail the following criteria
+# DIS_resubmitlist = DIS_List_Gather(fA_dict, phaselist) #only detects if at least one surrounding point is NOT DIS
+# Divergent_resubmitlist = Divergent_List_Gather(fA_status, phaselist) #detects 1, but can be modified for 0 and 3
+# Structure_resubmitlist = Structure_List_Gather(fA_structure, phaselist,tol =phasetolerance) #detects with a tolerance of 0.9, but uses similar logic to DIS
 
-# combine all the things I want to resubmit
+# # combine all the things I want to resubmit
 # combined_resubmitlist = DIS_resubmitlist + Divergent_resubmitlist + Structure_resubmitlist
-combined_resubmitlist = DIS_resubmitlist #+ Divergent_resubmitlist + Structure_resubmitlist
+# combined_resubmitlist = DIS_resubmitlist #+ Divergent_resubmitlist + Structure_resubmitlist
+
+
+
+
+
+
+combined_resubmitlist = convertfiletolist(listpath)
+
 
 #remove duplicates
 # combined_resubmitlist = remove_duplicates(combined_resubmitlist)
