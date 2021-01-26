@@ -8,7 +8,7 @@ Created on Sun Jul 19 17:42:31 2020
 
 
 from make_input_file_dict import make_input
-#from checkphases import field_checker
+from checkphases import field_checker
 import numpy as np
 import os
 # import pdb
@@ -422,7 +422,7 @@ if __name__ == '__main__':
     #check if seed path exists
     if os.path.exists(args.seed_path)!=True and args.seed_path_type=='Main':
         raise RuntimeError('Seed Path Does not Exist')
-    check_set_equality(sorted(args.itterative_structure),sorted(['chi','nbb','nsc','f','nref']),'Directory Structure needs chi,nbb,nsc,f,nref')
+    check_set_equality(args.itterative_structure,['chi','nbb','nsc','f','nref'],'Directory Structure needs chi,nbb,nsc,f,nref')
     
     #check directory logic
     dirlogic_check = [len(args.directory_struct_names),len(args.nameloc)]
@@ -496,10 +496,10 @@ if __name__ == '__main__':
 
                                         if os.path.isfile(field_path_1):
                                             fieldsin_path = field_path_1
-#                                            field_checker(field_path_1,field_path_3)
+                                            field_checker(field_path_1,field_path_3)
                                         elif os.path.isfile(field_path_2):
                                             fieldsin_path = field_path_2
-#                                            field_checker(field_path_1,field_path_3)
+                                            field_checker(field_path_1,field_path_3)
                                         else:
                                             print(WDIR)
                                             print('field path not found!')
@@ -662,10 +662,10 @@ if __name__ == '__main__':
                                         field_path_3 = os.path.join(full_WDIR,fieldpath)
                                         if os.path.isfile(field_path_1):
                                             fieldsin_path = field_path_1
-#                                            field_checker(field_path_1,field_path_3)
+                                            field_checker(field_path_1,field_path_3)
                                         elif os.path.isfile(field_path_2):
                                             fieldsin_path = field_path_2
-#                                            field_checker(field_path_1,field_path_3)
+                                            field_checker(field_path_1,field_path_3)
                                     elif status==0 or status==3:
                                         print('Simulation was killed or ran out of time')
                                         os.chdir(IDIR)

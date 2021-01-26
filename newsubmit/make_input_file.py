@@ -94,7 +94,7 @@ def make_input(PHASE,REPLACE_lIST,WDIR):
     volfrac_chain = 1.0
     nThreads = 1
     parallel_cuda = 1
-    cuda_thread_block_size = 64
+    cuda_thread_block_size = 128
 
 
     input_file_path = os.path.join(WDIR,INFILE)
