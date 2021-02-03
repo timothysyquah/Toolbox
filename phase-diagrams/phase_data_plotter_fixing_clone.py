@@ -179,7 +179,7 @@ class PhaseBoundaryHolder:
         '''utility to add nodes to the provided axis'''
         for node in nodes:
             x,y=node.pos[0], node.pos[1]
-            ax.plot(x,y,marker='.',color='black',markersize=2.0)
+            ax.plot(x,y,marker='.',color='black',markersize=5.0)
 
     def ax_plot_boundaries(self,ax,marker=None, color=None, showlabels=False):
 
@@ -916,7 +916,7 @@ if __name__ == '__main__':
     parser.add_argument('-t', '--plottype', action='store', default='simplecolors',help='type of plot to generate')
     parser.add_argument('--xlabel', action='store', default=r"$f_A$",help='label for xaxis, can use \'$\' to write latex')
     parser.add_argument('--zlabel', action='store', default=r"$\tau$")
-    parser.add_argument('--ylabel', action='store', default=r"$chi$",help='')
+    parser.add_argument('--ylabel', action='store', default=r"$F-F_{DIS}$",help='')
     parser.add_argument('--axisrange', action='store', nargs=4, default=[None,None,None,None],help='')
     parser.add_argument('--linecutoff', action='store', nargs='+', default=[0.1,1],help='maximum length of lines to draw in phase diagrams, useful to clean them up')
     parser.add_argument('-n','--dim',action='store',default=None,help='Number of dimensions to plot phase data in \n   1 => Free energy curves\n   2 => Phase Diagram \n   3 => 3d phase diagram  (guesses by default)')
@@ -935,14 +935,14 @@ if __name__ == '__main__':
     # args.dirs = glob.glob("/home/tquah/IMPORT_BRAID/diblock_phasediagram/chiAB*/NscA_20*/fA0.25000")
     # args.dirs = glob.glob("/media/tquah/TOSHIBA EXT/Projects/DMREF/sweep-asym-armlength_asymBCC_fix/chiAB_0.0134*/Nsc*/fA*")
     # args.dirs = glob.glob("/media/tquah/TOSHIBA EXT/Projects/DMREF/sweep-asym-armlength_asymBCC_fix/chiAB_0.0134*/Nsc*/fA*")
-    # args.dirs = glob.glob("/media/tquah/TOSHIBA EXT/Projects/chiN_60_asymdir/chiAB*/ABratio_*/fA0.*")
+#    args.dirs = glob.glob("/media/tquah/TOSHIBA EXT/Projects/chiN_60_asymdir/chiAB*/ABratio_*/fA0.*")
 #    args.dirs = glob.glob("/media/tquah/TOSHIBA EXT/Projects/DMREF/sweep-asym-armlength_asymBCC_fix/chiAB_*/Nsc*/fA*")
-    # args.dirs = glob.glob("/media/tquah/TOSHIBA EXT/Projects/sweep-asym-armlength_BCC_fix/chiAB_0*/Nsc*/fA*")
+#    args.dirs = glob.glob("/media/tquah/TOSHIBA EXT/Projects/sweep-asym-armlength_BCC_fix/chiAB_0*/Nsc*/fA*")
     # args.dirs = glob.glob("/media/tquah/TOSHIBA EXT/Projects/DGC_FJC_CGC_sym/FJC/chiAB_0*/Nsc*/fA*")
-    # args.dirs = glob.glob("/media/tquah/TOSHIBA EXT/Projects/DGC_FJC_CGC_sym/CGC_empty_2/chiAB_0.0359*/Nsc*/fA*")
+#    args.dirs = glob.glob("/media/tquah/TOSHIBA EXT/Projects/DGC_FJC_CGC_sym/CGC_empty_2/chiAB_0.*/Nsc*/fA*")
     args.dirs = glob.glob("//media/tquah/TOSHIBA EXT/Projects/eps_development/eps_lambda_2/chiAB_0*/Nsc*/fA*")
-    # args.dirs = glob.glob("//media/tquah/TOSHIBA EXT/Projects/eps_development/eps_bA_SC_1.24/chiAB_0*/Nsc*/fA*")
-    # args.dirs = glob.glob("//media/tquah/TOSHIBA EXT/Projects/eps_development/eps_bA_BB_1.24/chiAB_0*/Nsc*/fA*")
+#    args.dirs = glob.glob("//media/tquah/TOSHIBA EXT/Projects/eps_development/eps_bA_SC_1.24/chiAB_0*/Nsc*/fA*")
+#    args.dirs = glob.glob("//media/tquah/TOSHIBA EXT/Projects/eps_development/eps_bA_BB_1.24/chiAB_0*/Nsc*/fA*")
 
     # args.dirs = glob.glob("/home/tquah/IMPORT_BRAID/NSCASYM_02_other02/chiAB_0.0289/ABratio_5*/fA*")
     # args.dirs = glob.glob("/home/tquah/Projects/asymnonspecial/chiAB_0.0289/ABratio_19*/fA*")
@@ -975,11 +975,12 @@ if __name__ == '__main__':
     
     
     
-    args.refphase = 'A15'
-    # args.keywrd = ['ABratio','fA']
+    args.refphase = 'DIS'
+#    args.keywrd = ['ABratio','fA']
     args.keywrd = ['chi','fA']
-    args.dim =1  #len(args.keywrd)
-    args.raw = '/home/tquah/BottlebrushPaper/PhaseBoundaries/chiasymbottlebrush.dat'
+    args.dim =1 #len(args.keywrd)
+#    args.raw = '/home/tquah/BottlebrushPaper/PhaseBoundaries/chiasymbottlebrush.dat'
+#    args.raw = 'test.dat'
 
     args.interp_dimension = [0]
     #fnmeIn="F0_phases.dat"

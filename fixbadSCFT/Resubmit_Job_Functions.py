@@ -80,6 +80,10 @@ def prune_undesired_phases(lst,desired):
             newlist.append(node)
     return newlist
 
+def prune_index(distance,index,tol):
+    loc = np.where(distance<tol)[0]
+    return index[loc],distance[loc],loc
+
 def Creating_Dictionary(dictionary, category, disflag=False,tolerance = 1e-6):
     key_tuple = ()
     header = ['Phase', 'FE', 'Status', 'Structure']
