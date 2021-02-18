@@ -32,8 +32,8 @@ def fzeroCubicSpline(fun,x0):
 
 E_Path = '/home/tquah/Presentations/FirstYearTalkQuah/images/'
 # path = '/home/tquah/IMPORT_KNOT/TODT.dict'
-# path = '/home/tquah/IMPORT_BRAID/T0data.dict'
-path = '/home/tquah/IMPORT_KNOT/FJC.dict'
+path = '/home/tquah/IMPORT_BRAID/T0data.dict'
+# path = '/home/tquah/IMPORT_KNOT/FJC.dict'
 
 # path = '/home/tquah/IMPORT_KNOT/TODT1.dict'
 
@@ -68,7 +68,7 @@ scount= 0
 tol = 1e-8
 
 op = open('odtfound.dat','w+')
-
+test = 0
 
 initial_count = 0
 for i in range(0,len(overall_list)):
@@ -92,10 +92,12 @@ for i in range(0,len(overall_list)):
     if len(Larray[:,1])==len(Darray[:,1]):
         Diff = CubicSpline(Larray[:,0],Larray[:,1]-Darray[:,1])    
         Derriv = Diff.derivative()
-    
+        
+            # plt.plot(Darray[:,0],Darray[:,1])
+
+        
+        
         # plt.figure()
-        # plt.plot(Larray[:,0],Larray[:,1])
-        # plt.plot(Darray[:,0],Darray[:,1])
         # plt.scatter(Darray[:,0],Larray[:,1]-Darray[:,1])
         xrun = np.linspace(np.min(Larray[:,0]),np.max(Larray[:,0]),100)
         ydiff = Diff(xrun)
@@ -112,7 +114,7 @@ for i in range(0,len(overall_list)):
                 scount+=1
             print('Nbb = %d and Nsc = %d'%(overall_list[i][1],overall_list[i][0]))
         else:
-            
+
             # print('Working')
             initialguess_array = np.linspace(np.min(Larray[:,0]),np.max(Larray[:,0]),number_of_initial_guesses)
             zeroarray = Parallel(n_jobs=-1)(delayed(fzeroCubicSpline)(Diff,initialguess_array[i]) for i in range (0,number_of_initial_guesses,1))

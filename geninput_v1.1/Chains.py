@@ -77,7 +77,193 @@ class Chain_Builder():
             return eval(f"f'''{self.chain_template}'''")+\
             eval(f"f'''{self.sidearm_addition}'''")
 
-class Input_Builder():
+class Input_Builder_SCFT():
+    def __init__(self,f,inputfileversion,nummodel,modeltype,n_species,\
+                     kuhn_length_text,gauss_smear,chain_label,n_sidearm_types,\
+                     models_add,chain_text_list,chiN_list,interation_add,\
+                     d,initial_box,npw,partition_function,\
+                     ham_bool,stress_bool,chem_pot_bool,idealgas_bool,calcstruct_bool,\
+                     field_type,field,field_updater,cell_updater,timesteps_block,\
+                     block_num,dt,force_scale_text,stress_scale,force_tol,stress_tol,\
+                     variablecell_bool,density_history_bool,field_history_bool,\
+                     density_chain_bool,format_fields_bool,volfrac_chain,chain_density,\
+                     cellscale,add_phase,space_group,non_primitive_centering,\
+                     symmetrize,parallel_cuda,cuda_thread_block_size,nThreads):
+        
+        self.f = f
+        self.inputfileversion = inputfileversion
+        self.nummodel = nummodel
+        self.modeltype = modeltype
+        self.n_species = n_species
+        self.kuhn_length_text = kuhn_length_text
+        self.gauss_smear = gauss_smear
+        self.chain_label = chain_label
+        self.n_sidearm_types = n_sidearm_types
+        self.models_add = models_add
+        self.chain_text_list = chain_text_list
+        self.chiN_list = chiN_list
+        self.interation_add = interation_add
+        self.d = d
+        self.initial_box =initial_box
+        self.npw = npw
+        self.partition_function = partition_function
+        self.ham_bool = ham_bool
+        self.stress_bool = stress_bool
+        self.chem_pot_bool = chem_pot_bool
+        self.idealgas_bool = idealgas_bool
+        self.calcstruct_bool = calcstruct_bool
+        self.field_type = field_type
+        self.field = field
+        self.field_updater = field_updater
+        self.cell_updater = cell_updater
+        self.timesteps_block = timesteps_block
+        self.block_num = block_num
+        self.dt = dt
+        self.force_scale_text = force_scale_text
+        self.stress_scale = stress_scale
+        self.force_tol = force_tol
+        self.stress_tol = stress_tol
+        self.variablecell_bool = variablecell_bool
+        self.density_history_bool = density_history_bool
+        self.field_history_bool = field_history_bool
+        self.density_chain_bool = density_chain_bool
+        self.format_fields_bool = format_fields_bool
+        self.chain_density = chain_density
+        self.volfrac_chain = volfrac_chain
+        self.add_phase = add_phase
+        self.space_group = space_group
+        self.cellscale = cellscale
+        self.non_primitive_centering = non_primitive_centering
+        self.symmetrize = symmetrize
+        self.parallel_cuda = parallel_cuda
+        self.cuda_thread_block_size = cuda_thread_block_size
+        self.nThreads = nThreads
+    def Write_to_Text(self):
+            self.f.write(f'''InputFileVersion={self.inputfileversion}
+            
+models {{
+    NumModels = {self.nummodel}
+    ModelType = {self.modeltype}
+    
+    monomers {{
+        nspecies = {self.n_species}
+        kuhnlen  = {self.kuhn_length_text}
+        GaussSmearWidth = {self.gauss_smear}
+        }}
+    
+    chains {{
+        nchains   = 1 
+''')
+            
+            #chains remember to close with }
+            for i in self.models_add:
+                self.f.write('        '+i)
+                self.f.write('\n')
+            
+            self.f.write(f'''        
+  chain1 {{
+    label  = {self.chain_label}            
+    architecture = comb
+    NumSideArmTypes = {self.n_sidearm_types}
+''')
+            for i in self.chain_text_list:
+                self.f.write(i)
+            self.f.write('\n')
+            self.f.write('       }')
+            self.f.write('\n')
+            self.f.write('}')
+
+            self.f.write(f'''
+    model1 {{
+        cell {{
+        dim = {self.d}
+        celllengths =  {self.initial_box}
+        npw = {self.npw}
+''')
+
+            if self.add_phase:
+                self.f.write(f'''
+        cellscaling = {self.cellscale} 
+        spacegroupname = {self.space_group}
+        CenterToPrimitiveCell = {self.non_primitive_centering}
+        symmetrize = {self.symmetrize}
+
+                         ''')
+            self.f.write(f'''
+        }}
+
+        interactions {{
+                         
+        ''')
+            for i in self.chiN_list:
+                self.f.write('        ')
+                self.f.write(i)
+                self.f.write('\n')
+            
+            for i in self.interation_add:
+                self.f.write('        ')
+                self.f.write(i)
+                self.f.write('\n')
+            self.f.write('         }')
+            self.f.write('\n')
+            self.f.write(f'''
+    composition {{
+        ensemble     =  {self.partition_function}
+        chainvolfrac = {self.volfrac_chain}
+        CChainDensity = {self.chain_density}
+    }}
+
+    operators {{
+      CalcHamiltonian       = {self.ham_bool}
+      CalcStressTensor      = {self.stress_bool}
+      CalcChemicalPotential = {self.chem_pot_bool}
+      IncludeIdealGasTerms  = {self.idealgas_bool}
+      CalcStructureFactor   = {self.calcstruct_bool}
+    }}
+
+    initfields {{
+      ReadInputFields = {self.field_type}
+      InputFieldsFile = {self.field}
+    }}
+  }}
+}}
+    
+simulation {{
+  jobtype = SCFT
+
+  FieldUpdater = {self.field_updater}
+  CellUpdater = {self.cell_updater}
+  NumTimeStepsPerBlock = {self.timesteps_block}
+  NumBlocks = {self.block_num}
+
+  TimeStepDT = {self.dt : 0.5e}
+  lambdaForceScale = {self.force_scale_text}
+  lambdaStressScale = {self.stress_scale: 0.5f}
+  SCFTForceStoppingTol = {self.force_tol: 0.5e}
+  SCFTStressStoppingTol = {self.stress_tol : 0.5e}
+
+  VariableCell = {self.variablecell_bool}
+
+  IO {{
+    KeepDensityHistory   = {self.density_history_bool}
+    KeepFieldHistory     = {self.field_history_bool}
+    DensityOutputByChain = {self.density_chain_bool}
+    OutputFormattedFields = {self.format_fields_bool}
+
+    OutputFields         = {self.field_type}
+    FieldOutputSpace     = both  # rspace, kspace or both
+  }}
+}}
+
+parallel {{
+  CUDA_selectdevice = {self.parallel_cuda}
+  CUDA_threadblocksize = {self.cuda_thread_block_size}
+
+  OpenMP_nthreads = {self.nThreads}
+}}
+''')
+    
+class Input_Builder_CL():
     def __init__(self,f,inputfileversion,nummodel,modeltype,n_species,\
                      kuhn_length_text,chain_label,n_sidearm_types,\
                      models_add,chain_text_list,chiN_list,interation_add,\
@@ -207,6 +393,8 @@ models {{
     composition {{
         ensemble     =  {self.partition_function}
         chainvolfrac = {self.volfrac_chain}
+        CChainDensity = {self.chain_density}
+
     }}
 
     operators {{
@@ -257,96 +445,6 @@ parallel {{
   OpenMP_nthreads = {self.nThreads}
 }}
 ''')
-    
-
-
-
-def Input_Standard(input_file_path,n_species,kuhn_length_text,chain_label,n_sidearm_types,\
-                   models_add,chain_text_list,chiN_list,interation_add,d,\
-                   initial_box,npw,field,dt,force_scale_text,stress_scale,\
-                   force_tol,stress_tol,cell_updater,cellscale,add_phase,\
-                 space_group,non_primitive_centering,symmetrize,\
-                 parallel_cuda,cuda_thread_block_size,nThreads):
-    
-    if n_species==2:
-        modeltype = 'BlockPolymerMelt2Spec'
-    elif n_species>=3:
-        modeltype = 'BlockPolymerMelt'
-        
-        
-    inputfileversion = 3
-    nummodel = 1
-    partition_function = 'canonical'
-    ham_bool = 'True'
-    stress_bool = 'True'
-    chem_pot_bool = 'False'
-    idealgas_bool = 'False'
-    field_type = 'HFields'
-    field_updater = 'SIS'
-    timesteps_block = 1000
-    block_num = 1000
-    variablecell_bool = 'True'
-    density_history_bool = 'False'
-    field_history_bool = 'False'
-    density_chain_bool = 'False'
-    format_fields_bool = 'True'
-    volfrac_chain = 1.0
-    
-    f = open(input_file_path,'w+')    
-    Input_Builder(f,inputfileversion,nummodel,modeltype,n_species,\
-                     kuhn_length_text,chain_label,n_sidearm_types,\
-                     models_add,chain_text_list,chiN_list,interation_add,\
-                     d,initial_box,npw,partition_function,\
-                     ham_bool,stress_bool,chem_pot_bool,idealgas_bool,\
-                     field_type,field,field_updater,cell_updater,timesteps_block,\
-                     block_num,dt,force_scale_text,stress_scale,force_tol,stress_tol,\
-                     variablecell_bool,density_history_bool,field_history_bool,\
-                     density_chain_bool,format_fields_bool,volfrac_chain,cellscale,
-                     add_phase,space_group,non_primitive_centering,\
-                     symmetrize,parallel_cuda,cuda_thread_block_size,nThreads).Write_to_Text()
-    f.close()
-
-def Input_Standard_Polymer(input_file_path,n_species,kuhn_length_text,chain_label,n_sidearm_types,\
-                   models_add,chain_text_list,chiN_list,interation_add,d,\
-                   initial_box,npw,field,dt,force_scale_text,stress_scale,\
-                   force_tol,stress_tol,cell_updater,cellscale,add_phase,\
-                 space_group,non_primitive_centering,symmetrize,\
-                 parallel_cuda,cuda_thread_block_size,nThreads):
-    
-    modeltype = 'Polymer'
-        
-        
-    inputfileversion = 3
-    nummodel = 1
-    partition_function = 'canonical'
-    ham_bool = 'True'
-    stress_bool = 'True'
-    chem_pot_bool = 'False'
-    idealgas_bool = 'False'
-    field_type = 'HFields'
-    field_updater = 'SIS'
-    timesteps_block = 1000
-    block_num = 1000
-    variablecell_bool = 'True'
-    density_history_bool = 'False'
-    field_history_bool = 'False'
-    density_chain_bool = 'False'
-    format_fields_bool = 'True'
-    volfrac_chain = 1.0
-    
-    f = open(input_file_path,'w+')    
-    Input_Builder(f,inputfileversion,nummodel,modeltype,n_species,\
-                     kuhn_length_text,chain_label,n_sidearm_types,\
-                     models_add,chain_text_list,chiN_list,interation_add,\
-                     d,initial_box,npw,partition_function,\
-                     ham_bool,stress_bool,chem_pot_bool,idealgas_bool,\
-                     field_type,field,field_updater,cell_updater,timesteps_block,\
-                     block_num,dt,force_scale_text,stress_scale,force_tol,stress_tol,\
-                     variablecell_bool,density_history_bool,field_history_bool,\
-                     density_chain_bool,format_fields_bool,volfrac_chain,cellscale,
-                     add_phase,space_group,non_primitive_centering,\
-                     symmetrize,parallel_cuda,cuda_thread_block_size,nThreads).Write_to_Text()
-    f.close()
 
 def list_to_text(lst):
     text = ''
@@ -454,76 +552,3 @@ def parameter_species(paramlist,n_species):
     return param_text
 
 
-def Lazy_Input_Generator(input_file_path,field,chain_list,chiN,dS,npw,dt,\
-                         initial_box,stress_scale,force_scale,d,chain_label,\
-                         ends,diffuser_method,Nref,invzeta,\
-                         kuhn_length,stress_tol,force_tol,CellUpdater,cellscale,
-                         add_phase,space_group,non_primitive_centering,\
-                         symmetrize,parallel_cuda,cuda_thread_block_size,nThreads):
-    
-    statistics_models_add = [[f'contourds = {dS : 0.5f}',\
-                             f'diffusermethod = {diffuser_method}'],\
-                            [f'polymerReferenceN = {Nref}.'],\
-                            [f'polymerReferenceN = {Nref}.']]
-    
-    statistics_interactions_add = [[],\
-                                   [f'compressibility_invzetaN = {invzeta}'],
-                                   [f'compressibility_invzetaN = {invzeta}']]
-    supported_statistics = ['CGC','DGC','FJC']
-    
-    
-    components,statistics_list,n_species = Component_Statistics_Counter(chain_list)
-    
-    
-    models_add,interation_add,n_sidearm_types =\
-        Add_Model_Statistics(statistics_list,chain_list,\
-                                 supported_statistics,statistics_models_add,\
-                                 statistics_interactions_add)
-    chain_list,chain_text_list = Grafting_Determinator(chain_list,supported_statistics,ends)
-    chiN_list =chiN_generator(chiN,components)
-    kuhn_length_text = parameter_species(kuhn_length,n_species)
-    force_scale_text = parameter_species(force_scale,n_species)
-    Input_Standard(input_file_path,n_species,kuhn_length_text,chain_label,n_sidearm_types,\
-                   models_add,chain_text_list,chiN_list,interation_add,d,\
-                   initial_box,npw,field,dt,force_scale_text,stress_scale,\
-                   force_tol,stress_tol,CellUpdater,cellscale,add_phase,\
-                 space_group,non_primitive_centering,symmetrize,\
-                 parallel_cuda,cuda_thread_block_size,nThreads)
-        
-def Lazy_Input_Generator_General(input_file_path,field,chain_list,chiN,dS,npw,dt,\
-                                 initial_box,stress_scale,force_scale,d,chain_label,\
-                                 ends,diffuser_method,Nref,invzeta,\
-                                 kuhn_length,stress_tol,force_tol,CellUpdater,cellscale,
-                                 add_phase,space_group,non_primitive_centering,\
-                                 symmetrize,parallel_cuda,cuda_thread_block_size,nThreads):
-    
-    statistics_models_add = [[f'contourds = {dS : 0.5f}',\
-                             f'diffusermethod = {diffuser_method}'],\
-                            [f'polymerReferenceN = {Nref}.'],\
-                            [f'polymerReferenceN = {Nref}.']]
-    
-    statistics_interactions_add = [[],\
-                                   [f'compressibility_invzetaN = {invzeta}'],
-                                   [f'compressibility_invzetaN = {invzeta}']]
-    supported_statistics = ['CGC','DGC','FJC']
-    
-    
-    components,statistics_list,n_species = Component_Statistics_Counter(chain_list)
-    
-    
-    models_add,interation_add,n_sidearm_types =\
-        Add_Model_Statistics(statistics_list,chain_list,\
-                                 supported_statistics,statistics_models_add,\
-                                 statistics_interactions_add)
-    chain_list,chain_text_list = Grafting_Determinator(chain_list,supported_statistics,ends)
-    chiN_list =chiN_generator(chiN,components)
-    kuhn_length_text = parameter_species(kuhn_length,n_species)
-    force_scale_text = parameter_species(force_scale,n_species)
-    initial_box_text = parameter_species(initial_box,d)
-    npw_text = parameter_species(npw,d)
-    Input_Standard(input_file_path,n_species,kuhn_length_text,chain_label,n_sidearm_types,\
-                   models_add,chain_text_list,chiN_list,interation_add,d,\
-                   initial_box_text,npw_text,field,dt,force_scale_text,stress_scale,\
-                   force_tol,stress_tol,CellUpdater,cellscale,add_phase,\
-                 space_group,non_primitive_centering,symmetrize,\
-                 parallel_cuda,cuda_thread_block_size,nThreads)

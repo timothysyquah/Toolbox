@@ -116,7 +116,7 @@ for ref in references:
                 if len(xfilter)>0:
                     print((height/30+0.2))
 
-                    plt.scatter(xfilter,(height/30+0.2)*np.ones_like(xfilter),c=color[count2],marker = symbol[count2],label = name,s = 100)
+                    plt.scatter(xfilter,(height/30+0.2)*np.ones_like(xfilter),c=color[count1],marker = symbol[count2],label = name,s = 100)
                 
         count2+=1
     count1+=1
@@ -135,7 +135,7 @@ plt.xlabel('$f_A$')
 #                np.array([0.241]),\
 #                    np.array([0.3,1-0.651,1-0.716,1-0.771]),\
 #                       np.array([1-0.883])]
-#plt.legend(bbox_to_anchor=(1.04,0.5), loc="center left", borderaxespad=0)
+plt.legend(bbox_to_anchor=(1.04,0.5), loc="center left", borderaxespad=0)
 
 xmin = 0.08
 xmax = 0.92

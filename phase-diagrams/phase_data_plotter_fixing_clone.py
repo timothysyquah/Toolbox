@@ -918,7 +918,7 @@ if __name__ == '__main__':
     parser.add_argument('--zlabel', action='store', default=r"$\tau$")
     parser.add_argument('--ylabel', action='store', default=r"$F-F_{DIS}$",help='')
     parser.add_argument('--axisrange', action='store', nargs=4, default=[None,None,None,None],help='')
-    parser.add_argument('--linecutoff', action='store', nargs='+', default=[0.1,1],help='maximum length of lines to draw in phase diagrams, useful to clean them up')
+    parser.add_argument('--linecutoff', action='store', nargs='+', default=[0,0],help='maximum length of lines to draw in phase diagrams, useful to clean them up')
     parser.add_argument('-n','--dim',action='store',default=None,help='Number of dimensions to plot phase data in \n   1 => Free energy curves\n   2 => Phase Diagram \n   3 => 3d phase diagram  (guesses by default)')
     parser.add_argument('-i','--interp_dimension',action='store',default=[0],nargs='+',help='Dimensions to interpolate the phase diagram along ex: [0,1] would interpolate in 2 dimensions')
     parser.add_argument('-p','--plotstyle3d',action='store',default='flat',help='This argument changes the 3d plot style. Flat => multiple graphs with different linestyles on top of each other')
@@ -928,21 +928,21 @@ if __name__ == '__main__':
     parser.add_argument('-k', '--keywrd', action='store', default=[], nargs='+', help='axis to plot',type=str)
     print("IMPLEMENT CUSTOM AXIS RANGES AND LABELS FROM COMMAND LINE")
     args = parser.parse_args()
-    # args.dirs = glob.glob("/home/tquah/Projects/DMREF/sweep-asym-armlength_BCC_fix/chiAB_*/Nsc*/fA*")
+#     args.dirs = glob.glob("/home/tquah/Projects/DMREF/sweep-asym-armlength_BCC_fix/chiAB_*/Nsc*/fA*")
     # args.dirs = glob.glob("/home/tquah/Projects/sweep-asym-armlength_BCC_fix/chiAB_0.008*/Nsc*/fA*")
     # args.dirs = glob.glob("/home/tquah/Projects/sweep-asym-armlength_BCC_fix/chiAB_0*/Nsc*/fA*")
 
     # args.dirs = glob.glob("/home/tquah/IMPORT_BRAID/diblock_phasediagram/chiAB*/NscA_20*/fA0.25000")
     # args.dirs = glob.glob("/media/tquah/TOSHIBA EXT/Projects/DMREF/sweep-asym-armlength_asymBCC_fix/chiAB_0.0134*/Nsc*/fA*")
     # args.dirs = glob.glob("/media/tquah/TOSHIBA EXT/Projects/DMREF/sweep-asym-armlength_asymBCC_fix/chiAB_0.0134*/Nsc*/fA*")
-#    args.dirs = glob.glob("/media/tquah/TOSHIBA EXT/Projects/chiN_60_asymdir/chiAB*/ABratio_*/fA0.*")
-#    args.dirs = glob.glob("/media/tquah/TOSHIBA EXT/Projects/DMREF/sweep-asym-armlength_asymBCC_fix/chiAB_*/Nsc*/fA*")
+    # args.dirs = glob.glob("/media/tquah/TOSHIBA EXT/Projects/chiN_60_asymdir/chiAB*/ABratio_2.7*/fA0.*")
+    # args.dirs = glob.glob("/media/tquah/TOSHIBA EXT/Projects/DMREF/sweep-asym-armlength_asymBCC_fix/chiAB_*/Nsc*/fA*")
 #    args.dirs = glob.glob("/media/tquah/TOSHIBA EXT/Projects/sweep-asym-armlength_BCC_fix/chiAB_0*/Nsc*/fA*")
     # args.dirs = glob.glob("/media/tquah/TOSHIBA EXT/Projects/DGC_FJC_CGC_sym/FJC/chiAB_0*/Nsc*/fA*")
 #    args.dirs = glob.glob("/media/tquah/TOSHIBA EXT/Projects/DGC_FJC_CGC_sym/CGC_empty_2/chiAB_0.*/Nsc*/fA*")
-    args.dirs = glob.glob("//media/tquah/TOSHIBA EXT/Projects/eps_development/eps_lambda_2/chiAB_0*/Nsc*/fA*")
-#    args.dirs = glob.glob("//media/tquah/TOSHIBA EXT/Projects/eps_development/eps_bA_SC_1.24/chiAB_0*/Nsc*/fA*")
-#    args.dirs = glob.glob("//media/tquah/TOSHIBA EXT/Projects/eps_development/eps_bA_BB_1.24/chiAB_0*/Nsc*/fA*")
+    # args.dirs = glob.glob("//media/tquah/TOSHIBA EXT/Projects/eps_development/eps_lambda_2/chiAB_0*/Nsc*/fA*")
+    args.dirs = glob.glob("//media/tquah/TOSHIBA EXT/Projects/eps_development/eps_bA_SC_1.24/chiAB_0*/Nsc*/fA*")
+    # args.dirs = glob.glob("//media/tquah/TOSHIBA EXT/Projects/eps_development/eps_bA_BB_1.24/chiAB_0*/Nsc*/fA*")
 
     # args.dirs = glob.glob("/home/tquah/IMPORT_BRAID/NSCASYM_02_other02/chiAB_0.0289/ABratio_5*/fA*")
     # args.dirs = glob.glob("/home/tquah/Projects/asymnonspecial/chiAB_0.0289/ABratio_19*/fA*")
@@ -976,11 +976,11 @@ if __name__ == '__main__':
     
     
     args.refphase = 'DIS'
-#    args.keywrd = ['ABratio','fA']
+    # args.keywrd = ['ABratio','fA']
     args.keywrd = ['chi','fA']
     args.dim =1 #len(args.keywrd)
 #    args.raw = '/home/tquah/BottlebrushPaper/PhaseBoundaries/chiasymbottlebrush.dat'
-#    args.raw = 'test.dat'
+    # args.raw = '/home/tquah/toolbox_github/SliceAnalysis/bb.dat'
 
     args.interp_dimension = [0]
     #fnmeIn="F0_phases.dat"

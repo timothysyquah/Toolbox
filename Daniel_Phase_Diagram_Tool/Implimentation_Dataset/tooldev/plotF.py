@@ -130,176 +130,197 @@ def FindEdgeIntersection(ptidx,phases):
             
 draw_boundaries = True
 marker = ('+', 'o', '*','v','^','<','>','s','p','h','H','x')
-tol = 1e-8
+color  = ('tab:blue', 'tab:orange', 'tab:green', 'tab:red', 'tab:purple', 'tab:brown', 'tab:pink', 'tab:gray', 'tab:olive', 'tab:cyan')
+
+tol = 1e-10
 #markers=[',', '+', '-', '.', 'o', '*']
 #ymin = -0.1
 #ymax = 0.05
-fmin = 0.09
-fmax = 0.41
+fmin = 0.05
+fmax = 0.40
 
-phase_names = ['BCC','DIS','HEX','A15','SIGMA','LAM','GYR']
-
-
-os.chdir("/media/tquah/TOSHIBA EXT/Projects/DMREF/sweep-asym-armlength_corrected/PHASE_FREE_ENERGY")
+phase_names = ['BCC','DIS','HEX','A15','SIGMA']
 # phase_names = ['BCC','DIS','HEX','LAM','GYR']
-nphases = len(phase_names)
-data = [] # store data as a list of np arrays
 
-for j in range(len(phase_names)):
-    data.append(np.genfromtxt(phase_names[j] + '.dat',skip_header=1))
-    data[-1][np.lexsort((data[-1][:,0],data[-1][:,1]))]
-    #data[-1][:,1] = np.sqrt(data[-1][:,1]+1)
-    #print(np.lexsort((data[-1][:,0],data[-1][:,1])))
-    #print(data[-1])
+exportname = f'/home/tquah/Figures/comparison.png'
 
-
+# os.chdir("/media/tquah/TOSHIBA EXT/Projects/DMREF/sweep-asym-armlength_corrected/PHASE_FREE_ENERGY")
+# os.chdir("/media/tquah/TOSHIBA EXT/Projects/DMREF/sweep-asym-armlength_corrected/PHASE_FREE_ENERGY")
+keywords = ['under','over','all']
 fig, ax = plt.subplots(1,sharex='all')
-#fig.set_size_inches(10,5)
-
-# now compute minimum energy phase
-# first need a list of all the fA samples
-
-pt_set = set() # set of all points in phase space to consider
-for j in range(len(data)):
-    tmplist = []
-    for k in range(data[j].shape[0]):
-        tmplist.append(list(data[j][k,0:2]))
-    #print(tmplist)
-    pt_set = pt_set.union(set(tuple(i) for i in tmplist))
-
-pt_array = np.array(list(pt_set))
-#print(pt_array)
-
-tri = Delaunay(pt_array)
-
-#ax.scatter(pt_array[:,0],pt_array[:,1])
-#plt.show()
-
-convex_hull = []
-del_list = []
-for j in range(len(data)):
-    del_list.append([])
-for j in range(pt_array.shape[0]):
-    Emin = 0.
-    idxmin = phase_names.index('DIS')
-    tmp = np.where(np.logical_and(data[idxmin][:,0]==pt_array[j,0],data[idxmin][:,1]==pt_array[j,1]))[0]
-    if (tmp.shape[0] != 0):
-        Emin = data[idxmin][tmp[0],2]
-    else:
-        Emin = np.inf
-    for l in range(len(data)):
-        tmp = np.where(np.logical_and(data[l][:,0]==pt_array[j,0],data[l][:,1]==pt_array[j,1]))[0]
-        if ( tmp.shape[0] != 0 ):
-            idx = tmp[0]
-            if ( Emin - data[l][idx,2] > tol ):
-                idxmin = l
-                Emin = data[l][idx,2]
-            elif ( np.abs( Emin - data[l][idx,2] ) < tol ): # if energy is equal to DIS phase energy, delete it for simplicity
-                    del_list[l].append(idx)
-    convex_hull.append([pt_array[j,0],pt_array[j,1],idxmin,Emin])
-#print(convex_hull)
-
-del_list[phase_names.index('DIS')] = []
-for j in range(len(del_list)):
-    data[j] = np.delete(data[j],del_list[j],axis=0)
-
-
-scatter_data = [];
-for j in range(len(phase_names)):
-    scatter_data.append(np.zeros((0,2)))
-for j in range(len(convex_hull)):
-    idx = convex_hull[j][2]
-    scatter_data[idx] = np.append(scatter_data[idx],[[convex_hull[j][0],convex_hull[j][1]]],axis=0)
-nstablephases = 0 # keep track of how many phases are stable
-stable_phase_names = []
-for j in range(nphases):
-    if (scatter_data[j].size != 0 ):
-        nstablephases += 1
-        stable_phase_names.append(phase_names[j])
-        ax.scatter(scatter_data[j][:,0],scatter_data[j][:,1],alpha=0.3)
-
-ax.legend(stable_phase_names,bbox_to_anchor=(1.04,0.5), loc="center left", borderaxespad=0)
-plt.triplot(pt_array[:,0], pt_array[:,1], tri.simplices,c='k',alpha=0.3)
-
-
-if draw_boundaries:
-    edge_list = []
-    phase_boundaries = [];
-    phase_boundary_dict = dict()
-    for simpidx in range(tri.simplices.shape[0]):
-        # generate all pairs of vertices for edges
-        tmpedges = list(itertools.combinations(tri.simplices[simpidx,:],2))
-        lObjEdges = []
-        allbdypts = []
-        for edgeidx in range(len(tmpedges)):
-            lObjEdges.append(Edge(tmpedges[edgeidx]))
-            allbdypts += lObjEdges[-1].getBdyPts()
-        #if len(allbdypts)>0:
-        #    print(allbdypts)
-        if (len(allbdypts)%2 == 0):
-            while (len(allbdypts) > 0):
-                len0=len(allbdypts)
-                for l in range(1,len(allbdypts)):
-                    #print(bdypts[0],bdypts[l])
-                    #print(sorted(bdypts[0][2]),sorted(bdypts[l][2]))
-                    if (sorted(allbdypts[0][2]) == sorted(allbdypts[l][2])):
-                        phase_boundaries.append([allbdypts[0][0],allbdypts[l][0]])
-                        
-#                        boundary_name = stable_phase_names[allbdypts[0][-1][0]]+'-'+stable_phase_names[allbdypts[0][-1][1]]
-                        print(allbdypts[0][0])
-                        del allbdypts[l]
-                        del allbdypts[0]
+counter_keyword = 0
+for keyword in keywords:
+    os.chdir(f"/home/tquah/toolbox_github/Daniel_Phase_Diagram_Tool/Implimentation_Dataset/PHASE_FREE_ENERGY_{keyword}")
+    # os.chdir("/media/tquah/TOSHIBA EXT/Projects/sweep-asym-armlength_BCC_fix/PHASE_FREE_ENERGY")
+    # phase_names = ['BCC','DIS','HEX','LAM','GYR']
+    nphases = len(phase_names)
+    data = [] # store data as a list of np arrays
+    
+    for j in range(len(phase_names)):
+        data.append(np.genfromtxt(phase_names[j] + '.dat',skip_header=1))
+        data[-1][np.lexsort((data[-1][:,0],data[-1][:,1]))]
+        #data[-1][:,1] = np.sqrt(data[-1][:,1]+1)
+        #print(np.lexsort((data[-1][:,0],data[-1][:,1])))
+        #print(data[-1])
+    
+    
+    #fig.set_size_inches(10,5)
+    
+    # now compute minimum energy phase
+    # first need a list of all the fA samples
+    
+    pt_set = set() # set of all points in phase space to consider
+    for j in range(len(data)):
+        tmplist = []
+        for k in range(data[j].shape[0]):
+            tmplist.append(list(data[j][k,0:2]))
+        #print(tmplist)
+        pt_set = pt_set.union(set(tuple(i) for i in tmplist))
+    
+    pt_array = np.array(list(pt_set))
+    #print(pt_array)
+    
+    tri = Delaunay(pt_array)
+    
+    #ax.scatter(pt_array[:,0],pt_array[:,1])
+    #plt.show()
+    
+    convex_hull = []
+    del_list = []
+    for j in range(len(data)):
+        del_list.append([])
+    for j in range(pt_array.shape[0]):
+        Emin = 0.
+        idxmin = phase_names.index('DIS')
+        tmp = np.where(np.logical_and(data[idxmin][:,0]==pt_array[j,0],data[idxmin][:,1]==pt_array[j,1]))[0]
+        if (tmp.shape[0] != 0):
+            Emin = data[idxmin][tmp[0],2]
+        else:
+            Emin = np.inf
+        for l in range(len(data)):
+            tmp = np.where(np.logical_and(data[l][:,0]==pt_array[j,0],data[l][:,1]==pt_array[j,1]))[0]
+            if ( tmp.shape[0] != 0 ):
+                idx = tmp[0]
+                if ( Emin - data[l][idx,2] > tol ):
+                    idxmin = l
+                    Emin = data[l][idx,2]
+                elif ( np.abs( Emin - data[l][idx,2] ) < tol ): # if energy is equal to DIS phase energy, delete it for simplicity
+                        del_list[l].append(idx)
+        convex_hull.append([pt_array[j,0],pt_array[j,1],idxmin,Emin])
+    #print(convex_hull)
+    
+    del_list[phase_names.index('DIS')] = []
+    for j in range(len(del_list)):
+        data[j] = np.delete(data[j],del_list[j],axis=0)
+    
+    
+    scatter_data = [];
+    for j in range(len(phase_names)):
+        scatter_data.append(np.zeros((0,2)))
+    for j in range(len(convex_hull)):
+        idx = convex_hull[j][2]
+        scatter_data[idx] = np.append(scatter_data[idx],[[convex_hull[j][0],convex_hull[j][1]]],axis=0)
+    nstablephases = 0 # keep track of how many phases are stable
+    stable_phase_names = []
+    for j in range(nphases):
+        if (scatter_data[j].size != 0 ):
+            nstablephases += 1
+            stable_phase_names.append(phase_names[j])
+            # ax.scatter(scatter_data[j][:,0],scatter_data[j][:,1],alpha=0.3)
+    
+    # ax.legend(stable_phase_names,bbox_to_anchor=(1.04,0.5), loc="center left", borderaxespad=0)
+    # plt.triplot(pt_array[:,0], pt_array[:,1], tri.simplices,c='k',alpha=0.3)
+    
+    
+    if draw_boundaries:
+        edge_list = []
+        phase_boundaries = [];
+        phase_boundary_dict = dict()
+        for simpidx in range(tri.simplices.shape[0]):
+            # generate all pairs of vertices for edges
+            tmpedges = list(itertools.combinations(tri.simplices[simpidx,:],2))
+            lObjEdges = []
+            allbdypts = []
+            for edgeidx in range(len(tmpedges)):
+                lObjEdges.append(Edge(tmpedges[edgeidx]))
+                allbdypts += lObjEdges[-1].getBdyPts()
+            #if len(allbdypts)>0:
+            #    print(allbdypts)
+            if (len(allbdypts)%2 == 0):
+                while (len(allbdypts) > 0):
+                    len0=len(allbdypts)
+                    for l in range(1,len(allbdypts)):
+                        #print(bdypts[0],bdypts[l])
+                        #print(sorted(bdypts[0][2]),sorted(bdypts[l][2]))
+                        if (sorted(allbdypts[0][2]) == sorted(allbdypts[l][2])):
+                            phase_boundaries.append([allbdypts[0][0],allbdypts[l][0]])
+                            
+    #                        boundary_name = stable_phase_names[allbdypts[0][-home/tquah/Figures/under.pdf1][0]]+'-'+stable_phase_names[allbdypts[0][-1][1]]
+                            print(allbdypts[0][0])
+                            del allbdypts[l]
+                            del allbdypts[0]
+                            break
+                    if not (len(allbdypts) < len0):
+                        # if we get this far then there were no matches, which means we have a problem
+                        print('Error: domain with possible 4 phase intersection point')
                         break
-                if not (len(allbdypts) < len0):
-                    # if we get this far then there were no matches, which means we have a problem
-                    print('Error: domain with possible 4 phase intersection point')
-        elif (len(allbdypts) == 3):
-        # iterate over all pairs of phases 
-        #    #print(allbdypts)
-            bdytmp = []
-            slopevec =[]
-        #    # compute all three boundaries, then find intersection
-        #    #print(allbdypts)
-            for pidx in range(3): # iterate over all three pairs of phases
-                tmp = []
-                for eidx in range(3): # iterate over all three edges
-                    edgetmp = FindEdgeIntersection(tmpedges[eidx],allbdypts[pidx][2])
-                    if (len(edgetmp) == 2): # FindEdgeIntersection can return empty
-                        tmp.append(edgetmp)
-                #print(tmp)
-                if (len(tmp) == 2):
-                    #if the bdy only has one point, then it is just a corner, ignore it, as it will be taken care of in another line
-                    bdytmp.append(tmp)
-            #print(bdytmp)
-            for pidx in range(len(bdytmp)):
-                slopevec.append((bdytmp[pidx][1][1] - bdytmp[pidx][0][1])/(bdytmp[pidx][1][0] - bdytmp[pidx][0][0]))
-            if len(bdytmp) == 3:    
-                # strictly all three boundaries should intersect at one point, but they'll probably be a little off. Instead use average of all three individual intersections
-                favg = 0
-                eavg = 0
-                for l in range(len(allbdypts)-1):
-                    for m in range(l+1,len(allbdypts)):
-                        fcross=-((bdytmp[l][0][1] - slopevec[l]*bdytmp[l][0][0]) - (bdytmp[m][0][1] - slopevec[m]*bdytmp[m][0][0]))/(slopevec[l]-slopevec[m])
-                        ecross=bdytmp[l][0][1] + slopevec[l]*(fcross - bdytmp[l][0][0] )
-                        favg += fcross
-                        eavg += ecross
-                favg /= (len(allbdypts)*(len(allbdypts)-1))/2.
-                eavg /= (len(allbdypts)*(len(allbdypts)-1))/2.
-                #print(favg, eavg)
-                #print(allbdypts)
-                for l in range(len(allbdypts)):
-                    phase_boundaries.append([allbdypts[l][0],[favg,eavg]])    
-            elif len(bdytmp) == 1:
-                phase_boundaries.append(bdytmp[0])
+            elif (len(allbdypts) == 3):
+            # iterate over all pairs of phases 
+            #    #print(allbdypts)
+                bdytmp = []
+                slopevec =[]
+            #    # compute all three boundaries, then find intersection
+            #    #print(allbdypts)
+                for pidx in range(3): # iterate over all three pairs of phases
+                    tmp = []
+                    for eidx in range(3): # iterate over all three edges
+                        edgetmp = FindEdgeIntersection(tmpedges[eidx],allbdypts[pidx][2])
+                        if (len(edgetmp) == 2): # FindEdgeIntersection can return empty
+                            tmp.append(edgetmp)
+                    #print(tmp)
+                    if (len(tmp) == 2):
+                        #if the bdy only has one point, then it is just a corner, ignore it, as it will be taken care of in another line
+                        bdytmp.append(tmp)
+                #print(bdytmp)
+                for pidx in range(len(bdytmp)):
+                    slopevec.append((bdytmp[pidx][1][1] - bdytmp[pidx][0][1])/(bdytmp[pidx][1][0] - bdytmp[pidx][0][0]))
+                if len(bdytmp) == 3:    
+                    # strictly all three boundaries should intersect at one point, but they'll probably be a little off. Instead use average of all three individual intersections
+                    favg = 0
+                    eavg = 0
+                    for l in range(len(allbdypts)-1):
+                        for m in range(l+1,len(allbdypts)):
+                            fcross=-((bdytmp[l][0][1] - slopevec[l]*bdytmp[l][0][0]) - (bdytmp[m][0][1] - slopevec[m]*bdytmp[m][0][0]))/(slopevec[l]-slopevec[m])
+                            ecross=bdytmp[l][0][1] + slopevec[l]*(fcross - bdytmp[l][0][0] )
+                            favg += fcross
+                            eavg += ecross
+                    favg /= (len(allbdypts)*(len(allbdypts)-1))/2.
+                    eavg /= (len(allbdypts)*(len(allbdypts)-1))/2.
+                    #print(favg, eavg)
+                    #print(allbdypts)
+                    for l in range(len(allbdypts)):
+                        phase_boundaries.append([allbdypts[l][0],[favg,eavg]])    
+                elif len(bdytmp) == 1:
+                    phase_boundaries.append(bdytmp[0])
+        
+        
+        for j in range(len(phase_boundaries)):
+            
+            if j==0:
+                ax.plot([phase_boundaries[j][0][0],phase_boundaries[j][1][0]],[phase_boundaries[j][0][1],phase_boundaries[j][1][1]],c=color[counter_keyword])
+                ax.scatter([phase_boundaries[j][0][0],phase_boundaries[j][1][0]],[phase_boundaries[j][0][1],phase_boundaries[j][1][1]],c=color[counter_keyword],marker =marker[counter_keyword],label = keyword)
+            else:            
+                ax.plot([phase_boundaries[j][0][0],phase_boundaries[j][1][0]],[phase_boundaries[j][0][1],phase_boundaries[j][1][1]],c=color[counter_keyword])
+                ax.scatter([phase_boundaries[j][0][0],phase_boundaries[j][1][0]],[phase_boundaries[j][0][1],phase_boundaries[j][1][1]],c=color[counter_keyword],marker =marker[counter_keyword])
+        
+    # plt.xlim(fmin,fmax)
+    # plt.ylim(1,3)
     
-    
-    for j in range(len(phase_boundaries)):
-        ax.scatter([phase_boundaries[j][0][0],phase_boundaries[j][1][0]],[phase_boundaries[j][0][1],phase_boundaries[j][1][1]],c='k')
-plt.xlim(fmin,fmax)
-# plt.ylim(1,3)
+    counter_keyword+=1
+ax.legend(bbox_to_anchor=(1.04,0.5), loc="center left", borderaxespad=0)
 
 plt.xlabel('$f_A$')
 plt.ylabel('$\epsilon$')
-plt.savefig('/home/tquah/Figures/dvigil_phasetool_2.pdf',dpi = 300)
+plt.savefig(exportname,dpi = 300)
 
 plt.show()

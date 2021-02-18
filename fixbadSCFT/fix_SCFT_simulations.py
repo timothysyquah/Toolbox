@@ -64,8 +64,9 @@ def StructureLogic(value,tol = 0.9):
 ########################################################################################################
 #########################################################################################################
 #path to directory
-os.chdir('/media/tquah/TOSHIBA EXT/Projects/DMREF/sweep-asym-armlength_asymBCC_fix/')
-#os.chdir('/media/tquah/TOSHIBA EXT/Projects/sweep-asym-armlength_BCC_fix/')
+#os.chdir('/media/tquah/TOSHIBA EXT/Projects/DMREF/sweep-asym-armlength_asymBCC_fix/')
+os.chdir('/media/tquah/TOSHIBA EXT/Projects/sweep-asym-armlength_BCC_fix/')
+#os.chdir('/media/tquah/TOSHIBA EXT/Projects/DMREF/sweep-asym-armlength_corrected/')
 
 #export figures 
 exportpath = '/home/tquah/Figures/DOCUMENTATION/'
@@ -76,11 +77,11 @@ phasetolerance = 0.90
 #Keywords you need to use
 wdir = os.getcwd()
 #directory structures
-dirs = glob.glob("chiAB*/Nsc*/fA*")
+dirs = glob.glob("chiAB_*/Nsc*/fA*")
 #submit tools
 output_name = 'RESUBMIT.dat'
 # do not include DIS
-desired_phaselist = ['BCCPhase', 'HEXPhase','LAMPhase','GYRPhase']
+desired_phaselist = ['BCCPhase']
 
 visualize_submissions = True
 
@@ -138,7 +139,7 @@ combined_resubmitlist = DIS_resubmitlist + Divergent_resubmitlist + Structure_re
 
 #remove duplicates
 # combined_resubmitlist = remove_duplicates(combined_resubmitlist)
-# combined_resubmitlist = prune_undesired_phases(combined_resubmitlist,desired_phaselist)
+combined_resubmitlist = prune_undesired_phases(combined_resubmitlist,desired_phaselist)
 # Here it checks for Status
 allarray, corresponding_list = Setup_Grid(fA_dict,rules)
 statusarray, corresponding_list2 = Setup_Grid(fA_status,rules)

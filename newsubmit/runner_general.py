@@ -432,7 +432,6 @@ if __name__ == '__main__':
 
                             else:
                                 os.chdir(WDIR)
-
                                 polyfts_path_serial = os.path.join(args.polyFTS_path,'PolyFTSGPU.x')
                                 cmd = polyfts_path_serial+f' {Phase}.in'
                                 f = open(f"{Phase}.out","w")
