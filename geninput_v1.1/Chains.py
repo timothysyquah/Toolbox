@@ -52,7 +52,7 @@ class Chain_Builder():
                     self.chainname = self.chaintype
 #                chain_length = 
                 elif len(model_list)>1:
-                    self.length =  model_list[1]+statistics_length_addition[j]
+                    self.length =  model_list[1]
                     self.chaintype = 'sidearmtype'
                     self.chainname = self.chaintype+str(num)
                     self.n_arms = int(model_list[6])
