@@ -134,7 +134,7 @@ def Combine_Phases(dictionary,phase):
 
 # path = "/media/tquah/TOSHIBA EXT/Projects/DMREF/sweep-asym-armlength_asymBCC_fix"
 
-keywords = ['under','over','all']
+keywords = ['under','over','all','fluct']
     # ou = open('under.dat','w+')
     # oo = open('over.dat','w+')
     # of = open('fluct.dat','w+')

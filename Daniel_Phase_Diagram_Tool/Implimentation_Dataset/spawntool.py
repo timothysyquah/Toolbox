@@ -191,6 +191,10 @@ if __name__=="__main__":
             # nA_int = np.sort(nA_int)
             # fA_act = fA_calc(nA_int,narmtotal-nA_int,Nsc_A,Nsc_B)
             Ntot_store_under[epsilon] = []
+            
+            Nmin = np.min(Ntot)
+            
+            
             for i in range(0,len(fA_act)):
                 text=f'chiAB_{chiAB:0.4f}/NscA_{Nsc_A}_NscB_{Nsc_B}/fA{fA_act[i]:0.5f}/F0_phases.dat  \n'
                 # print(Ntot[i])
@@ -198,20 +202,15 @@ if __name__=="__main__":
                 if int(Ntot[i])>=2100:
                     oo.write(text)
                 if int(Ntot[i])<=2100:
-                    ou.write(text)
-
-
-
-                    
-                    
-                    
+                    if Ntot[i]-Nmin<8:
+                        ou.write(text)
                     Ntot_store_under[epsilon].append(Ntot[i])
                 if abs(int(Ntot[i])-2100)<8:
                     of.write(text)
                 oa.write(text)
 
-            print(np.std(Ntot_store_under[epsilon])/np.mean(Ntot_store_under[epsilon]))
-            print(np.std(Ntot_store_under[epsilon]))
+            # print(np.std(Ntot_store_under[epsilon])/np.mean(Ntot_store_under[epsilon]))
+            # print(np.std(Ntot_store_under[epsilon]))
 
     oa.close()
     ou.close()

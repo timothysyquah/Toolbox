@@ -142,11 +142,12 @@ fmax = 0.40
 phase_names = ['BCC','DIS','HEX','A15','SIGMA']
 # phase_names = ['BCC','DIS','HEX','LAM','GYR']
 
-exportname = f'/home/tquah/Figures/comparison.png'
+exportname = f'/home/tquah/Figures/comparison_2.png'
 
 # os.chdir("/media/tquah/TOSHIBA EXT/Projects/DMREF/sweep-asym-armlength_corrected/PHASE_FREE_ENERGY")
 # os.chdir("/media/tquah/TOSHIBA EXT/Projects/DMREF/sweep-asym-armlength_corrected/PHASE_FREE_ENERGY")
-keywords = ['under','over','all']
+# keywords = ['over']
+keywords = ['all']
 fig, ax = plt.subplots(1,sharex='all')
 counter_keyword = 0
 for keyword in keywords:
@@ -182,7 +183,7 @@ for keyword in keywords:
     
     tri = Delaunay(pt_array)
     
-    #ax.scatter(pt_array[:,0],pt_array[:,1])
+    # ax.scatter(pt_array[:,0],pt_array[:,1])
     #plt.show()
     
     convex_hull = []
@@ -226,16 +227,19 @@ for keyword in keywords:
         if (scatter_data[j].size != 0 ):
             nstablephases += 1
             stable_phase_names.append(phase_names[j])
-            # ax.scatter(scatter_data[j][:,0],scatter_data[j][:,1],alpha=0.3)
+            if counter_keyword==0:
+                ax.scatter(scatter_data[j][:,0],scatter_data[j][:,1],alpha=0.5)
     
-    # ax.legend(stable_phase_names,bbox_to_anchor=(1.04,0.5), loc="center left", borderaxespad=0)
-    # plt.triplot(pt_array[:,0], pt_array[:,1], tri.simplices,c='k',alpha=0.3)
+    if counter_keyword==0:
+        ax.legend(stable_phase_names,bbox_to_anchor=(1.04,0.5), loc="center left", borderaxespad=0)
+        plt.triplot(pt_array[:,0], pt_array[:,1], tri.simplices,c='k',alpha=0.3)
     
     
     if draw_boundaries:
         edge_list = []
         phase_boundaries = [];
         phase_boundary_dict = dict()
+        boundary_name = []
         for simpidx in range(tri.simplices.shape[0]):
             # generate all pairs of vertices for edges
             tmpedges = list(itertools.combinations(tri.simplices[simpidx,:],2))
@@ -254,9 +258,10 @@ for keyword in keywords:
                         #print(sorted(bdypts[0][2]),sorted(bdypts[l][2]))
                         if (sorted(allbdypts[0][2]) == sorted(allbdypts[l][2])):
                             phase_boundaries.append([allbdypts[0][0],allbdypts[l][0]])
-                            
-    #                        boundary_name = stable_phase_names[allbdypts[0][-home/tquah/Figures/under.pdf1][0]]+'-'+stable_phase_names[allbdypts[0][-1][1]]
-                            print(allbdypts[0][0])
+                            boundary_name.append( [[stable_phase_names[allbdypts[0][2][0]],\
+                                              stable_phase_names[allbdypts[0][2][1]]],\
+                                             [stable_phase_names[allbdypts[1][2][0]],\
+                                              stable_phase_names[allbdypts[1][2][1]]]])
                             del allbdypts[l]
                             del allbdypts[0]
                             break
@@ -298,23 +303,49 @@ for keyword in keywords:
                     eavg /= (len(allbdypts)*(len(allbdypts)-1))/2.
                     #print(favg, eavg)
                     #print(allbdypts)
+                    phaseboundary_temp = []
                     for l in range(len(allbdypts)):
                         phase_boundaries.append([allbdypts[l][0],[favg,eavg]])    
+                        phaseboundary_temp+=[[stable_phase_names[allbdypts[l][2][0]],stable_phase_names[allbdypts[l][2][1]]]]
+                        boundary_name.append(phaseboundary_temp)
                 elif len(bdytmp) == 1:
                     phase_boundaries.append(bdytmp[0])
         
         
+        
+        boundary_name_flat = []
+        for j in range(len(boundary_name)):
+            for k in range(len(boundary_name[j])):
+                boundary_name[j][k].sort()
+                boundary_name_flat.append(boundary_name[j][k])
+        unique_boundary_set = set(tuple(i) for i in boundary_name_flat)
+        unique_boundary = list(list(i) for i in unique_boundary_set)
+        countype = np.zeros(len(unique_boundary))
         for j in range(len(phase_boundaries)):
             
-            if j==0:
-                ax.plot([phase_boundaries[j][0][0],phase_boundaries[j][1][0]],[phase_boundaries[j][0][1],phase_boundaries[j][1][1]],c=color[counter_keyword])
-                ax.scatter([phase_boundaries[j][0][0],phase_boundaries[j][1][0]],[phase_boundaries[j][0][1],phase_boundaries[j][1][1]],c=color[counter_keyword],marker =marker[counter_keyword],label = keyword)
-            else:            
-                ax.plot([phase_boundaries[j][0][0],phase_boundaries[j][1][0]],[phase_boundaries[j][0][1],phase_boundaries[j][1][1]],c=color[counter_keyword])
-                ax.scatter([phase_boundaries[j][0][0],phase_boundaries[j][1][0]],[phase_boundaries[j][0][1],phase_boundaries[j][1][1]],c=color[counter_keyword],marker =marker[counter_keyword])
+            
+            
+            ax.plot([phase_boundaries[j][0][0],phase_boundaries[j][1][0]],[phase_boundaries[j][0][1],phase_boundaries[j][1][1]],c='k')
+            
+            if len(boundary_name[j])>2:
+                ax.scatter([phase_boundaries[j][0][0],phase_boundaries[j][1][0]],[phase_boundaries[j][0][1],phase_boundaries[j][1][1]],c=color[len(unique_boundary)+1],marker = '^',alpha = 1)
+            else:  
+                for k in range(len(phase_boundaries[j])):
+                    if countype[unique_boundary.index(boundary_name[j][k])]==0:
+                        ax.scatter(phase_boundaries[j][k][0],phase_boundaries[j][k][1],\
+                                   c=color[unique_boundary.index(boundary_name[j][k])],\
+                                       marker = '^',alpha = 1,label =f'{boundary_name[j][k][0]}-{boundary_name[j][k][1]}' )
+                        
+                        countype[unique_boundary.index(boundary_name[j][k])]+=1
+                        
+                    else:
+                         ax.scatter(phase_boundaries[j][k][0],phase_boundaries[j][k][1],\
+                        c=color[unique_boundary.index(boundary_name[j][k])],\
+                            marker = '^',alpha = 1 )
+
         
-    # plt.xlim(fmin,fmax)
-    # plt.ylim(1,3)
+    # plt.xlim(0.24,0.27)
+    # plt.ylim(1.8,2.25)
     
     counter_keyword+=1
 ax.legend(bbox_to_anchor=(1.04,0.5), loc="center left", borderaxespad=0)
