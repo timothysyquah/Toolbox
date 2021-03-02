@@ -91,7 +91,7 @@ for i in range(len(phases)):
     
         
     os.chdir(IDIR)
-    op = open(phases[i]+'.dat','w+')
+    op = open(phases[i]+'.imp','w+')
     for j in range(len(newsubmit_directory_list)):
         op.write(newsubmit_directory_list[j]+'\n')
     op.close()

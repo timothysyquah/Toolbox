@@ -42,7 +42,7 @@ rules = [fA,tuplerule]
 
 
 for i in range(len(phases)):
-    op = open(phases[i]+'.dat','r')
+    op = open(phases[i]+'.imp','r')
     listofdir = op.read().splitlines()
     array = make_grid(listofdir,rules,key_locations)
     op.close()
