@@ -937,10 +937,10 @@ if __name__ == '__main__':
     # args.dirs = glob.glob("/media/tquah/TOSHIBA EXT/Projects/DMREF/sweep-asym-armlength_asymBCC_fix/chiAB_0.0134*/Nsc*/fA*")
     # args.dirs = glob.glob("/media/tquah/TOSHIBA EXT/Projects/chiN_60_asymdir/chiAB*/ABratio_2.7*/fA0.*")
     # args.dirs = glob.glob("/media/tquah/TOSHIBA EXT/Projects/DMREF/sweep-asym-armlength_asymBCC_fix/chiAB_*/Nsc*/fA*")
-#    args.dirs = glob.glob("/media/tquah/TOSHIBA EXT/Projects/sweep-asym-armlength_BCC_fix/chiAB_0*/Nsc*/fA*")
+    args.dirs = glob.glob("/media/tquah/TOSHIBA EXT/Projects/sweep-asym-armlength_BCC_fix/chiAB_0*/Nsc*/fA*")
     # args.dirs = glob.glob("/media/tquah/TOSHIBA EXT/Projects/DGC_FJC_CGC_sym/FJC/chiAB_0*/Nsc*/fA*")
 #    args.dirs = glob.glob("/media/tquah/TOSHIBA EXT/Projects/DGC_FJC_CGC_sym/CGC_empty_2/chiAB_0.*/Nsc*/fA*")
-    args.dirs = glob.glob("//media/tquah/TOSHIBA EXT/Projects/eps_development/eps_lambda_2/chiAB_0*/Nsc*/fA*")
+    # args.dirs = glob.glob("//media/tquah/TOSHIBA EXT/Projects/eps_development/eps_lambda_2/chiAB_0*/Nsc*/fA*")
     # args.dirs = glob.glob("//media/tquah/TOSHIBA EXT/Projects/eps_development/eps_bA_SC_1.24/chiAB_0*/Nsc*/fA*")
     # args.dirs = glob.glob("//media/tquah/TOSHIBA EXT/Projects/eps_development/eps_bA_BB_1.24/chiAB_0*/Nsc*/fA*")
 
@@ -978,7 +978,7 @@ if __name__ == '__main__':
     args.refphase = 'DIS'
     # args.keywrd = ['ABratio','fA']
     args.keywrd = ['chi','fA']
-    args.dim =1 #len(args.keywrd)
+    args.dim =2 #len(args.keywrd)
 #    args.raw = '/home/tquah/BottlebrushPaper/PhaseBoundaries/chiasymbottlebrush.dat'
     # args.raw = '/home/tquah/toolbox_github/SliceAnalysis/bb.dat'
 

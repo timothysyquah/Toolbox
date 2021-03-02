@@ -63,10 +63,12 @@ for phase in phases:
 
 #norm to A15
 normalize = deepcopy(realpts_energy[1][:,-1])
+realpts_energy[0][5,2] = 3.9413196247e-03
+realpts_energy[0][4,2] = 3.9088089519e-03
 
-for i in range(len(realpts_energy)):
-    realpts_energy[i][:,-1] = (realpts_energy[i][:,-1]-normalize)
-    
+# for i in range(len(realpts_energy)):
+#     realpts_energy[i][:,-1] = (realpts_energy[i][:,-1]-normalize)
+
 for i in range(len(pairlist)):
     plt.figure()
     title = f'Pair{pairlist[i][0]}:{pairlist[i][1]}'

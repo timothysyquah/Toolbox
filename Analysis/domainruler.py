@@ -16,9 +16,9 @@ from scipy.optimize import curve_fit
 plt.rc('font', family='serif')
 from matplotlib import rcParams
 rcParams['axes.labelsize'] = 15
-rcParams['xtick.labelsize'] = 12
-rcParams['ytick.labelsize'] = 12
-rcParams['legend.fontsize'] = 12
+rcParams['xtick.labelsize'] = 15
+rcParams['ytick.labelsize'] = 15
+rcParams['legend.fontsize'] = 15
 
 def powlaw(x,a,b):
     return (a*x**b)
@@ -59,9 +59,11 @@ def get_domain_spacing_SCFT_simple(file):
     co = open(statuspath,'r')
     statusread=int(co.read())
     co.close()
-    operator_path = pathstatus+'operators.dat'
-    store = np.min(np.loadtxt(operator_path)[:,1])
 
+    # operator_path = pathstatus+'operators.dat'
+    # load_data = np.loadtxt(operator_path)[:,1]
+    # print(load_data)
+    # store = np.min(load_data)
 
     if int(statusread)!=2:
         # print("Convergance Fail")
@@ -72,12 +74,11 @@ def get_domain_spacing_SCFT_simple(file):
         fo.close()
         r = list(filter(lambda x: 'Final simulation cell' in x, content))[0]
         result = float(r[r.find("(")+1:r.find(")")])
-        
-        return [result,store]
+        return [result]
 
 
 
-def fill_dictionaries(listoffile,desiredparameters,paramarray ,extractmethod,cutoffpt = 500):
+def fill_dictionaries(listoffile,desiredparameters,paramarray ,extractmethod,cutoffpt = 300):
     count=0
     data_dict = dict()
     for file in listoffile:
@@ -106,7 +107,7 @@ def fill_dictionaries(listoffile,desiredparameters,paramarray ,extractmethod,cut
 
 IDIR = os.getcwd()
 
-os.chdir('/media/tquah/Seagate Portable Drive/Projects/DMREF/CL_SCFT_Bottlebrush_Study/')
+os.chdir('/media/tquah/Seagate Portable Drive/Projects/DMREF/CL_SCFT_Bottlebrush_Study/FJC/')
 
 desired_filename = 'LAM.out'
 
@@ -119,42 +120,129 @@ data_dictionary = fill_dictionaries(purged_file_list,important_directory,paramar
 
 plt.close('all')
 #
-fig = plt.figure(figsize=(10,10))
+color = ['k','r','b','g']
+marker = ['^','o','+']
 
-for header in list(data_dictionary):
-    if header[-1]==20:
-        if float(header[1])>0.5:
-            print(header[1])
 
-            ax = plt.gca()
-        
-            ax.scatter(data_dictionary[header][:,0],data_dictionary[header][:,1],marker = 'o',label = f'$a = {header[0]}$ & $\zeta = {1/header[1]}$')
-            ax.set_yscale('log')
-            ax.set_xscale('log')
-            params,pcov = curve_fit(powlaw,data_dictionary[header][-2:,0],data_dictionary[header][-2:,1],p0 = [1,2/3])
-            print(params[1])
+# fig = plt.figure()
+
+
+fig = plt.figure(figsize=(8,8))
+
+header = [[(0.,0.,20.)],\
+          [(0,1.0,20.),(1.0,1.0,20.),(2.0,1.0,20.)],\
+          [(0.,10.0,20.),(1.0,10.0,20.),(2.0,10.0,20.)]]
+ax = plt.gca()
+
+
+for i in range(len(header)):
+    for j in range(len(header[i])):
+        label = f'$a = {header[i][j][0]}$, $\zeta^{{-1}} = {(header[i][j][1])}$'
+        if i == 0 and j ==0:
+            plt.plot(data_dictionary[header[i][j]][:,0],data_dictionary[header[i][j]][:,1],color = color[i],marker= marker[j],label = label)
+        else:
+            plt.scatter(data_dictionary[header[i][j]][:,0],data_dictionary[header[i][j]][:,1],color = color[i],marker= marker[j],label = label)
+        params,pcov = curve_fit(powlaw,data_dictionary[header[i][j]][-2:,0],data_dictionary[header[i][j]][-2:,1],p0 = [1,2/3])
+        print(params[1])
+
+plt.legend(loc='upper left')
+
+
+ax.set_xscale('log')
+ax.set_yscale('log')
 plt.xlabel('$N_{bb}$')
 plt.ylabel('$D_0 \sqrt{6}/b_{ref}$')
-plt.legend(bbox_to_anchor=(1.05, 1), loc='upper left')
+plt.title('$N_{sc} = 20$')
+plt.xticks([100,200,300])
 plt.tight_layout()
 
-plt.savefig('domainspacing.pdf',dpi = 300)
+plt.savefig('/home/tquah/Figures/FJC_domainspacing_Nsc_10.pdf',dpi = 300)
 
-fig = plt.figure()
-for header in list(data_dictionary):
-    if header[-1]==10:
-        if float(header[1])>0.5:
-            print(header[1])
 
-            ax = plt.gca()
-            intersection,i1,i2 = np.intersect1d(data_dictionary[header][:,0], data_dictionary[(0,0,20.0)][:,0],return_indices=True)
-            ax.scatter(data_dictionary[header][i1,0],data_dictionary[header][i1,2]-data_dictionary[(0,0,20.0)][i2,2],marker = 'o',label = f'$a = {header[0]}$ & $\zeta N = {header[1]}$')
-plt.legend(bbox_to_anchor=(1.05, 1), loc='upper left')
+fig = plt.figure(figsize=(8,8))
 
+header = [[(0.,0.,10.)],\
+          [(0,1.0,10.),(1.0,1.0,10.),(2.0,1.0,10.)],\
+          [(0.,10.0,10.),(1.0,10.0,10.),(2.0,10.0,10.)]]
+ax = plt.gca()
+
+
+for i in range(len(header)):
+    for j in range(len(header[i])):
+        label = f'$a = {header[i][j][0]}$, $\zeta^{{-1}} = {(header[i][j][1])}$'
+        if i == 0 and j ==0:
+            plt.plot(data_dictionary[header[i][j]][:,0],data_dictionary[header[i][j]][:,1],color = color[i],marker= marker[j],label = label)
+        else:
+            plt.scatter(data_dictionary[header[i][j]][:,0],data_dictionary[header[i][j]][:,1],color = color[i],marker= marker[j],label = label)
+        params,pcov = curve_fit(powlaw,data_dictionary[header[i][j]][-2:,0],data_dictionary[header[i][j]][-2:,1],p0 = [1,2/3])
+        print(params[1])
+
+plt.legend(loc='upper left')
+plt.title('$N_{sc} = 10$')
+
+ax.set_xscale('log')
+ax.set_yscale('log')
 plt.xlabel('$N_{bb}$')
-plt.ylabel('$F-F_{a=0,\zeta N = 0}$')
+plt.ylabel('$D_0 \sqrt{6}/b_{ref}$')
+plt.xticks([100,200,300])
+
 plt.tight_layout()
-plt.savefig('free_energy.pdf',dpi = 300)
+
+plt.savefig('/home/tquah/Figures/FJC_domainspacing_Nsc_20.pdf',dpi = 300)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# for header in list(data_dictionary):
+#     if header[-1]==20:
+#         if float(header[1])>0.5:
+#             print(header[1])
+
+#             ax = plt.gca()
+        
+#             ax.scatter(data_dictionary[header][:,0],data_dictionary[header][:,1],marker = 'o',label = f'$a = {header[0]}$ & $\zeta = {1/header[1]}$')
+#             ax.set_yscale('log')
+#             ax.set_xscale('log')
+#             params,pcov = curve_fit(powlaw,data_dictionary[header][-2:,0],data_dictionary[header][-2:,1],p0 = [1,2/3])
+#             print(params[1])
+# plt.xlabel('$N_{bb}$')
+# plt.ylabel('$D_0 \sqrt{6}/b_{ref}$')
+# plt.legend(bbox_to_anchor=(1.05, 1), loc='upper left')
+# plt.tight_layout()
+
+# plt.savefig('domainspacing.pdf',dpi = 300)
+
+# fig = plt.figure()
+# for header in list(data_dictionary):
+#     if header[-1]==10:
+#         if float(header[1])>0.5:
+#             print(header[1])
+
+#             ax = plt.gca()
+#             intersection,i1,i2 = np.intersect1d(data_dictionary[header][:,0], data_dictionary[(0,0,20.0)][:,0],return_indices=True)
+#             ax.scatter(data_dictionary[header][i1,0],data_dictionary[header][i1,1]-data_dictionary[(0,0,20.0)][i2,1],marker = 'o',label = f'$a = {header[0]}$ & $\zeta N = {header[1]}$')
+# plt.legend(bbox_to_anchor=(1.05, 1), loc='upper left')
+
+# plt.xlabel('$N_{bb}$')
+# plt.ylabel('$F-F_{a=0,\zeta N = 0}$')
+# plt.tight_layout()
+# plt.savefig('free_energy.pdf',dpi = 300)
 
 
 # fig = plt.figure()

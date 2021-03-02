@@ -139,9 +139,9 @@ keywords = ['under','over','all','fluct']
     # oo = open('over.dat','w+')
     # of = open('fluct.dat','w+')
     # oa = open('all.dat','w+')
-for keyword in keywords:
+for actualword in keywords:
     path = '/media/tquah/TOSHIBA EXT/Projects/DMREF/sweep-asym-armlength_corrected'
-    pathremove = f'{keyword}.dat'
+    pathremove = f'{actualword}.dat'
     
     op = open(pathremove,'r')
     l1 = op.read().split('\n')
@@ -160,7 +160,7 @@ for keyword in keywords:
     directories = 'chiAB_0.0289*/Nsc*/fA0.*'
     filename = 'F0_phases.dat'
     keyword = ['Nsc','f']
-    exportdir = f'PHASE_FREE_ENERGY_{keyword}'
+    exportdir = f'PHASE_FREE_ENERGY_{actualword}'
     l2 = glob.glob(os.path.join(directories,filename), recursive = True)
     
     list_of_directory = intersection(l1,l2)
@@ -221,6 +221,7 @@ for keyword in keywords:
     
     os.chdir(pwd)
     alldir = os.listdir()
+    print(exportdir)
     if exportdir not in alldir:
         os.mkdir(exportdir)
     os.chdir(exportdir)

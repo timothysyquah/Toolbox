@@ -194,20 +194,19 @@ if __name__=="__main__":
             
             Nmin = np.min(Ntot)
             
-            
-            for i in range(0,len(fA_act)):
-                text=f'chiAB_{chiAB:0.4f}/NscA_{Nsc_A}_NscB_{Nsc_B}/fA{fA_act[i]:0.5f}/F0_phases.dat  \n'
-                # print(Ntot[i])
-                # text = (f'{chiAB}   {Nsc_A}  {Nsc_B} {Ntot[i]} {fA_act[i] : 0.5f}  \n')
-                if int(Ntot[i])>=2100:
-                    oo.write(text)
-                if int(Ntot[i])<=2100:
-                    if Ntot[i]-Nmin<8:
+            if Nsc_A!=18:
+                for i in range(0,len(fA_act)):
+                    text=f'chiAB_{chiAB:0.4f}/NscA_{Nsc_A}_NscB_{Nsc_B}/fA{fA_act[i]:0.5f}/F0_phases.dat  \n'
+                    # print(Ntot[i])
+                    # text = (f'{chiAB}   {Nsc_A}  {Nsc_B} {Ntot[i]} {fA_act[i] : 0.5f}  \n')
+                    if int(Ntot[i])>=2100:
+                        oo.write(text)
+                    if int(Ntot[i])<=2100:
                         ou.write(text)
-                    Ntot_store_under[epsilon].append(Ntot[i])
-                if abs(int(Ntot[i])-2100)<8:
-                    of.write(text)
-                oa.write(text)
+                        Ntot_store_under[epsilon].append(Ntot[i])
+                    if abs(int(Ntot[i])-2100)<8:
+                        of.write(text)
+                    oa.write(text)
 
             # print(np.std(Ntot_store_under[epsilon])/np.mean(Ntot_store_under[epsilon]))
             # print(np.std(Ntot_store_under[epsilon]))

@@ -147,7 +147,7 @@ exportname = f'/home/tquah/Figures/comparison_2.png'
 # os.chdir("/media/tquah/TOSHIBA EXT/Projects/DMREF/sweep-asym-armlength_corrected/PHASE_FREE_ENERGY")
 # os.chdir("/media/tquah/TOSHIBA EXT/Projects/DMREF/sweep-asym-armlength_corrected/PHASE_FREE_ENERGY")
 # keywords = ['over']
-keywords = ['all']
+keywords = ['under']
 fig, ax = plt.subplots(1,sharex='all')
 counter_keyword = 0
 for keyword in keywords:
@@ -327,28 +327,28 @@ for keyword in keywords:
             
             ax.plot([phase_boundaries[j][0][0],phase_boundaries[j][1][0]],[phase_boundaries[j][0][1],phase_boundaries[j][1][1]],c='k')
             
-            if len(boundary_name[j])>2:
-                ax.scatter([phase_boundaries[j][0][0],phase_boundaries[j][1][0]],[phase_boundaries[j][0][1],phase_boundaries[j][1][1]],c=color[len(unique_boundary)+1],marker = '^',alpha = 1)
-            else:  
-                for k in range(len(phase_boundaries[j])):
-                    if countype[unique_boundary.index(boundary_name[j][k])]==0:
-                        ax.scatter(phase_boundaries[j][k][0],phase_boundaries[j][k][1],\
-                                   c=color[unique_boundary.index(boundary_name[j][k])],\
-                                       marker = '^',alpha = 1,label =f'{boundary_name[j][k][0]}-{boundary_name[j][k][1]}' )
+            # if len(boundary_name[j])>2:
+            #     ax.scatter([phase_boundaries[j][0][0],phase_boundaries[j][1][0]],[phase_boundaries[j][0][1],phase_boundaries[j][1][1]],c=color[len(unique_boundary)+1],marker = '^',alpha = 1)
+            # else:  
+            #     for k in range(len(phase_boundaries[j])):
+            #         if countype[unique_boundary.index(boundary_name[j][k])]==0:
+            #             ax.scatter(phase_boundaries[j][k][0],phase_boundaries[j][k][1],\
+            #                        c=color[unique_boundary.index(boundary_name[j][k])],\
+            #                            marker = '^',alpha = 1,label =f'{boundary_name[j][k][0]}-{boundary_name[j][k][1]}' )
                         
-                        countype[unique_boundary.index(boundary_name[j][k])]+=1
+            #             countype[unique_boundary.index(boundary_name[j][k])]+=1
                         
-                    else:
-                         ax.scatter(phase_boundaries[j][k][0],phase_boundaries[j][k][1],\
-                        c=color[unique_boundary.index(boundary_name[j][k])],\
-                            marker = '^',alpha = 1 )
+            #         else:
+            #              ax.scatter(phase_boundaries[j][k][0],phase_boundaries[j][k][1],\
+            #             c=color[unique_boundary.index(boundary_name[j][k])],\
+            #                 marker = '^',alpha = 1 )
 
         
     # plt.xlim(0.24,0.27)
     # plt.ylim(1.8,2.25)
     
     counter_keyword+=1
-ax.legend(bbox_to_anchor=(1.04,0.5), loc="center left", borderaxespad=0)
+# ax.legend(bbox_to_anchor=(1.04,0.5), loc="center left", borderaxespad=0)
 
 plt.xlabel('$f_A$')
 plt.ylabel('$\epsilon$')
