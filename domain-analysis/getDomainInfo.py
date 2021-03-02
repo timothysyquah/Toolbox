@@ -63,14 +63,14 @@ for i in range(len(phases)):
             outfile.write('{0} {1} {2: e} {3: e} {4: e} {5} {6} {7}\n'.format(array[j,0], array[j,1],\
                                                                               com[k,0],com[k,1],com[k,2],\
                                                                                   area[k],vol[k],IQ[k]))
-        outfile.close()
+       
         # with open("domains.dat","w") as outfile:
         #  	outfile.write("x y z area volume IQ\n")
         #  	for j in range(ndomains):
         # 		outfile.write('{0: e} {1: e} {2: e} {3} {4} {5}\n'.format(com[j,0],com[j,1],com[j,2],area[j],vol[j],IQ[j]))
 
     
-    
+    outfile.close()
     os.chdir(IDIR)
     # for j in range(len())
 
