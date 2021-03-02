@@ -42,6 +42,9 @@ rules = [fA,tuplerule]
 
 
 for i in range(len(phases)):
+    outfile = open(phases[i]+'_domain_analysis.dat','w')
+    outfile.write("fA eps x y z area volume IQ\n")
+
     op = open(phases[i]+'.imp','r')
     listofdir = op.read().splitlines()
     array = make_grid(listofdir,rules,key_locations)
@@ -55,8 +58,6 @@ for i in range(len(phases)):
         domainanalyzer = DomainAnalyzer(coords,fields)
         domainanalyzer.setDensityThreshold(0.5)
         ndomains, com,area,vol,IQ = domainanalyzer.getDomainStats(plotMesh=False,add_periodic_domains=False)
-        outfile = open(phases[i]+'_domain_analysis.dat','w')
-       	outfile.write("fA eps x y z area volume IQ\n")
 
         for k in range(ndomains):
             outfile.write('{0} {1} {2: e} {3: e} {4: e} {5} {6} {7}\n'.format(array[j,0], array[j,1],\
