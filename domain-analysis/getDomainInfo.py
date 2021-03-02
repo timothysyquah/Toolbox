@@ -43,7 +43,7 @@ rules = [fA,tuplerule]
 
 for i in range(len(phases)):
     outfile = open(phases[i]+'_domain_analysis.dat','w')
-    outfile.write("fA eps x y z area volume IQ\n")
+    outfile.write("fA eps xbox ybox zbox x y z area volume IQ\n")
 
     op = open(phases[i]+'.imp','r')
     listofdir = op.read().splitlines()
@@ -54,15 +54,17 @@ for i in range(len(phases)):
         infile = os.path.join(listofdir[j],'density.bin')
         coords, fields = io.ReadBinFile(infile)
         # need to get box sizes to account for PBC, or just get delta and NPW from coords
+        positions = np.vstack([coords[:,:,:,0].ravel(), coords[:,:,:,1].ravel(),coords[:,:,:,2].ravel()]).transpose()
         
         domainanalyzer = DomainAnalyzer(coords,fields)
         domainanalyzer.setDensityThreshold(0.5)
         ndomains, com,area,vol,IQ = domainanalyzer.getDomainStats(plotMesh=False,add_periodic_domains=False)
 
         for k in range(ndomains):
-            outfile.write('{0} {1} {2: e} {3: e} {4: e} {5} {6} {7}\n'.format(array[j,0], array[j,1],\
-                                                                              com[k,0],com[k,1],com[k,2],\
-                                                                                  area[k],vol[k],IQ[k]))
+            outfile.write('{0} {1} {2} {3} {4} {5: e} {6: e} {7: e} {8} {9} {10}\n'.format(array[j,0], array[j,1],\
+                                                                                           np.max(positions[:,0]),np.max(positions[:,1]),np.max(positions[:,2]),\
+                                                                                           com[k,0],com[k,1],com[k,2],\
+                                                                                           area[k],vol[k],IQ[k]))
        
         # with open("domains.dat","w") as outfile:
         #  	outfile.write("x y z area volume IQ\n")
