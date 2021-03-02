@@ -49,7 +49,7 @@ for i in range(len(phases)):
     listofdir = op.read().splitlines()
     array = make_grid(listofdir,rules,key_locations)
     op.close()
-    os.chdir('/media/tquah/TOSHIBA EXT/Projects/DMREF/sweep-asym-armlength_corrected')
+    os.chdir('/home/tquah/Projects/DMREF/sweep-asym-armlength_corrected')
     for j in range(len(listofdir)):
         infile = os.path.join(listofdir[j],'density.bin')
         coords, fields = io.ReadBinFile(infile)
