@@ -143,12 +143,16 @@ phase_names = ['BCC','DIS','HEX','A15','SIGMA']
 # phase_names = ['BCC','DIS','HEX','LAM','GYR']
 
 exportname = f'/home/tquah/Figures/comparison_2.png'
+mainarray = np.loadtxt('../mainarray.txt')
 
 # os.chdir("/media/tquah/TOSHIBA EXT/Projects/DMREF/sweep-asym-armlength_corrected/PHASE_FREE_ENERGY")
 # os.chdir("/media/tquah/TOSHIBA EXT/Projects/DMREF/sweep-asym-armlength_corrected/PHASE_FREE_ENERGY")
 # keywords = ['over']
-keywords = ['under']
+keywords = ['all']
 fig, ax = plt.subplots(1,sharex='all')
+loc = np.where(mainarray[:,0]<0.4)[0]
+
+
 counter_keyword = 0
 for keyword in keywords:
     os.chdir(f"/home/tquah/toolbox_github/Daniel_Phase_Diagram_Tool/Implimentation_Dataset/PHASE_FREE_ENERGY_{keyword}")
@@ -185,7 +189,8 @@ for keyword in keywords:
     
     # ax.scatter(pt_array[:,0],pt_array[:,1])
     #plt.show()
-    
+    ax.scatter(mainarray[loc,0], mainarray[loc,1], c=mainarray[loc,2]-2100,s=500.0, cmap="viridis",alpha = 0.5)
+
     convex_hull = []
     del_list = []
     for j in range(len(data)):
@@ -228,13 +233,13 @@ for keyword in keywords:
             nstablephases += 1
             stable_phase_names.append(phase_names[j])
             if counter_keyword==0:
-                ax.scatter(scatter_data[j][:,0],scatter_data[j][:,1],alpha=0.5)
-    
+                ax.scatter(scatter_data[j][:,0],scatter_data[j][:,1],alpha=1.0)
+
     if counter_keyword==0:
         ax.legend(stable_phase_names,bbox_to_anchor=(1.04,0.5), loc="center left", borderaxespad=0)
         plt.triplot(pt_array[:,0], pt_array[:,1], tri.simplices,c='k',alpha=0.3)
     
-    
+
     if draw_boundaries:
         edge_list = []
         phase_boundaries = [];

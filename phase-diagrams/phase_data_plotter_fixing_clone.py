@@ -935,7 +935,7 @@ if __name__ == '__main__':
     # args.dirs = glob.glob("/home/tquah/IMPORT_BRAID/diblock_phasediagram/chiAB*/NscA_20*/fA0.25000")
     # args.dirs = glob.glob("/media/tquah/TOSHIBA EXT/Projects/DMREF/sweep-asym-armlength_asymBCC_fix/chiAB_0.0134*/Nsc*/fA*")
     # args.dirs = glob.glob("/media/tquah/TOSHIBA EXT/Projects/DMREF/sweep-asym-armlength_asymBCC_fix/chiAB_0.0134*/Nsc*/fA*")
-    # args.dirs = glob.glob("/media/tquah/TOSHIBA EXT/Projects/chiN_60_asymdir/chiAB*/ABratio_1.3*/fA0.*")
+    # args.dirs = glob.glob("/media/tquah/TOSHIBA EXT/Projects/chiN_60_asymdir/chiAB*/ABratio_1.*/fA0.*")
     args.dirs = glob.glob("/media/tquah/Seagate Portable Drive/Projects/DMREF/sweep-asym-armlength_corrected_constant_chiN/chiN*/NscA_*/fA*")
     # args.dirs = glob.glob("/media/tquah/TOSHIBA EXT/Projects/DMREF/sweep-asym-armlength_asymBCC_fix/chiAB_*/Nsc*/fA*")
     # args.dirs = glob.glob("/media/tquah/TOSHIBA EXT/Projects/sweep-asym-armlength_BCC_fix/chiAB_0*/Nsc*/fA*")

@@ -1,9 +1,9 @@
 #!/bin/bash
 IDIR=`pwd`
 
-python /home/tquah/toolbox_github/CL_Runner/runner_general.py -stat DGC -p LAM -nt 1 -sp $IDIR/SEEDS/ \
+python /home/tquah/toolbox_github/CL_Runner/runner_general_v2.py -stat DGC -p LAM3D -nt 1 -sp $IDIR/SEEDS/ \
                                                             -ds 0.1 -cl AB-Bottlebrush -dt 1.000e-03 -nref 1 \
-                                                            -ss 0.001 -fs 0.1 1.0 -L0 5.0 -npw 512 \
+                                                            -ss 0.001 -fs 0.1 1.0 -L0 5.0-0.2-0.2 -npw 32-2-2 \
                                                             -ftol 1e-5 -stol 1e-4 -bsp 1 2 -sas 1 2 \
                                                             -sac 1.0 1.0 -space 1 1 -kuhn 1 \
                                                             -gwidth 0.2 -cdensity 1 --invzeta  0.001\

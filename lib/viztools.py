@@ -187,7 +187,9 @@ def writeVTK(outfile, AllCoords, AllFields,binary=False):
               np.savetxt(o, tmp.transpose(), fmt="%14.11f")
           o.close(); o = open(outfile,'a')
     o.close()
+    
   
+
 def writeCSV(outfile, AllCoords, AllFields):
     ndim = len(AllCoords.shape) - 1
     Nx = AllCoords.shape[:ndim]

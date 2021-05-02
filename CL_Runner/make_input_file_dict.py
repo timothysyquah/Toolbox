@@ -207,7 +207,11 @@ def make_input_SCFT(PHASE,REPLACE_DICT,WDIR):
 
     if space_group is None:
         add_phase = False
-        initial_box = [cellscale[0]*initial_box[0]]
+        print(cellscale)
+        if d==1:
+            initial_box = [cellscale[0]*initial_box[0]]
+        else:
+            initial_box =[i*initial_box[0] for i in cellscale]
 
     if 'partition_function' in var_list:
        partition_function = REPLACE_DICT['partition_function']

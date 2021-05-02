@@ -15,8 +15,9 @@ from itertools import combinations
 phases = ['DIS.dat','SIGMA.dat','BCC.dat','HEX.dat','A15.dat']
 phases = ['SIGMA.dat','A15.dat','HEX.dat']
 
-pts = [[0.26,2.7],[0.25,2.2],[0.26,2.2],[0.24,1.9],[0.25,1.9],[0.26,1.9]]
-pairlist = [[0,1],[0,2],[1,3],[1,4],[1,5],[2,5]]
+pts = [[0.248,1.9],[0.241,1.9],[0.25,2.2]]
+pairlist = [[0,1],[0,2]]
+axis = [0,1]
 tol = 50
 plt.close('all')
 def return_likely_point(pt,data):
@@ -62,9 +63,9 @@ for phase in phases:
 
 
 #norm to A15
-normalize = deepcopy(realpts_energy[1][:,-1])
-realpts_energy[0][5,2] = 3.9413196247e-03
-realpts_energy[0][4,2] = 3.9088089519e-03
+# normalize = deepcopy(realpts_energy[1][:,-1])
+# realpts_energy[0][5,2] = 3.9413196247e-03
+# realpts_energy[0][4,2] = 3.9088089519e-03
 
 # for i in range(len(realpts_energy)):
 #     realpts_energy[i][:,-1] = (realpts_energy[i][:,-1]-normalize)
@@ -80,7 +81,7 @@ for i in range(len(pairlist)):
         # x2 = np.array([realpts_energy[j][pairlist[i][0]][1],realpts_energy[j][pairlist[i][1]][1]])
         # x3 = np.sqrt((x1[1]-x1[0])**2+(x2[1]-x2[0])**2)
         # x = np.array([0,x3])
-        x = np.array([realpts_energy[j][pairlist[i][0]][1],realpts_energy[j][pairlist[i][1]][1]])
+        x = np.array([realpts_energy[j][pairlist[i][0]][axis[i]],realpts_energy[j][pairlist[i][1]][axis[i]]])
         y = np.array([realpts_energy[j][pairlist[i][0]][-1],realpts_energy[j][pairlist[i][1]][-1]])
         error = np.sum(y**2)
         m,b,r,p,std = linregress(x,y)

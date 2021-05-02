@@ -11,7 +11,7 @@ import os
 import pdb
 import shutil
 import time
-
+import matplotlib.pyplot as plt
 def make_submit(SUBMITFILE,PHASE,JOBNAME,WDIR):
     with open('%s/submit.sh' % WDIR, 'w') as fout:
         with open(SUBMITFILE,'r') as f:
@@ -43,7 +43,7 @@ def Neff(nA,nB,NA,NB):
 def check_equality(a,b,message):
     assert a==b, message
 
-
+plt.close('all')
 
 
 if __name__=="__main__":
@@ -138,7 +138,7 @@ if __name__=="__main__":
     spacing_1 = 1
     spacing_2 = 1
     
-    
+    plt.figure()
     
     IDIR = os.getcwd()
   
@@ -166,10 +166,12 @@ if __name__=="__main__":
     oo = open('specialover.dat','w+')
     of = open('specialfluct.dat','w+')
     oa = open('specialall.dat','w+')
+    oaa = open('all.dat','w+')
 
     print('f_A eps NscA NscB Ntot N_BB')
     
     Ntot_store_under = dict()
+    mainlist = []
     for chiAB in chiAB_array:
         for Nsc_A in Nsc_A_array:
             print('-------------------------')
@@ -190,38 +192,43 @@ if __name__=="__main__":
             # nA_int = np.sort(nA_int)
             # fA_act = fA_calc(nA_int,narmtotal-nA_int,Nsc_A,Nsc_B)
             Ntot_store_under[epsilon] = []
-            
+            temparray = np.vstack([fA_act,np.ones_like(fA_act)*epsilon,Ntot]).transpose()
+            mainlist.append(temparray)
             Nmin = np.min(Ntot)
             abratio = 1/(np.sqrt((Nsc_A+1)/(40-Nsc_A+1)))
             for i in range(0,len(fA_act)):
                 
                 
-                # text=f'chiAB_{chiAB:0.4f}/NscA_{Nsc_A}_NscB_{Nsc_B}/fA{fA_act[i]:0.5f}/F0_phases.dat  \n'
+                text=f'chiAB_{chiAB:0.4f}/NscA_{Nsc_A}_NscB_{Nsc_B}/fA{fA_act[i]:0.5f}/F0_phases.dat  \n'
+                oaa.write(text)
                 # print(Ntot[i])
                 text = (f'{chiAB}   {Nsc_A}  {Nsc_B} {Ntot[i]} {fA_act[i] : 0.5f}  \n')
                 if int(Ntot[i])>=2100:
                     oo.write(text)
                 if int(Ntot[i])<=2100:
                     print(f'{fA_act[i] :0.5f} {abratio :0.5f} {Nsc_A} {40-Nsc_A} {Ntot[i]} {backbone_length[i]}')
-
+                    
                     ou.write(text)
                     Ntot_store_under[epsilon].append(Ntot[i])
                 if abs(int(Ntot[i])-2100)<8:
                     of.write(text)
+                
                 oa.write(text)
-
             # print(np.std(Ntot_store_under[epsilon])/np.mean(Ntot_store_under[epsilon]))
             # print(np.std(Ntot_store_under[epsilon]))
-
+            
     oa.close()
     ou.close()
     oo.close()
     of.close()
+    oaa.close()
                 
                 
-                
-                
-                
+    mainarray = np.vstack(mainlist)      
+    # plt.scatter(mainarray[:,0], mainarray[:,1], c=mainarray[:,2], cmap="viridis")
+    # plt.xlim(0.1,0.4)
+    # plt.colorbar()
+np.savetxt('mainarray.txt',mainarray)
                 
 #                 k = 0
 #                 for Phase in PhaseList:
