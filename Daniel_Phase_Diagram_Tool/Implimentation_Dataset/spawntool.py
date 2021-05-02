@@ -110,7 +110,7 @@ if __name__=="__main__":
     Nsc_A_max = 20
     Delta_Nsc_A = 2
     fA_min = 0.1
-    fA_max = 0.4
+    fA_max = 0.9
     Delta_fA = 0.01
     chiAB_min =   0.0289
     chiAB_max =   0.0289
@@ -162,12 +162,12 @@ if __name__=="__main__":
     chiAB_array = np.around(np.arange(chiAB_min,chiAB_max+1e-6,Delta_chiAB),5)
 #    chiAB_array = np.array([0.0114,0.0124,0.0134,0.0139,0.0144,0.0154])
 
-    ou = open('under.dat','w+')
-    oo = open('over.dat','w+')
-    of = open('fluct.dat','w+')
-    oa = open('all.dat','w+')
+    ou = open('specialunder.dat','w+')
+    oo = open('specialover.dat','w+')
+    of = open('specialfluct.dat','w+')
+    oa = open('specialall.dat','w+')
 
-    print('chiAB Nsc_A Nsc_B Ntot fA')
+    print('f_A eps NscA NscB Ntot N_BB')
     
     Ntot_store_under = dict()
     for chiAB in chiAB_array:
@@ -175,15 +175,14 @@ if __name__=="__main__":
             print('-------------------------')
             Nsc_B = Nsc_Total-Nsc_A
             nA_check = nA_calc(fA_array,Neff,Nsc_A)
-            nB_check = nA_calc(1-fA_array,Neff,Nsc_Total-Nsc_A)
+            nB_check = nA_calc(1-fA_array,Neff,(Nsc_Total-Nsc_A))
             nA_int = np.around(nA_check)
             nB_int = np.around(nB_check)
             narmtotal=nA_int+nB_int
             backbone_length = narmtotal-1
             epsilon = np.sqrt((40-Nsc_A+1)/(Nsc_A+1))
-            fA_act = fA_calc(nA_int,nB_int,Nsc_A,Nsc_Total-Nsc_A)
-            Ntot = fA_tot(nA_int,nB_int,Nsc_A,Nsc_Total-Nsc_A)
-            
+            fA_act = fA_calc(nA_int,nB_int,Nsc_A,(Nsc_Total-Nsc_A))
+            Ntot = fA_tot(nA_int,nB_int,Nsc_A,(Nsc_Total-Nsc_A))
             # nA_check = nA_calc(fA_array,narmtotal,Nsc_A,Nsc_B)
             # nA_int = np.array(list(set(list(np.around(nA_check))+list([narmtotal]))))
             # del_loc = np.where(nA_int==narmtotal)[0]
@@ -193,20 +192,23 @@ if __name__=="__main__":
             Ntot_store_under[epsilon] = []
             
             Nmin = np.min(Ntot)
-            
-            if Nsc_A!=18:
-                for i in range(0,len(fA_act)):
-                    text=f'chiAB_{chiAB:0.4f}/NscA_{Nsc_A}_NscB_{Nsc_B}/fA{fA_act[i]:0.5f}/F0_phases.dat  \n'
-                    # print(Ntot[i])
-                    # text = (f'{chiAB}   {Nsc_A}  {Nsc_B} {Ntot[i]} {fA_act[i] : 0.5f}  \n')
-                    if int(Ntot[i])>=2100:
-                        oo.write(text)
-                    if int(Ntot[i])<=2100:
-                        ou.write(text)
-                        Ntot_store_under[epsilon].append(Ntot[i])
-                    if abs(int(Ntot[i])-2100)<8:
-                        of.write(text)
-                    oa.write(text)
+            abratio = 1/(np.sqrt((Nsc_A+1)/(40-Nsc_A+1)))
+            for i in range(0,len(fA_act)):
+                
+                
+                # text=f'chiAB_{chiAB:0.4f}/NscA_{Nsc_A}_NscB_{Nsc_B}/fA{fA_act[i]:0.5f}/F0_phases.dat  \n'
+                # print(Ntot[i])
+                text = (f'{chiAB}   {Nsc_A}  {Nsc_B} {Ntot[i]} {fA_act[i] : 0.5f}  \n')
+                if int(Ntot[i])>=2100:
+                    oo.write(text)
+                if int(Ntot[i])<=2100:
+                    print(f'{fA_act[i] :0.5f} {abratio :0.5f} {Nsc_A} {40-Nsc_A} {Ntot[i]} {backbone_length[i]}')
+
+                    ou.write(text)
+                    Ntot_store_under[epsilon].append(Ntot[i])
+                if abs(int(Ntot[i])-2100)<8:
+                    of.write(text)
+                oa.write(text)
 
             # print(np.std(Ntot_store_under[epsilon])/np.mean(Ntot_store_under[epsilon]))
             # print(np.std(Ntot_store_under[epsilon]))

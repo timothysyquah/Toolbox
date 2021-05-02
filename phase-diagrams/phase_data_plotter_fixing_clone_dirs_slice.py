@@ -42,7 +42,7 @@ class PhaseBoundary:
         #dist_threshold[0] = 0.055 # along fA
         #dist_threshold[1] = 3     # along chiN
 
-        # based on distances between adjacent points, 
+        # based on distances between adjacent points, timothy_quah
         linesegments = [None]*1
         nline = 1
 
@@ -935,8 +935,32 @@ if __name__ == '__main__':
     # args.dirs = glob.glob("/home/tquah/IMPORT_BRAID/diblock_phasediagram/chiAB*/NscA_20*/fA0.25000")
     # args.dirs = glob.glob("/media/tquah/TOSHIBA EXT/Projects/DMREF/sweep-asym-armlength_asymBCC_fix/chiAB_0.0134*/Nsc*/fA*")
     # args.dirs = glob.glob("/media/tquah/TOSHIBA EXT/Projects/DMREF/sweep-asym-armlength_asymBCC_fix/chiAB_0.0134*/Nsc*/fA*")
-    # args.dirs = glob.glob("/media/tquah/TOSHIBA EXT/Projects/chiN_60_asymdir/chiAB*/ABratio_1.3*/fA0.*")
-    args.dirs = glob.glob("/media/tquah/Seagate Portable Drive/Projects/DMREF/sweep-asym-armlength_corrected_constant_chiN/chiN*/NscA_*/fA*")
+    # args.dirs = glob.glob("/media/tquah/TOSHIBA EXT/Projects/chiN_60_asymdir/chiAB*/ABratio_2.7*/fA0.*")
+    op = open('under_6.dat','r')
+    dirlist = op.read().splitlines()
+    op.close()
+    args.dirs = ['/media/tquah/TOSHIBA EXT/Projects/eps_development/eps_bA_BB_1.24/'+i for i in dirlist]
+    # args.dirs = ['/media/tquah/TOSHIBA EXT/Projects/eps_development/eps_bA_SC_1.24/'+i for i in dirlist]
+    # args.dirs = ["/media/tquah/TOSHIBA EXT/Projects/DMREF/sweep-asym-armlength_corrected/"+i for i in dirlist]
+
+    # op = open('under_8.dat','r')
+    # dirlist = op.read().splitlines()
+    # op.close()
+    # args.dirs = ['/media/tquah/TOSHIBA EXT/Projects/eps_development/eps_lambda_2/'+i for i in dirlist]
+    # op = open('under_6.dat','r')
+    # dirlist = op.read().splitlines()
+    # op.close()
+
+    # op = open('under_8_reg.dat','r')
+    # dirlist = op.read().splitlines()
+    # op.close()
+    # op = open('under_4.dat','r')
+    # dirlist = op.read().splitlines()
+    # op.close()
+
+    # args.dirs = ["/media/tquah/TOSHIBA EXT/Projects/DMREF/sweep-asym-armlength_corrected/"+i for i in dirlist]
+
+    
     # args.dirs = glob.glob("/media/tquah/TOSHIBA EXT/Projects/DMREF/sweep-asym-armlength_asymBCC_fix/chiAB_*/Nsc*/fA*")
     # args.dirs = glob.glob("/media/tquah/TOSHIBA EXT/Projects/sweep-asym-armlength_BCC_fix/chiAB_0*/Nsc*/fA*")
     # args.dirs = glob.glob("/media/tquah/TOSHIBA EXT/Projects/DGC_FJC_CGC_sym/FJC/chiAB_0*/Nsc*/fA*")
@@ -976,14 +1000,14 @@ if __name__ == '__main__':
     
     
     
-    # args.refphase = 'HEX'
-    args.keywrd = ['Nsc','fA']
+    # args.refphase = 'DIS'
     # args.keywrd = ['ABratio','fA']
+    args.keywrd = ['chi','fA']
+    args.keywrd = ['chi','fA']
 
-    # args.keywrd = ['chi','fA']
-    args.dim =2 #len(args.keywrd)
+    args.dim =1 #len(args.keywrd)
 #    args.raw = '/home/tquah/BottlebrushPaper/PhaseBoundaries/chiasymbottlebrush.dat'
-    # args.raw = '/home/tquah/toolbox_github/SliceAnalysis/bb.dat'
+    args.raw = '/media/tquah/TOSHIBA EXT/Projects/slice_free_energies/bB_SC_1.24.dat'
 
     args.interp_dimension = [0]
     #fnmeIn="F0_phases.dat"
