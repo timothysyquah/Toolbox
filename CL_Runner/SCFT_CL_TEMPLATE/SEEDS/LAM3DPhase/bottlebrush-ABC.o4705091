@@ -1,0 +1,8 @@
+-bash: error importing function definition for `BASH_FUNC_module()'
+No supported Python (2.4 / 2.6 / 2.7) version available.
+No supported Python (2.4 / 2.6 / 2.7) version available.
+
+ ERROR: code error or inconsistency
+  - Message = Field input file fields.in not found
+  - Received from line 1235 in source file src/Field.cpp
+/var/spool/torque/mom_priv/jobs/4705091.braid.cnsi.ucsb.edu.SC: line 31:   433 Aborted                 (core dumped) ${polyftsdir}/PolyFTS.x ${inputfile} > ${outdir}/${outputfile}

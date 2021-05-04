@@ -510,11 +510,9 @@ if __name__ == '__main__':
                                     
                                         finalcell = domain_size_extractor(content,d)
                                         print('Cubic')
-                                        print(finalcell)
                                     else:
                                         print('NonCubic')
                                         finalcell = domain_size_extractor_noncubic(content,d)
-                                        print(finalcell)
                                     args.initial_box_size[q] = finalcell/(10/np.sqrt(args.reference_length))
                                     
                                     

@@ -207,7 +207,6 @@ def make_input_SCFT(PHASE,REPLACE_DICT,WDIR):
 
     if space_group is None:
         add_phase = False
-        print(cellscale)
         if d==1:
             initial_box = [cellscale[0]*initial_box[0]]
         else:
