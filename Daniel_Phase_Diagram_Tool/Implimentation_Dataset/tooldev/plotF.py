@@ -142,13 +142,16 @@ fmax = 0.40
 phase_names = ['BCC','DIS','HEX','A15','SIGMA']
 # phase_names = ['BCC','DIS','HEX','LAM','GYR']
 
-exportname = f'/home/tquah/Figures/comparison_2.png'
+exportname = '/home/tquah/Figures/comparison_2.png'
 mainarray = np.loadtxt('../mainarray.txt')
 
 # os.chdir("/media/tquah/TOSHIBA EXT/Projects/DMREF/sweep-asym-armlength_corrected/PHASE_FREE_ENERGY")
 # os.chdir("/media/tquah/TOSHIBA EXT/Projects/DMREF/sweep-asym-armlength_corrected/PHASE_FREE_ENERGY")
 # keywords = ['over']
+keywords = ['all','under']
+# keywords = ['under']
 keywords = ['all']
+
 fig, ax = plt.subplots(1,sharex='all')
 loc = np.where(mainarray[:,0]<0.4)[0]
 
@@ -189,7 +192,7 @@ for keyword in keywords:
     
     # ax.scatter(pt_array[:,0],pt_array[:,1])
     #plt.show()
-    ax.scatter(mainarray[loc,0], mainarray[loc,1], c=mainarray[loc,2]-2100,s=500.0, cmap="viridis",alpha = 0.5)
+    # ax.scatter(mainarray[loc,0], mainarray[loc,1], c=mainarray[loc,2]-2100,s=500.0, cmap="viridis",alpha = 0.5)
 
     convex_hull = []
     del_list = []
@@ -232,12 +235,12 @@ for keyword in keywords:
         if (scatter_data[j].size != 0 ):
             nstablephases += 1
             stable_phase_names.append(phase_names[j])
-            if counter_keyword==0:
-                ax.scatter(scatter_data[j][:,0],scatter_data[j][:,1],alpha=1.0)
+            # if counter_keyword==0:
+                # ax.scatter(scatter_data[j][:,0],scatter_data[j][:,1],alpha=1.0)
 
-    if counter_keyword==0:
-        ax.legend(stable_phase_names,bbox_to_anchor=(1.04,0.5), loc="center left", borderaxespad=0)
-        plt.triplot(pt_array[:,0], pt_array[:,1], tri.simplices,c='k',alpha=0.3)
+    # if counter_keyword==0:
+        # ax.legend(stable_phase_names,bbox_to_anchor=(1.04,0.5), loc="center left", borderaxespad=0)
+        # plt.triplot(pt_array[:,0], pt_array[:,1], tri.simplices,c='k',alpha=0.3)
     
 
     if draw_boundaries:
@@ -349,7 +352,7 @@ for keyword in keywords:
             #                 marker = '^',alpha = 1 )
 
         
-    # plt.xlim(0.24,0.27)
+    plt.xlim(0.1,0.38)
     # plt.ylim(1.8,2.25)
     
     counter_keyword+=1

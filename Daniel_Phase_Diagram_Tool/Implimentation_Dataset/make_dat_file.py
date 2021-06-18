@@ -118,12 +118,13 @@ def Combine_Phases(dictionary,phase):
     header = list(dictionary)
     for key in header:
         if key.find(phase)!=-1:
-#            print(key)
-            if count == 0:
-                temp_array = deepcopy(dictionary[key])
-                count+=1
-            else:
-                temp_array = np.vstack((temp_array,dictionary[key]))
+            if 'N' not in key:
+
+                if count == 0:
+                    temp_array = deepcopy(dictionary[key])
+                    count+=1
+                else:
+                    temp_array = np.vstack((temp_array,dictionary[key]))
     return temp_array
 
 
@@ -158,7 +159,7 @@ data_dict = data_extraction(list_of_directory,filename,keyword,rules)
 
 # phaselist = ['LAM','HEX','BCC','DIS','GYR']
 phaselist = ['BCC','HEX','A15','SIGMA','DIS']
-cleanphaselist = ['SIGMA']
+cleanphaselist = ['SIGMA','A15']
         
 listofvar = obtain_unique_dims(data_dict)
 
@@ -187,22 +188,52 @@ for key in header:
         phase_dict[key[1]] = temp_array
 
 
+#make CN phases main
+        
+
 #only to clean up SIGMA shinanigans 
 for cleanphase in cleanphaselist:
     temp_array = Combine_Phases(phase_dict,cleanphase)
     clean_array = Clean_Array(temp_array)
     header = list(phase_dict)
     for key in header:
-        if key.find(cleanphase)!=-1:
-            phase_dict.pop(key, None)
+        if 'N' not in key:
+            print(key)
+            if key.find(cleanphase)!=-1:
+                phase_dict.pop(key, None)
     phase_dict[cleanphase] = clean_array
 
+header = list(phase_dict)
+print('--------')
+
+for phaseN in header:
+    if 'N' in phaseN:
+        actual_phase = phaseN[:-1]
+        if 'SIGMA' in phaseN:
+            actual_phase = 'SIGMA'
+
+        array1 = phase_dict[actual_phase]
+        array2 = phase_dict[phaseN]
+        dim = np.shape(array2)
+        for i in range(0,dim[0],1):
+            loc = np.where((array1[:,0]==array2[i,0])&(array1[:,1]==array2[i,1]))
+            if len(loc)>0:
+                print(phase_dict[actual_phase][loc[0],0][0],array2[i,0],array2[i,1] )
+
+                phase_dict[actual_phase][loc[0],2] = array2[i,2]
+        phase_dict.pop(phaseN, None)
 
 
-alldir = os.listdir()
-if 'PHASE_FREE_ENERGY' not in alldir:
-    os.mkdir('PHASE_FREE_ENERGY')
-os.chdir('PHASE_FREE_ENERGY')
+# alldir = os.listdir()
+# if 'PHASE_FREE_ENERGY_all' not in alldir:
+os.chdir(pwd)
+try:
+    os.mkdir('PHASE_FREE_ENERGY_all')
+except:
+    print('already exists')
+print(os.getcwd())
+os.chdir('PHASE_FREE_ENERGY_all')
+print('--------')
 
 for phase in list(phase_dict):
     print(phase)

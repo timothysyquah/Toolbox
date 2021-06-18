@@ -939,7 +939,7 @@ if __name__ == '__main__':
     op = open('under_6.dat','r')
     dirlist = op.read().splitlines()
     op.close()
-    args.dirs = ['/media/tquah/TOSHIBA EXT/Projects/eps_development/eps_bA_BB_1.24/'+i for i in dirlist]
+    # args.dirs = ['/media/tquah/TOSHIBA EXT/Projects/eps_development/eps_bA_BB_1.24/'+i for i in dirlist]
     # args.dirs = ['/media/tquah/TOSHIBA EXT/Projects/eps_development/eps_bA_SC_1.24/'+i for i in dirlist]
     # args.dirs = ["/media/tquah/TOSHIBA EXT/Projects/DMREF/sweep-asym-armlength_corrected/"+i for i in dirlist]
 

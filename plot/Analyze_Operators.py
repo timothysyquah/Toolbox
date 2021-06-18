@@ -25,7 +25,7 @@ rcParams['font.style'] = 'normal'
 rcParams['axes.labelsize'] = 20
 rcParams['xtick.labelsize'] = 15
 rcParams['ytick.labelsize'] = 15
-rcParams['legend.fontsize'] = 11
+rcParams['legend.fontsize'] = 15
 \
 
 def Create_CStress_Tensor(df):
@@ -191,38 +191,37 @@ pathlist = ['/media/tquah/Seagate Portable Drive/Projects/DMREF/CL_SCFT_Bottlebr
               '/media/tquah/Seagate Portable Drive/Projects/DMREF/CL_SCFT_Bottlebrush_Study/DougMethod/Doug_Stress_Method/Study_Increase_Resolution_Along_z/L_npw_2_period_64_64_64/Period_2']
 
 textlabel = ['$L_y = L_z = 64$ $l$ : Period = 1','$L_y = L_z = 64$ $l$: Period = 2']
-fig, ax = plt.subplots(1, 2,sharex=False, sharey=True,figsize=(10,5))
+# fig, ax = plt.subplots(1, 2,sharex=False, sharey=True,figsize=(10,5))
 
 for j in range(len(pathlist)): 
     os.chdir(pathlist[j])
     array,datalist = Primary_Stress_Tensor(infile)
-    ax[j].title.set_text(textlabel[j])
-    
+    # ax[j].title.set_text(textlabel[j])
+    fig, ax = plt.subplots(figsize=(5 , 5))
+    ax = plt.subplot(111)
+
     colors = ['k','b','m']
     shape = ['^','d','s']
-    text = ['$\sigma_1$','$\sigma_2$','$\sigma_3$']
+    text = ['$\sigma_{x,x}$','$\sigma_{y,y}$','$\sigma_{z,z}$']
     yaverage = np.linspace(-10,10,10)
     for i in range(3):
-        ax[j].plot(array[:,0],array[:,2+i],colors[i])
-        ax[j].scatter(array[:,0],array[:,2+i],marker=shape[i],color=colors[i],label =text[i] )
+        ax.plot(array[:,0],array[:,2+i],colors[i])
+        ax.scatter(array[:,0],array[:,2+i],marker=shape[i],color=colors[i],label =text[i] )
     
-    # plt.ylim((np.min(array[:,2])*1.1,np.max(array[:,2])*1.1))
     meanD0 = Predict_D0(array)
     print(meanD0/2)
     xaverage = np.ones_like(yaverage)*meanD0
-    ax[j].plot(xaverage,yaverage,'--k')
-    # ax[j].set_xticks(array[::2,0])
-    ax[j].set_xlim(np.min(array[:,0])-1,np.max(array[:,0])+1)
-    ax[j].set_ylim(np.min(array[:,2])-0.001,np.max(array[:,2])+0.001)
-plt.tight_layout()
+    ax.plot(xaverage,yaverage,'--k')
+    plt.ylim((np.min(array[:,2])-0.001,np.max(array[:,2])+0.001))
 
-fig.add_subplot(111, frameon=False)
-plt.tick_params(labelcolor='none', which='both', top=False, bottom=False, left=False, right=False)
-plt.ylabel('$\sigma_i$')
-plt.xlabel('$L_x$ $(l)$')
-ax[0].legend()
-plt.tight_layout()
-plt.savefig('/home/tquah/Figures/646464_Period_1_2.png',dpi=300)
+    plt.ylabel(r'$\left < \sigma_{i,i} \right> $')
+    plt.xlabel('$L_x$ $(l)$')
+    # ax[j].set_xticks(array[::2,0])
+    ax.legend()
+    plt.tight_layout()
+    plt.tight_layout()
+    name = f'/home/tquah/Presentations/Candidacy/Figures/646464_Period_{j+1}.pdf'
+    plt.savefig(name,dpi=300)
 
 # plt.close('all')
 

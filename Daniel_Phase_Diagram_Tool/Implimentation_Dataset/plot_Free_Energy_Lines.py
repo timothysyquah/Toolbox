@@ -12,10 +12,13 @@ import matplotlib.pyplot as plt
 import os
 from copy import deepcopy
 from itertools import combinations
+
+
+
 phases = ['DIS.dat','SIGMA.dat','BCC.dat','HEX.dat','A15.dat']
 phases = ['SIGMA.dat','A15.dat','HEX.dat']
 
-pts = [[0.248,1.9],[0.241,1.9],[0.25,2.2]]
+pts = [[0.247,1.9],[0.241,1.6],[0.25,1.6]]
 pairlist = [[0,1],[0,2]]
 axis = [0,1]
 tol = 50
