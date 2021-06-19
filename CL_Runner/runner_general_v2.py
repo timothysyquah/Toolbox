@@ -315,7 +315,7 @@ if __name__ == '__main__':
     
     phaselogic_check = [len(args.phase),len(args.initial_box_size),len(args.number_of_planewaves)]
     listcheck(phaselogic_check,'Check length of npw/phase/spacegroup/initialboxsize')
-    
+    print(args.initial_box_size)
     if type(args.floryhuggins_interaction_parameter_min)==float or type(args.floryhuggins_interaction_parameter_max)==float or type(args.floryhuggins_interaction_parameter_step)==float:
         args.floryhuggins_interaction_parameter_min = [args.floryhuggins_interaction_parameter_min]
         args.floryhuggins_interaction_parameter_max = [args.floryhuggins_interaction_parameter_max]
@@ -395,11 +395,16 @@ if __name__ == '__main__':
                                     phaseout = open(f'{Phase}.out')
                                     content = phaseout.read().splitlines()
                                     phaseout.close()
+                                    boxcheck = all(x==args.initial_box_size[q][0] for x in args.initial_box_size[q])
+                                    if boxcheck:
                                     
-                                    finalcell = domain_size_extractor(content,d)
-                                    
+                                        finalcell = domain_size_extractor(content,d)
+                                        print('Cubic')
+                                    else:
+                                        print('NonCubic')
+                                        finalcell = domain_size_extractor_noncubic(content,d)
                                     args.initial_box_size[q] = finalcell/(10/np.sqrt(args.reference_length))
-                                    
+                                    # print(args.initial_box_size)
                                     full_WDIR = os.path.join(IDIR,WDIR)
                                     field_path_1 = os.path.join(full_WDIR,'fields_k.bin')
                                     field_path_2 = os.path.join(full_WDIR,'fields_k.dat')
@@ -514,7 +519,6 @@ if __name__ == '__main__':
                                         print('NonCubic')
                                         finalcell = domain_size_extractor_noncubic(content,d)
                                     args.initial_box_size[q] = finalcell/(10/np.sqrt(args.reference_length))
-                                    
                                     
                                     full_WDIR = os.path.join(IDIR,WDIR)
                                     field_path_1 = os.path.join(full_WDIR,'fields_k.bin')
