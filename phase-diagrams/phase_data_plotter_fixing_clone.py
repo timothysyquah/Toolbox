@@ -943,7 +943,7 @@ if __name__ == '__main__':
 #    args.dirs = glob.glob("/media/tquah/TOSHIBA EXT/Projects/DGC_FJC_CGC_sym/CGC_empty_2/chiAB_0.*/Nsc*/fA*")
     # args.dirs = glob.glob("//media/tquah/TOSHIBA EXT/Projects/eps_development/eps_lambda_2/chiAB_0*/Nsc*/fA*")
     args.dirs = glob.glob("/media/tquah/TOSHIBA EXT/Projects/eps_development/eps_bB_SC_1.5/chiAB_0*/Nsc*/fA*")
-    # args.dirs = glob.glob("//media/tquah/TOSHIBA EXT/Projects/eps_development/eps_bA_BB_1.5/chiAB_0*/Nsc*/fA*")
+    args.dirs = glob.glob("//media/tquah/TOSHIBA EXT/Projects/eps_development/eps_bA_BB_1.5/chiAB_0*/Nsc*/fA0.2*")
 
     # args.dirs = glob.glob("/home/tquah/IMPORT_BRAID/NSCASYM_02_other02/chiAB_0.0289/ABratio_5*/fA*")
     # args.dirs = glob.glob("/home/tquah/Projects/asymnonspecial/chiAB_0.0289/ABratio_19*/fA*")
@@ -976,7 +976,7 @@ if __name__ == '__main__':
     
     
     
-    # args.refphase = 'LAM'
+    args.refphase = 'A15'
     args.keywrd = ['Nsc','fA']
     # args.keywrd = ['ABratio','fA']
 

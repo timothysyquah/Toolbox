@@ -33,8 +33,8 @@ pathimport = '/home/tquah/Projects/CL_analysis/C_1'
 exportpath='/home/tquah/Presentations/Candidacy/Figures'
 exportpath='/home/tquah/Figures'
 
-exportname = 'CLSCFT_new.pdf'
-exportnamegamma = 'gamma_new.pdf'
+exportname = 'CLSCFT_c1.pdf'
+exportnamegamma = 'gamma_c1.pdf'
 
 
 fullpathname = os.path.join(exportpath,exportname)
@@ -99,16 +99,15 @@ for i in range(0,len(filelist)):
     
 ax.set_yscale('log')
 ax.set_xscale('log')
-ax.set_xticks([40, 60, 100, 200])
+ax.set_xticks([40, 60, 100])
 ax.get_xaxis().set_major_formatter(matplotlib.ticker.ScalarFormatter())
-ax.set_yticks([60,100, 150, 200])
+ax.set_yticks([70,100, 130])
 ax.get_yaxis().set_major_formatter(matplotlib.ticker.ScalarFormatter())
 
 plt.xlabel('$N_{bb}$')
 plt.ylabel('$D/l$')
 
-legendhandles = [Line2D([0], [0], marker = 'o',markerfacecolor = 'k',label = r'$N_{sc} = 20$',color = 'w',linestyle='None',markersize=10,alpha = 0.5),\
-                 Line2D([0], [0], marker = '^',markerfacecolor = 'k',label = r'$N_{sc} = 40$',color = 'w',linestyle='None',markersize=10,alpha = 0.5),\
+legendhandles = [Line2D([0], [0], marker = '^',markerfacecolor = 'k',label = r'$N_{sc} = 40$',color = 'w',linestyle='None',markersize=10,alpha = 0.5),\
                  Line2D([0], [0], color = 'r',label = r'FTS-CL',linewidth = 3.0),\
                  Line2D([0], [0], color = 'k',label = r'SCFT',linewidth = 3.0)]
 
@@ -134,8 +133,7 @@ for i in range(len(arraylist)):
     Dspace_dX = cs.derivative(1)
     ax.plot(xx,Dspace_dX(np.log(xx)),color[i])
     
-legendhandles = [Line2D([0], [0], color = 'k',linestyle = '-',label = r'$N_{sc}=20$',linewidth = 3.0,alpha = 0.5),\
-             Line2D([0], [0], color = 'k',linestyle = '-.',label = r'$N_{sc}=40$',linewidth = 3.0,alpha = 0.5),\
+legendhandles = [Line2D([0], [0], color = 'k',linestyle = '-.',label = r'$N_{sc}=40$',linewidth = 3.0,alpha = 0.5),\
              Line2D([0], [0], color = 'r',label = r'FTS-CL',linewidth = 3.0),\
              Line2D([0], [0], color = 'k',label = r'SCFT',linewidth = 3.0)]
 
