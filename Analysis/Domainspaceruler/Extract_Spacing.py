@@ -148,10 +148,10 @@ def ParsePath(path,parameters):
 #################################################################################################################
 
 
-nsc=40
+nsc=20
 
 infile = 'operators_result.dat'
-Export_Path = f'/home/tquah/Projects/CL_analysis/C_1/nsc{int(nsc)}.dat'
+Export_Path = f'/home/tquah/Projects/CL_analysis/z_2/nsc{int(nsc)}.dat'
 # Isolate_Other(array)
 desired_parameters = ['chi','nsc','nbb']
 
@@ -161,9 +161,9 @@ confidence = 0.05
 confidence_interval = norm.ppf(1-confidence/2)
 plotdebug = False
 
-os.chdir('/media/tquah/Seagate Portable Drive/Projects/DMREF/CL_SCFT_Bottlebrush_Study/CL_POD/C_2')
+os.chdir('/media/tquah/Seagate Portable Drive/Projects/DMREF/CL_SCFT_Bottlebrush_Study/CL_POD/z_2_c_2')
 # os.chdir('/media/tquah/Seagate Portable Drive/Projects/DMREF/CL_SCFT_Bottlebrush_Study/main_test/gausswidth_2.0_invzeta_1.0_3D_CL')
-os.chdir('/media/tquah/Seagate Portable Drive/Projects/DMREF/CL_SCFT_Bottlebrush_Study/CL_POD/C_1')
+os.chdir('/media/tquah/Seagate Portable Drive/Projects/DMREF/CL_SCFT_Bottlebrush_Study/CL_POD/z_2_c_2')
 
 IDIR = os.getcwd()
 file_list = glob.glob(f'CL/**/nsc{float(nsc)}/nbb*/**/operators_result.dat',recursive=True)

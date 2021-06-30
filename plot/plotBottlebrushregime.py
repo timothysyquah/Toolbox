@@ -52,7 +52,7 @@ class Zbounds():
 Nsc = np.linspace(5,50,100)
 
 C = np.linspace(0,3,100)
-constant = 6*np.sqrt(6)
+constant = 1#6*np.sqrt(6)
     
 plt.close('all')
 plt.figure()
@@ -93,10 +93,10 @@ for i in range(0,len(Nsc_array)):
     
     z1_ = zfull.z1()
     plt.plot(Cfullplot,z1_,'k',alpha = alpha0-0.75/len(Nsc_array)*i )
-plt.xlabel(r'$(C/\sqrt{N})\times 6\sqrt{6} $')
-ax.xaxis.set_major_locator(plt.MultipleLocator(6*np.sqrt(6)))
-# ax.yaxis.set_minor_locator(plt.MultipleLocator(3*np.sqrt(6)))
-ax.xaxis.set_major_formatter(plt.FuncFormatter(multiple_formatter(number =6*np.sqrt(6), latex = ' 6 \sqrt{6}')))
+plt.xlabel(r'$b^3/v_0$')
+# ax.xaxis.set_major_locator(plt.MultipleLocator(6*np.sqrt(6)))
+# # ax.yaxis.set_minor_locator(plt.MultipleLocator(3*np.sqrt(6)))
+# ax.xaxis.set_major_formatter(plt.FuncFormatter(multiple_formatter(number =6*np.sqrt(6), latex = ' 6 \sqrt{6}')))
 
 plt.ylabel('$z$')
 
@@ -111,7 +111,7 @@ plt.text(1.85*constant,0.68,'$N_{sc}$',fontsize=15,ha='center', va='center',colo
 
 plt.tight_layout()
 
-plt.savefig('/home/tquah/Figures/zvsC_rescale.png',dpi = 300)
+plt.savefig('/home/tquah/Figures/zvsC.png',dpi = 300)
 
 
 # zstar = 1/np.sqrt(Nsc)
