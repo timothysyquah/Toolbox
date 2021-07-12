@@ -7,7 +7,6 @@ Created on Thu Nov 12 00:11:03 2020
 """
 
 
-from citrine import Citrine
 import numpy as np
 import glob,re
 import os,sys
@@ -84,7 +83,7 @@ data_client.upload(dataset_id, file_path)
 #         dictionary_list = []
 #         for i in range(0,len(keyword)-1):
 #             dir1loc = dir_split.index([s for s in dir_split if keyword[i] in s][0])
-s#             dir1=dir_split[dir1loc]
+#             dir1=dir_split[dir1loc]
 #             dictionary_list.append(float(re.findall("\d+\.\d+", dir1)[0]))
     
 #         dir2loc = dir_split.index([s for s in dir_split if keyword[-1] in s][0])
