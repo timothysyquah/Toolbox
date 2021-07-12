@@ -62,16 +62,16 @@ class Zbounds():
     def z31(self):
         return np.sqrt(self.C)
 Nsc = np.linspace(5,50,100)
-
-C = np.linspace(0,3,100)
+end = 4
+C = np.linspace(0,end,100)
 constant = 1#6*np.sqrt(6)
-    
+
 plt.close('all')
 plt.figure()
 ax = plt.gca()
 C1 = np.linspace(0,1,1000)
-C2 = np.linspace(1,2,1000)
-Nsc_array = np.arange(5,45,5,dtype=int)
+C2 = np.linspace(1,end,1000)
+Nsc_array = np.arange(45,45+1e-6,5,dtype=int)
 Cplot1 = C1*constant
 Cplot2 = C2*constant
 
@@ -99,7 +99,7 @@ z = np.linspace(-10,10,100)
 
 alpha0 = 1.0
 for i in range(0,len(Nsc_array)):
-    Cfull = np.linspace(1/np.sqrt(Nsc_array[i]),2,2000)
+    Cfull = np.linspace(1/np.sqrt(Nsc_array[i]),end,2000)
     Cfullplot = Cfull*constant
     zfull = Zbounds(Cfull,Nsc_array[i])
     
@@ -110,20 +110,38 @@ plt.xlabel(r'$b^3/v_0$')
 # # ax.yaxis.set_minor_locator(plt.MultipleLocator(3*np.sqrt(6)))
 # ax.xaxis.set_major_formatter(plt.FuncFormatter(multiple_formatter(number =6*np.sqrt(6), latex = ' 6 \sqrt{6}')))
 
+plt.plot(C,0.23*np.ones_like(C),'--b')
+plt.plot(C,0.16*np.ones_like(C),'-.g')
+
+
 plt.ylabel('$z$')
 
+plt.xlim(2,3)
+plt.ylim(-0.2,3.1)
+# plt.text(0.8*constant,1.5,'Fully Stretched DB',fontsize=15,ha='center', va='center',color='r')
+# plt.text(1.5*constant,1.0,'LB',fontsize=15,ha='center', va='center',color='r')
+plt.text(2.5,2.8,'DB',fontsize=15,ha='center', va='center',color='r')
+plt.text(2.5,1.5,'LB',fontsize=15,ha='center', va='center',color='r')
+plt.text(2.5,0.03,'DC',fontsize=15,ha='center', va='center',color='r')
 
-plt.ylim(-0.1,2.1)
-plt.text(1.0*constant,1.5,'Fully Stretched DB',fontsize=15,ha='center', va='center',color='r')
-plt.text(1.5*constant,1.0,'LB',fontsize=15,ha='center', va='center',color='r')
-plt.text(0.3*constant,0.3,'DB',fontsize=15,ha='center', va='center',color='r')
-plt.text(1.5*constant,0.0,'DC',fontsize=15,ha='center', va='center',color='r')
-plt.arrow(1.75*constant,0.85,0,-0.7,head_width=0.05*constant,head_length=0.15,length_includes_head=True,color = 'b')
-plt.text(1.85*constant,0.68,'$N_{sc}$',fontsize=15,ha='center', va='center',color='b')
+# plt.text(1.5*constant,0.0,'DC',fontsize=15,ha='center', va='center',color='r')
+# plt.arrow(1.75*constant,0.85,0,-0.7,head_width=0.05*constant,head_length=0.15,length_includes_head=True,color = 'b')
+# plt.text(1.85*constant,0.68,'$N_{sc}$',fontsize=15,ha='center', va='center',color='b')
 
 plt.tight_layout()
 
-plt.savefig('/home/tquah/Figures/zvsC.png',dpi = 300)
+
+
+
+b3v0 = 2.65195137
+z1 = np.array([1,0.75,0.5,0.35,0.25])
+z2 = np.array([0.2,0.15,0.05])
+b3v0_1 = np.ones_like(z1)*b3v0
+b3v0_2 = np.ones_like(z2)*b3v0
+plt.scatter(b3v0_1,z1,marker='*',color = 'b')
+plt.scatter(b3v0_2,z2,marker='^',color = 'k')
+
+plt.savefig('/home/tquah/Figures/zvsC_lit.png',dpi = 300)
 
 
 # zstar = 1/np.sqrt(Nsc)

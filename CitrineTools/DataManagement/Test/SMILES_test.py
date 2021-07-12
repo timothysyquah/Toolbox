@@ -124,10 +124,10 @@ chainlist = []
 # chainlist.append(sidechain('DGC',5,[3],[1.0],76,100,25))
 
 
-chainlist.append(chain('DGC',10,[1,2,3],[0.2,0.6,0.2]))
-chainlist.append(sidechain('DGC',2,[1],[1.0],1,2,2))
-chainlist.append(sidechain('DGC',2,[2],[1.0],3,8,6))
-chainlist.append(sidechain('DGC',2,[3],[1.0],9,10,2))
+chainlist.append(chain('DGC',100,[1,2,3],[0.2,0.6,0.2]))
+chainlist.append(sidechain('DGC',3,[1],[1.0],1,4,4))
+chainlist.append(sidechain('DGC',3,[2],[1.0],5,16,12))
+chainlist.append(sidechain('DGC',3,[3],[1.0],17,20,4))
 
 G = molecule(chainlist).create_network()
 nx.draw(G, with_labels=True, font_weight='bold')
