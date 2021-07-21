@@ -246,6 +246,7 @@ if __name__ == "__main__":
   parser.add_argument('-a','--autowarmup',default=False,dest='autowarmup',action='store_true',help='Use MSER-5 method to automate warmup detection')
   parser.add_argument('-w', '--warmup',default=100,type=int,help='Number of samples to eliminate from the beginning of the data.')
   parser.add_argument('-q','--quiet',default=False,dest='quiet',action='store_true',help='Write minimal information to stdout')
+
   # Parse the command-line arguments
   #args=parser.parse_args(sys.argv[1:])
   args=parser.parse_args()
