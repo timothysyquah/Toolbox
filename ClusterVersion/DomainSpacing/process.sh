@@ -21,8 +21,8 @@ for maindir in ./CL/f*/chi*/nsc*/nbb*/LAM*; do
 #        var=$(python3 /home/tquah/toolbox_github/Analysis/stats.py -f operators.dat -o Hamiltonian.Real StressXX.Real StressYY.Real StressZZ.Real StressXY.Real StressXZ.Real StressYZ.Real -a -q) 
 #        var="${var%"${var##*[![:space:]]}"}"   
 #        echo "${Lvalue} ${var}" >> ../${output_file}
-
-        var=$(python3 /home/tquah/PolyFTS_ALL/PolyFTS/tools/stats.py -f operators.dat -o Hamiltonian.Real StressXX.Real StressYY.Real StressZZ.Real StressXY.Real StressXZ.Real StressYZ.Real -a -q)
+        python3 /home/tquah/toolbox/ClusterVersion/DomainSpacing/PreprocessADT.py 
+        var=$(python3 /home/tquah/toolbox/Analysis/stats.py -f RW_operators.dat -o Hamiltonian.Real StressXX.Real StressYY.Real StressZZ.Real StressXY.Real StressXZ.Real StressYZ.Real -a -q -dt)
         echo "${Lvalue} ${var}" >> ../${output_file}
       fi 
     fi 

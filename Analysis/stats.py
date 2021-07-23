@@ -56,7 +56,7 @@ def extractData(filehandler,column,warmup):
         sys.stderr.write("WARNING: NaN in data. Run diverged. Proceeding with bad samples removed.\n")
         Data1=Data1[np.isfinite(Data1)]
     # Check data size > warmup
-    if Data1.size < warmup:
+    if len(Data1) < warmup:
         sys.stderr.write("WARNING: Warmup length is greater than sample size. Reducing to warmup=0\n")
         warmup=0
     # Return warmup and production arrays
@@ -170,7 +170,7 @@ def doStats(warmupdata,Data,doGraphs=False,doWriteStdout=False,graphFilenameStub
         #pl.ylabel('$\\Kappa$')
         #pl.axhline(0,color='black')
         #
-        pl.savefig("stats.png".format(graphFilenameStub))
+        pl.savefig("stats_{0}.png".format(graphFilenameStub))
 
     return (nsamples,(min,max),mean,semcc,kappa,unbiasedvar,autocor)
 
@@ -246,6 +246,8 @@ if __name__ == "__main__":
   parser.add_argument('-a','--autowarmup',default=False,dest='autowarmup',action='store_true',help='Use MSER-5 method to automate warmup detection')
   parser.add_argument('-w', '--warmup',default=100,type=int,help='Number of samples to eliminate from the beginning of the data.')
   parser.add_argument('-q','--quiet',default=False,dest='quiet',action='store_true',help='Write minimal information to stdout')
+  parser.add_argument('-dt','--adt',default=False,action='store_true',help='Using ADT')
+  parser.add_argument('-bl','--Blocks',default='BlockSteps.dat',action='store',help='Blocks')
 
   # Parse the command-line arguments
   #args=parser.parse_args(sys.argv[1:])
@@ -260,7 +262,6 @@ if __name__ == "__main__":
   # Initialize an empty list of means and errors
   means=[]
   errs=[]
-  var = []
   # Loop through column records or observable names and do stats
   if args.col != None:
     for i in args.col:
@@ -274,9 +275,12 @@ if __name__ == "__main__":
           warmup,Data = extractData(args.file, i, args.warmup)
       # Do the statistics - if command line, force stdout output
       (nsamples,(min,max),mean,semcc,kappa,unbiasedvar,autocor)=doStats(warmup,Data,args.graphs,not args.quiet,'_{0}_col{1}'.format(args.file.name,i))
-      means.append(mean)
-      errs.append(semcc)
-      var.append(np.sqrt(unbiasedvar))
+      norm = 1
+      if args.adt:
+          blocks = np.loadtxt(args.Blocks)[-nsamples:]
+          norm = np.mean(blocks)
+      means.append(mean/norm)
+      errs.append(semcc/norm)
   else:
     for i in args.observable:
       if not args.quiet:
@@ -290,12 +294,15 @@ if __name__ == "__main__":
           warmup,Data = extractData(args.file, column, args.warmup)
       # Do the statistics - if command line, force stdout output
       (nsamples,(min,max),mean,semcc,kappa,unbiasedvar,autocor)=doStats(warmup,Data,args.graphs,not args.quiet,'_{0}_{1}'.format(args.file.name,i))
-      means.append(mean)
-      errs.append(semcc)
-      var.append(np.sqrt(unbiasedvar))
+      norm = 1
+      if args.adt:
+          blocks = np.loadtxt(args.Blocks)[-nsamples:]
+          norm = np.mean(blocks)
+      means.append(mean/norm)
+      errs.append(semcc/norm)
 
   if not args.quiet:
     sys.stdout.write("ALL MEANS +/- ERRS: ")
   for i in range(len(means)):
-    sys.stdout.write("{0} {1} {2} ".format(means[i],errs[i],var[i]))
+    sys.stdout.write("{0} {1} ".format(means[i],errs[i]))
   sys.stdout.write("\n")

@@ -15,7 +15,7 @@ IDIR = os.getcwd()
 
 #variables that have to be replaced by args
 path = '/home/tquah/IMPORT_POD/L_116_EMADT_finitesize_larger/'
-
+path = '/media/tquah/Seagate Portable Drive/Projects/DMREF/CL_SCFT_Bottlebrush_Study/CL_POD/rho_1_z_2_point_invest/CL/f0.5/chi0.2/nsc10.0/nbb99.0/LAM3DPhase/L_60'
 operatorsfile = 'operators.dat'
 dtfile = 'ADT_tsteps.dat'
 
@@ -63,9 +63,17 @@ np.savetxt('weightedoperators.dat',newoperators,header = string)
 #check
 
 
+test = np.mean(df['StressXX.Real'])
+test1 = np.mean(operator_array[:,3])*len(blocktime[0])/np.sum(blocktime)
 
 
 
+loadweight = np.loadtxt('RW_operators.dat')
+blockload = np.loadtxt('BlockSteps.dat')
+
+
+test2 = np.mean(loadweight[:,3])*len(blockload)/np.sum(blockload)
+test3 = np.mean(loadweight[:,3])/np.mean(blockload)
 
 os.chdir(IDIR)
 
