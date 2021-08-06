@@ -936,29 +936,29 @@ if __name__ == '__main__':
     # args.dirs = glob.glob("/media/tquah/TOSHIBA EXT/Projects/DMREF/sweep-asym-armlength_asymBCC_fix/chiAB_0.0134*/Nsc*/fA*")
     # args.dirs = glob.glob("/media/tquah/TOSHIBA EXT/Projects/DMREF/sweep-asym-armlength_asymBCC_fix/chiAB_0.0134*/Nsc*/fA*")
     # args.dirs = glob.glob("/media/tquah/TOSHIBA EXT/Projects/chiN_60_asymdir/chiAB*/ABratio_2.7*/fA0.*")
-    op = open('under_6.dat','r')
-    dirlist = op.read().splitlines()
-    op.close()
+    # op = open('under_6.dat','r')
+    # dirlist = op.read().splitlines()
+    # op.close()
     # args.dirs = ['/media/tquah/TOSHIBA EXT/Projects/eps_development/eps_bA_BB_1.24/'+i for i in dirlist]
     # args.dirs = ['/media/tquah/TOSHIBA EXT/Projects/eps_development/eps_bA_SC_1.24/'+i for i in dirlist]
     # args.dirs = ["/media/tquah/TOSHIBA EXT/Projects/DMREF/sweep-asym-armlength_corrected/"+i for i in dirlist]
 
-    # op = open('under_8.dat','r')
-    # dirlist = op.read().splitlines()
-    # op.close()
-    # args.dirs = ['/media/tquah/TOSHIBA EXT/Projects/eps_development/eps_lambda_2/'+i for i in dirlist]
-    # op = open('under_6.dat','r')
+    op = open('under_8.dat','r')
+    dirlist = op.read().splitlines()
+    op.close()
+    args.dirs = ['/media/tquah/TOSHIBA EXT/Projects/eps_development/eps_lambda_2/'+i for i in dirlist]
+    op = open('under_6.dat','r')
     # dirlist = op.read().splitlines()
     # op.close()
 
     # op = open('under_8_reg.dat','r')
     # dirlist = op.read().splitlines()
     # op.close()
-    # op = open('under_4.dat','r')
-    # dirlist = op.read().splitlines()
-    # op.close()
+    op = open('under_4.dat','r')
+    dirlist = op.read().splitlines()
+    op.close()
 
-    # args.dirs = ["/media/tquah/TOSHIBA EXT/Projects/DMREF/sweep-asym-armlength_corrected/"+i for i in dirlist]
+    args.dirs = ["/media/tquah/TOSHIBA EXT/Projects/DMREF/sweep-asym-armlength_corrected/"+i for i in dirlist]
 
     
     # args.dirs = glob.glob("/media/tquah/TOSHIBA EXT/Projects/DMREF/sweep-asym-armlength_asymBCC_fix/chiAB_*/Nsc*/fA*")
@@ -1007,7 +1007,8 @@ if __name__ == '__main__':
 
     args.dim =1 #len(args.keywrd)
 #    args.raw = '/home/tquah/BottlebrushPaper/PhaseBoundaries/chiasymbottlebrush.dat'
-    args.raw = '/media/tquah/TOSHIBA EXT/Projects/slice_free_energies/bB_SC_1.24.dat'
+    args.raw = '/media/tquah/TOSHIBA EXT/Projects/eps_development/eps_lambda_2/epslambda.dat'
+
 
     args.interp_dimension = [0]
     #fnmeIn="F0_phases.dat"

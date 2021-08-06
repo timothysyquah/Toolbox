@@ -158,7 +158,7 @@ loc = np.where(mainarray[:,0]<0.4)[0]
 
 counter_keyword = 0
 for keyword in keywords:
-    os.chdir(f"/home/tquah/toolbox_github/Daniel_Phase_Diagram_Tool/Implimentation_Dataset/PHASE_FREE_ENERGY_{keyword}")
+    os.chdir(f"/home/tquah/toolbox/Daniel_Phase_Diagram_Tool/Implimentation_Dataset/PHASE_FREE_ENERGY_{keyword}")
     # os.chdir("/media/tquah/TOSHIBA EXT/Projects/sweep-asym-armlength_BCC_fix/PHASE_FREE_ENERGY")
     # phase_names = ['BCC','DIS','HEX','LAM','GYR']
     nphases = len(phase_names)

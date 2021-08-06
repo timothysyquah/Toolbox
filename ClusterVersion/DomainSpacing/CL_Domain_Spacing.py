@@ -133,7 +133,7 @@ FUNCTION_MAP = {'Bisection' : Bisection,\
 if __name__ == '__main__':
     IDIR = os.getcwd()
     parser = argparse.ArgumentParser(description='Tool to sweep bottlebrushes')
-    parser.add_argument('-d', '--dirs', action='store', nargs='+', default="CL/**/chi0.2/nsc10.0/nbb*/**/",help='list of directories that contain each phase point')
+    parser.add_argument('-d', '--dirs', action='store', default="CL/**/chi0.2/nsc*/nbb*/**/",help='list of directories that contain each phase point')
     parser.add_argument('-f','--file',action = 'store',default = 'operators_result.dat', help = 'File to read with averages and error', type = str)
     parser.add_argument('-s','--plotdebug',action = 'store',default = False, help = 'Stress Plot', type = bool)
     parser.add_argument('-hh','--plothamiltonian',action = 'store',default = False, help = 'Hamiltonian Plot', type = bool)
@@ -147,6 +147,7 @@ if __name__ == '__main__':
     shape = ['^','d','s']
     IDIR = os.getcwd()
     file_list = glob.glob(path,recursive=True)
+    print(file_list)
     arraylist = []
     func = FUNCTION_MAP[args.command]
 
@@ -176,7 +177,7 @@ if __name__ == '__main__':
                         plt.ylabel(r"Stress Components ($\left < \sigma_{i,i} \right>$)")
                     plt.tight_layout()
                     plt.scatter(meanD0,np.mean(array[bounds[0]:bounds[1],4]),color = 'k')
-                    name = f'nbb{str(temparray[0][2]+1)}nsc{str(temparray[0][1])}.pdf'
+                    name = f'nbb{str(temparray[0][2]+1)}nsc{str(temparray[0][1])}.svg'
                     exportpath = os.path.join(args.exportpath_plot,name)
                     plt.savefig(exportpath,dpi = 300)
                 if args.plothamiltonian:

@@ -909,7 +909,7 @@ def slice2d(dirs):
 if __name__ == '__main__':
 
     parser = argparse.ArgumentParser(description='Tool to compute phase boundaries')
-    parser.add_argument('-f', '--filename', action='store', default='F0_phases.dat',help='file that contains the phases and free energies at each phase point')
+    parser.add_argument('-f', '--filename', action='store', default='F0_phases_1.dat',help='file that contains the phases and free energies at each phase point')
     parser.add_argument('-d', '--dirs', action='store', nargs='+', default=glob.glob("tau*/phiA*"),help='list of directories that contain each phase point')
     parser.add_argument('-o', '--outfig', action='store', default='',help='name of output figure file')
     parser.add_argument('--raw', action='store', default='',help='name of raw output file (for plotting in another program')
@@ -943,8 +943,8 @@ if __name__ == '__main__':
 #    args.dirs = glob.glob("/media/tquah/TOSHIBA EXT/Projects/DGC_FJC_CGC_sym/CGC_empty_2/chiAB_0.*/Nsc*/fA*")
     # args.dirs = glob.glob("//media/tquah/TOSHIBA EXT/Projects/eps_development/eps_lambda_2/chiAB_0*/Nsc*/fA*")
     # args.dirs = glob.glob("/media/tquah/TOSHIBA EXT/Projects/eps_development/eps_bB_SC_1.5/chiAB_0*/Nsc*/fA*")
-    # args.dirs = glob.glob("/media/tquah/TOSHIBA EXT/Projects/eps_development/eps_bA_BB_1.5/chiAB_0*/Nsc*/fA0*")
-    args.dirs = glob.glob("/media/tquah/TOSHIBA EXT/Projects/DMREF/sweep-asym-armlength_corrected/chiAB_0.02*/NscA_4*/fA*")
+    args.dirs = glob.glob("/media/tquah/TOSHIBA EXT/Projects/eps_development/eps_bA_BB_1.5/chiAB_0*/Nsc*/fA0*")
+    # args.dirs = glob.glob("/media/tquah/TOSHIBA EXT/Project   s/DMREF/sweep-asym-armlength_corrected/chiAB_0.02*/NscA_4*/fA*")
 
     # args.dirs = glob.glob("/home/tquah/IMPORT_BRAID/NSCASYM_02_other02/chiAB_0.0289/ABratio_5*/fA*")
     # args.dirs = glob.glob("/home/tquah/Projects/asymnonspecial/chiAB_0.0289/ABratio_19*/fA*")
@@ -984,7 +984,7 @@ if __name__ == '__main__':
     # args.keywrd = ['chi','fA']
     args.dim =1 #len(args.keywrd)
 #    args.raw = '/home/tquah/BottlebrushPaper/PhaseBoundaries/chiasymbottlebrush.dat'
-    # args.raw = '/home/tquah/toolbox_github/SliceAnalysis/bb.dat'
+    args.raw = '/home/tquah/Projects/EPS_Slice/BBdiff.dat'
 
     args.interp_dimension = [0]
     #fnmeIn="F0_phases.dat"
@@ -1067,7 +1067,7 @@ if __name__ == '__main__':
         boundaryholder = calc_phase_boundaries(nodes)
         dist_threshold = args.linecutoff
         boundaryholder.set_dist_thresholds(dist_threshold)
-        os.getcwd()
+        os.getcwd() 
         if args.raw != '':
             print("Saving raw phase boundary data to \'%s\'" % args.raw)
             boundaryholder.write(args.raw)
