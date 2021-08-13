@@ -139,6 +139,7 @@ if __name__ == '__main__':
     parser.add_argument('-hh','--plothamiltonian',action = 'store',default = False, help = 'Hamiltonian Plot', type = bool)
     parser.add_argument('-ep','--exportpath_plot',action = 'store',default = './', help = 'Path to Save Figure', type = str)
     parser.add_argument('-e','--exportname',action = 'store',default = 'domain_data.dat', help = 'Path to Save Data', type = str)
+    parser.add_argument('-ft','--fileext',action = 'store',default = 'pdf', help = 'Path to Save Data', type = str)
     parser.add_argument('-dp', '--desired_parameters', action='store',nargs='+', default=['chi','nsc','nbb'],help='Desired parameters',type = str)
     parser.add_argument('-c','--command',default = 'Linregress', choices=FUNCTION_MAP.keys())
     args = parser.parse_args()
@@ -177,7 +178,7 @@ if __name__ == '__main__':
                         plt.ylabel(r"Stress Components ($\left < \sigma_{i,i} \right>$)")
                     plt.tight_layout()
                     plt.scatter(meanD0,np.mean(array[bounds[0]:bounds[1],4]),color = 'k')
-                    name = f'nbb{str(temparray[0][2]+1)}nsc{str(temparray[0][1])}.svg'
+                    name = f'nbb{str(temparray[0][2]+1)}nsc{str(temparray[0][1])}.'+args.fileext
                     exportpath = os.path.join(args.exportpath_plot,name)
                     plt.savefig(exportpath,dpi = 300)
                 if args.plothamiltonian:
@@ -187,7 +188,7 @@ if __name__ == '__main__':
                     plt.xlabel(r'Cell Size $(L_x)$')
                     plt.ylabel(r"$\left< H[w_+,w_-] \right>$")
                     plt.tight_layout()
-                    name = f'H_nbb{str(temparray[0][2]+1)}nsc{str(temparray[0][1])}.pdf'
+                    name = f'H_nbb{str(temparray[0][2]+1)}nsc{str(temparray[0][1])}.'+args.fileext
                     exportpath = os.path.join(args.exportpath_plot,name)
                     plt.savefig(exportpath,dpi = 300)
                 if meanD0==0:
