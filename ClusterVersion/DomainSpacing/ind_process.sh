@@ -2,10 +2,8 @@
 
 output_file=operators_result.dat
 output_full_file=operators_result_full.dat
-#for maindir in ./CL/f*/chi*/nsc*/nbb*/LAM*; do
-
-for maindir in ./CL*/f*/chi*/nsc*/nbb*/LAM*; do
-      	cd ${maindir}
+for maindir in ./CL/f*/chi*/nsc*/nbb*/LAM*; do
+  cd ${maindir}
   rm ${output_file}
   touch ${output_file}
   rm ${output_full_file}
