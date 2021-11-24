@@ -169,13 +169,15 @@ if __name__ == '__main__':
                 temparray[0,0:-1] = parray
                 bounds = bracket(array[:,3:6])
                 meanD0 = Predict_D0(array[bounds[0]:bounds[1],0],array[bounds[0]:bounds[1],3:6],func)
+                tensorlist = ['xx','yy','zz']
                 if args.plotdebug:
                     plt.figure()
                     plt.title('Nbb '+str(temparray[0][2]+1))
                     for j in range(3):
-                        plt.errorbar(array[:,0],array[:,3+j],yerr = array[:,9+j], marker=shape[j],color=colors[j],linestyle='none',capsize=5.0)
+                        plt.errorbar(array[:,0],array[:,3+j],yerr = array[:,9+j], marker=shape[j],color=colors[j],linestyle='none',capsize=5.0,label = tensorlist[j])
                         plt.xlabel(r'Cell Size $(L_x)$')
                         plt.ylabel(r"Stress Components ($\left < \sigma_{i,i} \right>$)")
+                    plt.legend()
                     plt.tight_layout()
                     plt.scatter(meanD0,np.mean(array[bounds[0]:bounds[1],4]),color = 'k')
                     name = f'nbb{str(temparray[0][2]+1)}nsc{str(temparray[0][1])}.'+args.fileext

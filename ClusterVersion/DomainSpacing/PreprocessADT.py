@@ -23,16 +23,18 @@ if __name__ == '__main__':
     df = pd.read_csv(f, sep='\s+', names=line1.replace(' #', '').split(), dtype=np.float)
     dtarray = np.loadtxt(args.adt_file)
     operator_array = np.array(df)
-    #figure out how big blocks are
     blockssize = int(df['step'][1])
-    #determine number of blocks
-    shape = np.shape(dtarray)
-    numofblocks = int(shape[0]/blockssize)
+    dtshape = np.shape(dtarray)
+    #create logic if dt file or operator file is smaller use it
+    numofblocks = np.shape(operator_array[1:,:])[0]
+    if numofblocks > dtshape[0]/blockssize:
+        numofblocks = int(dtshape[0]/blockssize)
     cutoff = numofblocks*blockssize
     reshape_array = dtarray[0:cutoff,0].reshape(numofblocks,blockssize)
     blocktime = np.sum(reshape_array, axis=1).reshape(1,numofblocks)
-    newoperators = blocktime.transpose()*operator_array[1:,1:]
-    operator_array[1:,1:] = newoperators
+    newoperators = blocktime[:,:numofblocks].transpose()*operator_array[1:numofblocks+1,1:]
+    #assemble matrix
+    operator_array[1:numofblocks+1,1:] = newoperators
     header = list(df)
     string = ''
     for i in range(len(header)):
