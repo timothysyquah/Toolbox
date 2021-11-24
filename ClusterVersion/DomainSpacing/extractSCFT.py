@@ -39,7 +39,7 @@ def ExtractDomain(fullpath):
 if __name__ == '__main__':
     IDIR = os.getcwd()
     parser = argparse.ArgumentParser(description='Tool to sweep bottlebrushes')
-    parser.add_argument('-d', '--dirs', action='store', nargs='+', default="SCFT/**/chi0.2/nsc10.0/nbb*/**/",help='list of directories that contain each phase point')
+    parser.add_argument('-d', '--dirs', action='store', nargs='+', default="SCFT/**/chi0.1/nsc40.0/nbb*/**/",help='list of directories that contain each phase point')
     parser.add_argument('-f','--file',action = 'store',default = 'LAM3D.out', help = 'File to read with averages and error', type = str)
     parser.add_argument('-e','--exportname',action = 'store',default = 'SCFT_domain_data.dat', help = 'Path to Save Data', type = str)
     parser.add_argument('-dp', '--desired_parameters', action='store',nargs='+', default=['chi','nsc','nbb'],help='Desired parameters',type = str)

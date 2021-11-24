@@ -49,21 +49,30 @@ if __name__ == '__main__':
         print(f'a = {var[0]} and b = {var[1]}')
     if args.SCFT: 
         SCFT_dataarray = np.loadtxt(args.SCFTdatafile)
+        
+        intersect_value = np.intersect1d(SCFT_dataarray[:,args.column[0]],dataarray[:,args.column[0]])
+        arraykeeploc = []
+        for i in range(len(intersect_value)):
+            arraykeeploc.append(np.where(intersect_value[i]==SCFT_dataarray[:,args.column[0]])[0][0])
+        SCFT_dataarray = SCFT_dataarray[arraykeeploc,:]
         varSCFT,pcovSCFT = curve_fit(powlaw,SCFT_dataarray[-args.points:,args.column[0]],SCFT_dataarray[-args.points:,args.column[1]])
-        print('SCFT Power Law using Equation D = a*N^b:')
-        print(f'a = {varSCFT[0]} and b = {varSCFT[1]}')
+            
+        if args.verbose:
+            print('SCFT Power Law using Equation D = a*N^b:')
+            print(f'a = {varSCFT[0]} and b = {varSCFT[1]}')
     if args.graph:
         x = np.linspace(np.min(dataarray[:,args.column[0]]),np.max(dataarray[:,args.column[0]]),100)
         y = powlaw(x,var[0],var[1])
         plt.loglog(x,y,'-r')
         plt.loglog(dataarray[:,args.column[0]],dataarray[:,args.column[1]],\
-                   marker = '^',color = 'r',linewidth=0)              
+                   marker = 's',color = 'r',linewidth=0,label = 'FTS-CL')              
         if args.SCFT: 
             xSCFT = np.linspace(np.min(SCFT_dataarray[:,args.column[0]]),np.max(SCFT_dataarray[:,args.column[0]]),100)
             ySCFT = powlaw(xSCFT,varSCFT[0],varSCFT[1])
             plt.loglog(xSCFT,ySCFT,'-b')
             plt.loglog(SCFT_dataarray[:,args.column[0]],SCFT_dataarray[:,args.column[1]],\
-                       marker = '^',color = 'b',linewidth=0)              
+                       marker = '^',color = 'b',linewidth=0,label = 'SCFT')              
+        plt.legend()
         plt.xlabel('$N_{bb}$')
         plt.ylabel('$D(l)$')
         plt.tight_layout()

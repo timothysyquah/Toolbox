@@ -54,20 +54,20 @@ def chiN_ODT(Nbar_array):
     return 10.495+41*np.power(Nbar_array,-1/3)+123*np.power(Nbar_array,-0.56)
 
 
-Nbb = np.linspace(30,50,1000)#np.array([40,60,80,100])
+Nbb = np.linspace(30,100,1000)#np.array([40,60,80,100])
 b = 1
-Nsc = 10
-z = 2
-chi = 0.2
+Nsc = 40
+z = 0.5
+chi = 0.5
 Ntot = Nbb*(z*Nsc+1)
 chiNtot = Ntot*chi
 Nbar_array = Nbar(Nbb,Nsc,z,1/(6**(3/2)),b)
 chiNODT = chiN_ODT(Nbar_array)
 plt.close('all')
 plt.figure()
-plt.plot(Nbb,chiNtot,'r',label = r'$\chi = 0.2$')
-plt.plot(Nbb,chiNtot/2,'b',label = r'$\chi = 0.1$')
-plt.plot(Nbb,chiNODT,'k',label = r'ODT')
+plt.plot(Nbb,chiNtot,'r',label = rf'$\chi = {chi}$')
+plt.plot(Nbb,chiNtot/2,'b',label = rf'$\chi = {chi/2}$')
+plt.plot(Nbb,chiNODT,'k',label = rf'ODT')
 plt.ylabel(r'$\chi N$')
 plt.xlabel(r'$N_{bb}$')
 plt.legend()
