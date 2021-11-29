@@ -14,8 +14,13 @@ import matplotlib.pyplot as plt
 plt.close('all')
 
 #note some datasets are flucutating over a nonphysical 
+def chiNODT(C):
+    Nbar = (6**3)*C**2
+    return 10.495+41*np.power(Nbar,-1/3)+123*np.power(Nbar,-0.56)
 
-filelist = glob.glob('*.dat')
+
+
+filelist = glob.glob('*.save')
 marker = itertools.cycle(('s', '^', 'P', 'o', '*')) 
 fig = plt.figure(figsize = (12,6))
 ax = plt.gca()
@@ -30,11 +35,13 @@ for i in range(len(filelist)):
     Cunique = np.unique(array[:,0])
     for j in range(len(Cunique)):
         newcolor = next(color)
-
+        C = Cunique[j]*10
+        ODT = chiNODT(C)
         loc = np.where(array[:,0]==Cunique[j])[0]
         reorder1 = np.argsort(array[loc,1])
         reorder2 = np.argsort(array[loc,4])
         reorder3 = np.argsort(array[loc,6])
+        ax.plot(ODT*np.ones(100),np.linspace(0,1,100),color = newcolor,linestyle = '-')
 
         ax.errorbar(array[loc,1][reorder1]*100,array[loc,2][reorder1],label = f'C = {Cunique[j]*10}',marker = newmarker,color = newcolor,linestyle = '--',yerr=array[loc,3])
         ax.errorbar(array[loc,4][reorder2]*100,array[loc,2][reorder2],label = f'C = {Cunique[j]*10}',marker = newmarker,color = newcolor,linestyle = '--',yerr=array[loc,3])
